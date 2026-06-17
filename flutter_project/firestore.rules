@@ -1,0 +1,157 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ==========================================
+    // 3. PRIMITIVE GLOBAL SAFETY & SECURE HELPERS
+    // ==========================================
+    
+    match /{document=**} {
+      allow read, write: if false; // Default-deny catch-all gate
+    }
+
+    // Helper: Checks if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper: Checks if the user is accessing their own document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Helper: Checks if authenticated user is an Admin
+    function isAdmin() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Helper: Validate ID formatting (prevent injection of malicious key sizes)
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // IsValid audit fields
+    function isValidAudit(data) {
+      return data.updatedAt != null && 
+             data.isDeleted == false;
+    }
+
+    // ==========================================
+    // SECURED COLLECTION MATCH BLOCKS
+    // ==========================================
+
+    // 1. Admins Collection: Read-allowed to authenticated; Writable only by existing admins
+    match /admins/{adminId} {
+      allow read: if isAuthenticated() && isValidId(adminId);
+      allow write: if isAdmin() && isValidId(adminId);
+    }
+
+    // 2. Users Collection (Customer profiles & loyalty cache)
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // Prevent points injection: Customers cannot self-assign points or edit points during creation or updates.
+      // Points can only be changed by the Admin SDK in awardLoyaltyPoints Trigger / redeemLoyaltyReward Function.
+      allow create: if isOwner(userId) 
+                    && isValidId(userId)
+                    && isValidAudit(request.resource.data) 
+                    && (!request.resource.data.keys().hasAll(['points']) || request.resource.data.points == 0);
+                    
+      allow update: if isOwner(userId) 
+                    && isValidId(userId)
+                    && isValidAudit(request.resource.data) 
+                    && (!request.resource.data.keys().hasAll(['points']) || request.resource.data.points == resource.data.points);
+                    
+      allow delete: if false; // Deny direct hard-deletes; enforce soft-delete architecture
+    }
+
+    // 3. User Addresses Subcollection
+    match /users/{userId}/addresses/{addressId} {
+      allow read, write: if (isOwner(userId) || isAdmin()) && isValidId(addressId);
+    }
+
+    // 4. Categories Collection (Browseable by guest, writable only by Admins)
+    match /categories/{categoryId} {
+      allow read: if isValidId(categoryId); // Guest browsing is permitted
+      allow write: if isAdmin() && isValidId(categoryId);
+    }
+
+    // 5. Products Collection (Browseable by guests, catalog prices writable only by Admins)
+    match /products/{productId} {
+      allow read: if isValidId(productId); 
+      allow write: if isAdmin() && isValidId(productId);
+    }
+
+    // 6. Orders Collection
+    // Enforces zero-trust: Clients cannot place orders directly (create: if false),
+    // they must make orders exclusively using validateAndPlaceOrder Cloud Function which executes as Admin.
+    match /orders/{orderId} {
+      allow read: if (isAdmin() || (isAuthenticated() && resource.data.customerUid == request.auth.uid)) && isValidId(orderId);
+      
+      allow create: if false; // Strict Zero-Trust! Creation is restricted to validated validateAndPlaceOrder Cloud Function
+      
+      // Clients can only update order to 'canceled' state if status is still 'pending' and they own the order document.
+      // Absolutely no other modifications allowed (financial fields total/subtotal, items, are write-locked).
+      allow update: if isAdmin() || (
+        isAuthenticated() 
+        && isValidId(orderId)
+        && resource.data.customerUid == request.auth.uid 
+        && resource.data.status == "pending" 
+        && request.resource.data.status == "canceled"
+        // Financial Immutable Lock Gates
+        && request.resource.data.total == resource.data.total
+        && request.resource.data.subtotal == resource.data.subtotal
+        && request.resource.data.deliveryFee == resource.data.deliveryFee
+        && request.resource.data.taxes == resource.data.taxes
+        && request.resource.data.discount == resource.data.discount
+        && request.resource.data.customerUid == resource.data.customerUid
+        && request.resource.data.items == resource.data.items
+      );
+
+      allow delete: if false; // Soft deletes strictly handled via properties.
+    }
+
+    // 7. Delivery Zones (Browseable by guests, writable only by Admins)
+    match /delivery_zones/{zoneId} {
+      allow read: if isValidId(zoneId);
+      allow write: if isAdmin() && isValidId(zoneId);
+    }
+
+    // 8. Coupons (Read-allowed for checkout client, writable only by Admins)
+    match /coupons/{couponId} {
+      allow read: if isAuthenticated() && isValidId(couponId);
+      allow write: if isAdmin() && isValidId(couponId);
+    }
+
+    // 9. System Global Settings
+    match /settings/{settingId} {
+      allow read: if isValidId(settingId);
+      allow write: if isAdmin() && isValidId(settingId);
+    }
+
+    // 10. Loyalty Transactions (Immutable ledger tracking; read own, write strictly for Cloud Functions)
+    match /loyalty_transactions/{txId} {
+      allow read: if (isAdmin() || (isAuthenticated() && resource.data.customerUid == request.auth.uid)) && isValidId(txId);
+      allow write: if false; // Writable strictly through Admin SDK Cloud Functions
+    }
+
+    // 11. Coupon Redemptions (Immutable audit ledger; read own, write strictly for Cloud Functions)
+    match /coupon_redemptions/{redemptionId} {
+      allow read: if (isAdmin() || (isAuthenticated() && resource.data.customerUid == request.auth.uid)) && isValidId(redemptionId);
+      allow write: if false; // Writable strictly through validateAndPlaceOrder Cloud Function
+    }
+
+    // 12. Order Audit Logs (Immutable logistics events; only system/admin visible)
+    match /order_audit_logs/{logId} {
+      allow read: if isAdmin() && isValidId(logId);
+      allow write: if false; // Writable strictly through Cloud Functions Admin context
+    }
+
+    // 13. Admin Activity Logs (Immutable security logs; only system/admin visible)
+    match /admin_activity_logs/{logId} {
+      allow read: if isAdmin() && isValidId(logId);
+      allow write: if false; // Writable strictly through Admin SDK
+    }
+  }
+}

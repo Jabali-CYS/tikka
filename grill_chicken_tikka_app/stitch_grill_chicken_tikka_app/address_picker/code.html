@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="light" dir="ltr" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Address Picker - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-ar": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .map-bg {
+            background-color: #E9E5DC; /* Tonal background to simulate map before loading */
+            background-image: radial-gradient(#d1c5b5 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Premium Gradient for Primary Button */
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #cdaa6d 0%, #765a25 100%);
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0px 12px 32px rgba(30, 30, 30, 0.12);
+        }
+        
+        .dark .glass-panel {
+            background: rgba(30, 27, 23, 0.9);
+        }
+
+        /* Ambient Shadow for Level 1 */
+        .shadow-ambient {
+            box-shadow: 0px 4px 20px rgba(205, 170, 109, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface h-screen w-full overflow-hidden flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation (Transactional/Task-Focused: Subdued, no bottom border, uses subtle tonal shift) -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width top-0 sticky z-50 flex justify-between items-center px-md py-sm w-full">
+<!-- Back Button - Transactional Context -->
+<button aria-label="Go back" class="w-10 h-10 flex items-center justify-center rounded-full text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<!-- Header Text - Premium Anchor -->
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim tracking-tight">Select Location</h1>
+<!-- Trailing Space for balance -->
+<div class="w-10 h-10"></div>
+</header>
+<!-- Main Canvas Area - Map & Overlays -->
+<main class="flex-grow relative w-full h-full">
+<!-- Simulated Map Background Image -->
+<!-- In a real app, this would be a Google Maps iframe or JS API container -->
+<div class="absolute inset-0 w-full h-full map-bg" data-alt="A top-down, highly detailed stylized map interface showing city streets and blocks. The map uses a premium, muted color palette with soft cream and subtle gold accents to match a luxury digital concierge aesthetic. The lighting is soft and flat, emphasizing the grid structure of the urban layout. The mood is sophisticated, functional, and deeply integrated with modern elegant UI principles." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxCaeXH-iyCAGA24__k4h5f8P9YEUX54MzCgC0DaRW9skmRxSV6_lODfVlzQsuXSRFL-0XwaBdExrNiiu7E5LUGlC8ei-vu7cwdNpuzW5bJE0EPAhx1SHALVkJa3L0yxpOjL3UZqwCp38Dm_UuB9eNi32ldRqQNoTaloEZGOx7M3eZDnvBNBIKopGJTc-_Au1ms8sq7zhKIndv5HGLFdjP9LJ5y4MpyAG7TFl5o_iS13Nc2vTVTovqnUaJ5QTyALfhXRbKN20z4hc'); background-size: cover; background-position: center;">
+</div>
+<!-- Gradient Overlay to ensure contrast for UI elements -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface/40 via-transparent to-surface/80 pointer-events-none z-10"></div>
+<!-- Search Bar Overlay - Top -->
+<div class="absolute top-lg left-md right-md md:left-1/2 md:-translate-x-1/2 md:w-[600px] z-20">
+<div class="bg-surface rounded-xl shadow-ambient border border-outline-variant focus-within:border-primary transition-colors flex items-center px-sm py-xs">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
+</button>
+<input class="flex-grow bg-transparent border-none outline-none font-body-md text-on-surface placeholder:text-on-surface-variant/60 px-sm py-2" placeholder="Search for your address..." type="text" value="Amman, Jordan"/>
+<button aria-label="Clear search" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</div>
+<!-- Quick Suggestion Chip -->
+<div class="mt-sm flex justify-end md:justify-center">
+<button class="flex items-center gap-2 bg-primary-container/90 text-on-primary-container px-3 py-1.5 rounded-full shadow-sm hover:bg-primary-container transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">my_location</span>
+<span class="font-label-lg text-label-lg">Use Current Location</span>
+</button>
+</div>
+</div>
+<!-- Center Pin Overlay -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center pointer-events-none">
+<!-- Tooltip above pin -->
+<div class="bg-inverse-surface text-inverse-on-surface font-label-lg text-label-lg px-3 py-1.5 rounded-lg mb-2 shadow-lg whitespace-nowrap animate-bounce" style="animation-duration: 2s;">
+                Move map to adjust
+            </div>
+<!-- Pin Graphic -->
+<div class="relative w-12 h-12 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[48px] drop-shadow-md" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<!-- Pin shadow on map -->
+<div class="absolute bottom-[-4px] w-6 h-2 bg-black/20 rounded-[50%] blur-[2px]"></div>
+</div>
+</div>
+<!-- Bottom Actions Panel -->
+<div class="absolute bottom-0 left-0 w-full z-30 pt-12 pb-safe md:pb-lg px-md glass-panel rounded-t-3xl">
+<!-- Drag Handle for aesthetics -->
+<div class="w-12 h-1.5 bg-outline-variant/50 rounded-full mx-auto mb-lg mt-[-24px]"></div>
+<div class="max-w-[600px] mx-auto">
+<!-- Location Details -->
+<div class="flex items-start gap-md mb-lg">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center flex-shrink-0 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pin_drop</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Zahran Street</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Near 3rd Circle, Amman, Jordan</p>
+</div>
+</div>
+<!-- Detail Input Field -->
+<div class="mb-lg">
+<label class="block font-label-lg text-label-lg text-on-surface mb-xs ml-1" for="building-details">Building / Floor / Apartment (Optional)</label>
+<input class="w-full bg-surface-container border border-outline-variant focus:border-primary rounded-xl px-md py-3 font-body-md text-on-surface outline-none transition-colors" id="building-details" placeholder="e.g. Building 15, Floor 2, Apt 4" type="text"/>
+</div>
+<!-- Confirm Button -->
+<button class="w-full btn-primary-gradient text-on-primary font-headline-md text-headline-md py-4 rounded-xl shadow-ambient hover:opacity-90 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-sm">
+                    Confirm Location
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Navigation Suppressed: Task-focused flow (address picking implies a sub-task or modal flow, not a primary global destination) -->
+</body></html>

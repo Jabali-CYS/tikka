@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin - Products Management | Grill Chicken Tikka</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<!-- Tailwind Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-ar": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl flex justify-between items-center px-md py-sm w-full docked full-width top-0 sticky z-50 shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary dark:text-primary-fixed tracking-tight">Grill Chicken Tikka</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-md md:px-lg py-xl pb-xxl">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-lg mb-xl">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface mb-xs">Products Management</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Manage your menu items, pricing, and stock levels.</p>
+</div>
+<button class="bg-primary-container text-on-tertiary hover:opacity-90 transition-opacity rounded-xl px-lg py-sm flex items-center gap-sm shadow-[0px_4px_20px_rgba(205,170,109,0.08)] self-start md:self-auto">
+<span class="material-symbols-outlined icon-fill">add</span>
+<span class="font-label-lg text-label-lg">Add New Product</span>
+</button>
+</div>
+<!-- Filters & Search Toolbar -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] mb-lg flex flex-col md:flex-row gap-md items-center justify-between">
+<!-- Search -->
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg pl-[40px] pr-md py-sm font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Search products..." type="text"/>
+</div>
+<!-- Filters -->
+<div class="flex items-center gap-sm w-full md:w-auto overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+<div class="flex items-center gap-xs bg-surface-container border border-outline-variant rounded-lg px-md py-sm cursor-pointer hover:border-primary transition-colors whitespace-nowrap">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Category: All</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">expand_more</span>
+</div>
+<div class="flex items-center gap-xs bg-surface-container border border-outline-variant rounded-lg px-md py-sm cursor-pointer hover:border-primary transition-colors whitespace-nowrap">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Stock: Any</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Stylized Product List (Bento-style Rows) -->
+<div class="flex flex-col gap-sm">
+<!-- List Header (Desktop Only) -->
+<div class="hidden md:grid grid-cols-12 gap-md px-lg py-sm border-b border-outline-variant mb-xs">
+<div class="col-span-1 font-label-lg text-label-lg text-on-surface-variant uppercase">Image</div>
+<div class="col-span-4 font-label-lg text-label-lg text-on-surface-variant uppercase">Product Name</div>
+<div class="col-span-2 font-label-lg text-label-lg text-on-surface-variant uppercase">Category</div>
+<div class="col-span-2 font-label-lg text-label-lg text-on-surface-variant uppercase">Price</div>
+<div class="col-span-2 font-label-lg text-label-lg text-on-surface-variant uppercase">Status</div>
+<div class="col-span-1 font-label-lg text-label-lg text-on-surface-variant uppercase text-right">Actions</div>
+</div>
+<!-- Product Row 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] grid grid-cols-1 md:grid-cols-12 gap-md items-center hover:-translate-y-[2px] transition-transform duration-200 cursor-default group border border-transparent hover:border-primary-container/30">
+<div class="col-span-1 flex justify-center md:justify-start">
+<div class="w-[64px] h-[64px] rounded-lg overflow-hidden bg-surface-container shadow-inner">
+<img alt="Classic Chicken Tikka" class="w-full h-full object-cover" data-alt="A top-down, high-contrast, premium food photography shot of a classic chicken tikka dish. The vibrant red-orange marinated chicken pieces are beautifully charred, presented on a minimalist white squircle plate resting on a soft cream canvas surface. The lighting is bright and modern, creating subtle, elegant shadows that highlight the tactile textures of the food. Warm golden ambient light subtly enhances the appetizing appeal, perfectly capturing a modern elegant dining room aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWLPnq6RkpTZBF4AD5jRt1a7SGA9VttceS4rD7gBrHpHpVHQG_ifXBaBdPm-rzTExTYaD0Z0paWlH5s6jWUm4i7X6KaU4ecBTM6CjqVcBLcUrUbTXO7hleuYLMWaW025WQ1IoOkQDvyojOzlDlYWsg_x3EKEQdxOylJw0gfVMQA4bFscjzWOXpsBaHx_ypEfeJD1wluIqhyEHFFyTkhTyBGijyTPUeVQ2foG_2YFh6iiPNK8hKIu_LG7rYMNqc2M1AdG2rqUTjy7A"/>
+</div>
+</div>
+<div class="col-span-4 text-center md:text-left">
+<h3 class="font-headline-md text-headline-md text-on-surface">Signature Chicken Tikka</h3>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Charcoal grilled boneless chicken marinated in spiced yogurt.</p>
+</div>
+<div class="col-span-2 flex justify-center md:justify-start">
+<span class="bg-primary/10 text-primary rounded-full px-md py-xs font-label-lg text-label-lg">Mains</span>
+</div>
+<div class="col-span-2 text-center md:text-left">
+<span class="font-headline-md text-headline-md text-secondary">8.50 JOD</span>
+</div>
+<div class="col-span-2 flex justify-center md:justify-start items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-[#4CAF50]"></div>
+<span class="font-body-md text-body-md text-on-surface">In Stock</span>
+</div>
+<div class="col-span-1 flex justify-center md:justify-end gap-sm opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-10 h-10 rounded-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container flex items-center justify-center text-on-surface-variant transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container hover:bg-error-container hover:text-on-error-container flex items-center justify-center text-on-surface-variant transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Product Row 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] grid grid-cols-1 md:grid-cols-12 gap-md items-center hover:-translate-y-[2px] transition-transform duration-200 cursor-default group border border-transparent hover:border-primary-container/30">
+<div class="col-span-1 flex justify-center md:justify-start">
+<div class="w-[64px] h-[64px] rounded-lg overflow-hidden bg-surface-container shadow-inner">
+<img alt="Garlic Naan" class="w-full h-full object-cover" data-alt="A close-up, premium food photography shot of freshly baked garlic naan bread. The golden-brown crust with charred bubbles is brushed with butter and sprinkled with fresh green herbs. The naan is placed on a pristine white ceramic surface against a warm, soft cream background. Modern, soft studio lighting highlights the tactile, squishy texture of the bread and the rich golden accents of the melted butter. The composition embodies warm minimalism and sophisticated appetite appeal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzmeGCDcbqCGXzIN9HBK-lhre4cn8MWmH94Hq9i-vQrcNmnvkJUgLRo9mLl_GDfdIu3_HGmBNak-jLs8wLOgrO1vfWDjVwiSqH-I7mN7KwE36ifofWhFlSiPv70gILAgks4G2Z0Gxz0GQVjsNNnUmxW_6StI2cf5uIdIlY0ZQGjRFPnz_-SLZA7BCcEy_tnufJqK7htqVuwzC6Onodg_6j-MekCDzqh4xeAUeHtyy4ieadcGe31rf64deHxItiwsSUOa58ACc_G3o"/>
+</div>
+</div>
+<div class="col-span-4 text-center md:text-left">
+<h3 class="font-headline-md text-headline-md text-on-surface">Garlic Butter Naan</h3>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Freshly baked flatbread with crushed garlic and butter.</p>
+</div>
+<div class="col-span-2 flex justify-center md:justify-start">
+<span class="bg-primary/10 text-primary rounded-full px-md py-xs font-label-lg text-label-lg">Sides</span>
+</div>
+<div class="col-span-2 text-center md:text-left">
+<span class="font-headline-md text-headline-md text-secondary">1.50 JOD</span>
+</div>
+<div class="col-span-2 flex justify-center md:justify-start items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-[#FF9800]"></div>
+<span class="font-body-md text-body-md text-on-surface">Low Stock</span>
+</div>
+<div class="col-span-1 flex justify-center md:justify-end gap-sm opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-10 h-10 rounded-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container flex items-center justify-center text-on-surface-variant transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container hover:bg-error-container hover:text-on-error-container flex items-center justify-center text-on-surface-variant transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Product Row 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] grid grid-cols-1 md:grid-cols-12 gap-md items-center hover:-translate-y-[2px] transition-transform duration-200 cursor-default group border border-transparent hover:border-primary-container/30 opacity-75">
+<div class="col-span-1 flex justify-center md:justify-start">
+<div class="w-[64px] h-[64px] rounded-lg overflow-hidden bg-surface-container shadow-inner grayscale-[0.5]">
+<img alt="Mango Lassi" class="w-full h-full object-cover" data-alt="A stylized, premium product shot of a tall glass filled with vibrant yellow Mango Lassi, garnished with a sprig of mint. The glass sits on a subtle, tactile squircle coaster on a seamless soft cream (#F8F4EA) backdrop. The lighting is clean and minimal, creating a sophisticated, airy feel with ambient shadows. The image captures a modern elegance aesthetic, emphasizing the rich, appetizing colors of the beverage against the minimalist, warm background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBnqvOQVxy2scVkIefdEdcAJsV6JXoy2-IKDIBiYuG0rWfmDOQa0Naesj7XMdrVX_gF-2xa_euZHQhGGLyaZM94m-i0ge8yxsm8Bo2QfGu6fv3TIlKbt55BhOQgcmf5eZCf80tzX3yzJNORTqNMfFJOnubS1EtRdp-em3sYQMAfmEJRx9yn5g0KHA0RF5qJV_Dh_BPFudoYQWcYr6VvdsW0npUaNSquk1jUOynNMo3vI1cJfnVwPyE-Vs4r5qts1I1y2kmjpJIGsk"/>
+</div>
+</div>
+<div class="col-span-4 text-center md:text-left">
+<h3 class="font-headline-md text-headline-md text-on-surface">Mango Lassi</h3>
+<p class="font-body-md text-body-md text-on-surface-variant truncate">Traditional sweet yogurt drink blended with fresh mango pulp.</p>
+</div>
+<div class="col-span-2 flex justify-center md:justify-start">
+<span class="bg-primary/10 text-primary rounded-full px-md py-xs font-label-lg text-label-lg">Drinks</span>
+</div>
+<div class="col-span-2 text-center md:text-left">
+<span class="font-headline-md text-headline-md text-secondary">3.00 JOD</span>
+</div>
+<div class="col-span-2 flex justify-center md:justify-start items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="font-body-md text-body-md text-error">Out of Stock</span>
+</div>
+<div class="col-span-1 flex justify-center md:justify-end gap-sm opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="w-10 h-10 rounded-full bg-surface-container hover:bg-primary-container hover:text-on-primary-container flex items-center justify-center text-on-surface-variant transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container hover:bg-error-container hover:text-on-error-container flex items-center justify-center text-on-surface-variant transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only Fallback) -->
+<nav class="md:hidden bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width bottom-0 fixed z-50 rounded-t-xl shadow-[0px_-4px_20px_rgba(205,170,109,0.08)] fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe">
+<div class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 hover:text-primary transition-colors cursor-pointer active:scale-90 duration-150 ease-in-out">
+<span class="material-symbols-outlined icon-fill" data-icon="home">home</span>
+<span class="font-label-lg text-label-lg mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-lg text-label-lg mt-1">Orders</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="card_membership">card_membership</span>
+<span class="font-label-lg text-label-lg mt-1">Loyalty</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-lg text-label-lg mt-1">Profile</span>
+</div>
+</nav>
+<style>
+        /* Utility to hide scrollbar for horizontal scrolling filter area */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

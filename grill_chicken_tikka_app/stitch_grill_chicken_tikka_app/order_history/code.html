@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order History - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-ar": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .glass-nav { backdrop-filter: blur(12px); }
+        .squircle { border-radius: 24px; }
+        .btn-gradient { background: linear-gradient(135deg, theme('colors.primary-container') 0%, theme('colors.primary') 100%); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-24 md:pb-0 font-body-lg text-body-lg">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="flex justify-between items-center px-md py-sm w-full container mx-auto max-w-container-max">
+<button aria-label="Menu" class="p-2 hover:opacity-80 transition-opacity flex items-center justify-center text-primary dark:text-primary-fixed-dim">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary dark:text-primary-fixed tracking-tight">Grill Chicken Tikka</h1>
+<button aria-label="Notifications" class="p-2 hover:opacity-80 transition-opacity flex items-center justify-center text-primary dark:text-primary-fixed-dim">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="container mx-auto max-w-container-max px-md py-lg md:py-xl">
+<div class="mb-lg md:mb-xl flex items-center justify-between">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Order History</h2>
+<div class="flex gap-2">
+<button class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant font-label-lg text-label-lg hover:bg-surface-variant transition-colors">Filter</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md md:gap-lg">
+<!-- Order Card 1: Delivered -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex flex-col justify-between h-full hover:-translate-y-1 transition-transform duration-300">
+<div>
+<div class="flex justify-between items-start mb-md">
+<div>
+<span class="font-label-lg text-label-lg text-primary bg-primary/10 px-3 py-1 rounded-full">Delivered</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Oct 24, 2023 • 07:30 PM</p>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">#GCT-8492</p>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex justify-between">
+<span class="font-body-md text-body-md text-on-surface">2x Half Grilled Chicken Meal</span>
+</div>
+<div class="flex justify-between">
+<span class="font-body-md text-body-md text-on-surface">1x Hummus</span>
+</div>
+<div class="flex justify-between">
+<span class="font-body-md text-body-md text-on-surface">2x Soft Drink</span>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-md flex justify-between items-center mt-auto">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Total</p>
+<p class="font-headline-md text-headline-md text-primary">JOD 18.50</p>
+</div>
+<button class="btn-gradient text-on-primary font-label-lg text-label-lg px-6 py-3 squircle hover:opacity-90 transition-opacity shadow-[0px_4px_12px_rgba(205,170,109,0.2)]">Reorder</button>
+</div>
+</div>
+<!-- Order Card 2: Cancelled -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex flex-col justify-between h-full hover:-translate-y-1 transition-transform duration-300 opacity-75">
+<div>
+<div class="flex justify-between items-start mb-md">
+<div>
+<span class="font-label-lg text-label-lg text-secondary bg-secondary/10 px-3 py-1 rounded-full">Cancelled</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Oct 15, 2023 • 01:15 PM</p>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">#GCT-8310</p>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex justify-between">
+<span class="font-body-md text-body-md text-on-surface">1x Full Grilled Chicken</span>
+</div>
+<div class="flex justify-between">
+<span class="font-body-md text-body-md text-on-surface">1x Garlic Sauce (Extra)</span>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-md flex justify-between items-center mt-auto">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Total</p>
+<p class="font-headline-md text-headline-md text-on-surface-variant">JOD 12.00</p>
+</div>
+<button class="border-[1.5px] border-primary text-primary font-label-lg text-label-lg px-6 py-3 squircle hover:bg-primary/5 transition-colors">Reorder</button>
+</div>
+</div>
+<!-- Order Card 3: Delivered -->
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex flex-col justify-between h-full hover:-translate-y-1 transition-transform duration-300">
+<div>
+<div class="flex justify-between items-start mb-md">
+<div>
+<span class="font-label-lg text-label-lg text-primary bg-primary/10 px-3 py-1 rounded-full">Delivered</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Sep 28, 2023 • 08:45 PM</p>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">#GCT-7922</p>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex justify-between">
+<span class="font-body-md text-body-md text-on-surface">1x Family Mixed Grill</span>
+</div>
+<div class="flex justify-between">
+<span class="font-body-md text-body-md text-on-surface">2x Mutabal</span>
+</div>
+<div class="flex justify-between">
+<span class="font-body-md text-body-md text-on-surface">4x Fresh Juice</span>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-md flex justify-between items-center mt-auto">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface-variant">Total</p>
+<p class="font-headline-md text-headline-md text-primary">JOD 35.00</p>
+</div>
+<button class="btn-gradient text-on-primary font-label-lg text-label-lg px-6 py-3 squircle hover:opacity-90 transition-opacity shadow-[0px_4px_12px_rgba(205,170,109,0.2)]">Reorder</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width bottom-0 fixed z-50 rounded-t-xl shadow-[0px_-4px_20px_rgba(205,170,109,0.08)] fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-lg text-label-lg text-[10px]">Home</span>
+</button>
+<!-- Active Tab: Orders -->
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 hover:text-primary transition-colors scale-90 duration-150 ease-in-out">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-label-lg text-label-lg text-[10px]">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 0;">card_membership</span>
+<span class="font-label-lg text-label-lg text-[10px]">Loyalty</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors group">
+<span class="material-symbols-outlined mb-1 group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-lg text-label-lg text-[10px]">Profile</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,52 @@
+name: grill_chicken_tikka
+description: A production-ready premium tandoor ordering and loyalty Flutter + Firebase application.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # State Management & Routing
+  flutter_riverpod: ^2.4.9
+  go_router: ^12.1.3
+
+  # Firebase Core & Feature Services
+  firebase_core: ^2.24.0
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  cloud_functions: ^4.6.8
+  firebase_messaging: ^14.7.9
+  firebase_app_check: ^0.2.8
+
+  # Sensitive Data Storage (As specified in security guidelines)
+  flutter_secure_storage: ^9.0.0
+
+  # Location & Maps
+  google_maps_flutter: ^2.5.3
+  geolocator: ^10.1.0
+
+  # UI Helper packages
+  google_fonts: ^6.1.0
+  cached_network_image: ^3.3.1
+  lucide_icons: ^3.0.0
+  intl: ^0.19.0
+  uuid: ^4.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Asset management for custom icons and branding
+  assets:
+    - assets/images/
+    - assets/icons/

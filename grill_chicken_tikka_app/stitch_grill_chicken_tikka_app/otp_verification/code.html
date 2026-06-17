@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OTP Verification - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "squircle": "1.25rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-ar": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); }
+        
+        .squircle-btn {
+            border-radius: 20px;
+            background: linear-gradient(135deg, theme('colors.primary-container') 0%, #a88448 100%);
+        }
+        
+        .otp-input {
+            width: 64px;
+            height: 72px;
+            border-radius: theme('borderRadius.xl');
+            background-color: theme('colors.surface-container');
+            border: 1px solid transparent;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: theme('colors.on-background');
+            transition: all 0.2s ease;
+        }
+        
+        .otp-input:focus {
+            outline: none;
+            border-color: theme('colors.primary-container');
+            box-shadow: 0 0 0 4px rgba(205, 170, 109, 0.1);
+            background-color: theme('colors.surface-container-lowest');
+        }
+        
+        .otp-input.filled {
+            border-color: theme('colors.primary-container');
+            background-color: theme('colors.surface-container-lowest');
+        }
+        
+        /* Ambient subtle gradient for background */
+        .bg-ambient {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 0%, rgba(205, 170, 109, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased text-on-background min-h-screen flex flex-col items-center justify-center relative px-md md:px-0">
+<div class="bg-ambient"></div>
+<!-- Back Button - Top Left -->
+<button aria-label="Go Back" class="absolute top-md left-md md:top-lg md:left-lg w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-lowest shadow-[0px_4px_20px_rgba(205,170,109,0.08)] text-primary hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<main class="w-full max-w-[420px] bg-surface-container-lowest rounded-[32px] shadow-[0px_12px_32px_rgba(30,30,30,0.04)] border border-outline-variant/30 p-xl relative overflow-hidden">
+<!-- Subtle decorative element -->
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary-container opacity-10 rounded-full blur-2xl"></div>
+<!-- Header Section -->
+<div class="text-center mb-xl relative z-10">
+<div class="w-20 h-20 mx-auto bg-surface-container rounded-[24px] flex items-center justify-center mb-lg shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">lock_open</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-sm">Verify Details</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                We've sent a 4-digit code to <br/>
+<strong class="text-on-background font-semibold">+962 7 9123 4567</strong>
+</p>
+</div>
+<!-- OTP Input Section -->
+<form class="flex flex-col gap-xl relative z-10">
+<div class="flex justify-between items-center gap-sm" id="otp-container">
+<input aria-label="Digit 1" autofocus="" class="otp-input" inputmode="numeric" maxlength="1" type="text"/>
+<input aria-label="Digit 2" class="otp-input" disabled="" inputmode="numeric" maxlength="1" type="text"/>
+<input aria-label="Digit 3" class="otp-input" disabled="" inputmode="numeric" maxlength="1" type="text"/>
+<input aria-label="Digit 4" class="otp-input" disabled="" inputmode="numeric" maxlength="1" type="text"/>
+</div>
+<!-- Timer and Resend -->
+<div class="flex justify-center items-center gap-2 font-label-lg text-label-lg">
+<span class="text-on-surface-variant">Didn't receive code?</span>
+<button class="text-secondary hover:text-secondary-container transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled="" id="resend-btn" type="button">
+                    Resend in <span class="font-mono" id="timer">00:30</span>
+</button>
+</div>
+<!-- Verify Button -->
+<button class="squircle-btn w-full py-4 text-on-primary font-label-lg text-label-lg shadow-[0px_8px_24px_rgba(205,170,109,0.2)] hover:shadow-[0px_12px_32px_rgba(205,170,109,0.3)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 active:scale-95 flex items-center justify-center gap-sm mt-sm" type="button">
+                Verify Order
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</form>
+<!-- Secondary action -->
+<div class="mt-lg text-center relative z-10">
+<button class="font-label-lg text-label-lg text-primary hover:text-primary-container transition-colors border-b border-transparent hover:border-primary pb-0.5" type="button">
+                Change phone number
+            </button>
+</div>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('.otp-input');
+            const resendBtn = document.getElementById('resend-btn');
+            const timerSpan = document.getElementById('timer');
+            
+            // OTP Input Logic
+            inputs.forEach((input, index) => {
+                // Focus styling
+                input.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    
+                    if (val.length === 1) {
+                        input.classList.add('filled');
+                        // Move to next input
+                        if (index < inputs.length - 1) {
+                            inputs[index + 1].disabled = false;
+                            inputs[index + 1].focus();
+                        }
+                    } else if (val.length === 0) {
+                        input.classList.remove('filled');
+                    }
+                });
+
+                // Backspace handling
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && input.value === '') {
+                        if (index > 0) {
+                            input.classList.remove('filled');
+                            inputs[index - 1].focus();
+                            inputs[index - 1].value = '';
+                            inputs[index - 1].classList.remove('filled');
+                        }
+                    }
+                });
+                
+                // Allow only numbers
+                input.addEventListener('keypress', (e) => {
+                    if (isNaN(parseInt(e.key, 10))) {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            // Timer Logic
+            let timeLeft = 30;
+            let timerId;
+
+            function startTimer() {
+                timeLeft = 30;
+                resendBtn.disabled = true;
+                resendBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                
+                timerId = setInterval(() => {
+                    timeLeft--;
+                    const seconds = timeLeft.toString().padStart(2, '0');
+                    timerSpan.textContent = `00:${seconds}`;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerId);
+                        resendBtn.disabled = false;
+                        resendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        resendBtn.innerHTML = 'Resend Now';
+                    }
+                }, 1000);
+            }
+
+            resendBtn.addEventListener('click', () => {
+                if (timeLeft <= 0) {
+                    resendBtn.innerHTML = 'Resend in <span id="timer" class="font-mono">00:30</span>';
+                    // Re-grab timer element after rewriting innerHTML
+                    const newTimerSpan = document.getElementById('timer');
+                    // Reset timer visual immediately
+                    newTimerSpan.textContent = '00:30'; 
+                    // Clear inputs visually
+                    inputs.forEach((input, idx) => {
+                        input.value = '';
+                        input.classList.remove('filled');
+                        if(idx > 0) input.disabled = true;
+                    });
+                    inputs[0].focus();
+                    
+                    startTimer();
+                }
+            });
+
+            // Init timer
+            startTimer();
+        });
+    </script>
+</body></html>

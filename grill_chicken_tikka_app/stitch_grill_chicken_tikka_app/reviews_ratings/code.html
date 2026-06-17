@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reviews &amp; Ratings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "safe-bottom": "env(safe-area-inset-bottom)"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased min-h-screen pb-[100px] md:hidden">
+<header class="bg-surface/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex justify-between items-center px-md py-sm w-full">
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">Grill Chicken Tikka</h1>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="px-md py-lg flex flex-col gap-xl">
+<section class="flex flex-col gap-md">
+<h2 class="font-headline-md text-headline-md text-on-surface">Rate Your Order</h2>
+<div class="bg-surface-container-lowest rounded-2xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex flex-col gap-md">
+<div class="flex items-center gap-md border-b border-surface-variant pb-md">
+<div class="w-[72px] h-[72px] rounded-xl overflow-hidden shrink-0 shadow-inner">
+<img alt="Order Image" class="w-full h-full object-cover object-center" data-alt="A premium overhead shot of a mixed grill platter featuring char-grilled chicken tikka, lamb kebabs, and fresh vegetables on a rustic ceramic plate. The scene is illuminated by soft, high-key lighting that emphasizes the rich textures and deep caramelization of the meats, set against a pristine white marble surface. Warm golden and deep crimson accents enhance the appetizing, luxurious dining atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj59TrwCbnwX-BIwpL05dGw_nC5p1yOSYvIQ2YP13OLNlELGoc8fsOXu7lfAAu5Wcdlt1uXi4dUE5l7A79rRVwrJpj6yyFq526jK_OU_yaH7_mIgG4U-6uxlbYYVOpsk8I-MNfa56wZiyHN8ZqQvyp6ftYcRZy3n8JfQf-yeE7W7SdARGBxhOW9pTGnPngTszCAefpayQdV9qoR4PGP2_nJQyzkEZjC9JxE8PfuZI2kPXY6a-Lg06_xjA9Y2vNcxWvkQI0tPc1lNM"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary">Order #8821</span>
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mt-xs">Royal Mixed Grill</h3>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm mt-xs">Delivered Today, 8:45 PM</span>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center gap-sm py-sm">
+<span class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest text-xs">Tap to Rate</span>
+<div class="flex gap-sm">
+<button class="text-primary-container transition-transform active:scale-90"><span class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button class="text-primary-container transition-transform active:scale-90"><span class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button class="text-primary-container transition-transform active:scale-90"><span class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button class="text-primary-container transition-transform active:scale-90"><span class="material-symbols-outlined text-[40px]" style="font-variation-settings: 'FILL' 1;">star</span></button>
+<button class="text-surface-variant hover:text-primary-container transition-colors active:scale-90"><span class="material-symbols-outlined text-[40px]">star</span></button>
+</div>
+</div>
+<div class="flex flex-col gap-sm">
+<label class="font-label-lg text-label-lg text-on-surface" for="review-text">Add a comment (Optional)</label>
+<textarea class="w-full bg-surface-variant/50 border border-outline-variant rounded-xl p-md font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none placeholder:text-outline" id="review-text" placeholder="How was the food? Did the delivery arrive on time?" rows="3"></textarea>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container font-label-lg text-label-lg py-md rounded-xl shadow-[0px_4px_12px_rgba(205,170,109,0.2)] hover:opacity-90 active:scale-[0.98] transition-all mt-sm bg-gradient-to-br from-primary-container to-[#b8955a]">
+                    Submit Review
+                </button>
+</div>
+</section>
+<section class="flex flex-col gap-md mt-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Past Reviews</h2>
+<div class="bg-surface-container-lowest rounded-2xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold">Classic Chicken Tikka Wrap</h3>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm mt-xs">Oct 12, 2023</span>
+</div>
+<div class="flex gap-[2px]">
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    "Absolutely perfect as always. The chicken was incredibly tender and the garlic sauce had just the right amount of kick. Delivered piping hot!"
+                </p>
+<div class="flex gap-sm mt-xs">
+<span class="bg-primary-container/10 text-primary px-sm py-[2px] rounded-md font-label-lg text-[12px]">Fast Delivery</span>
+<span class="bg-primary-container/10 text-primary px-sm py-[2px] rounded-md font-label-lg text-[12px]">Hot Food</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold">Truffle Fries &amp; Hummus</h3>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm mt-xs">Sep 28, 2023</span>
+</div>
+<div class="flex gap-[2px]">
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-primary-container text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-surface-variant text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-surface-variant text-[20px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    "Hummus was super creamy and rich. The fries were a bit cold by the time they arrived, but still tasted okay. Might skip the fries next time for delivery."
+                </p>
+</div>
+</section>
+</main>
+<nav class="bg-surface/80 backdrop-blur-xl docked full-width bottom-0 fixed z-50 rounded-t-xl shadow-[0px_-4px_20px_rgba(205,170,109,0.08)] fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors px-4 py-1">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-lg text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors px-4 py-1">
+<span class="material-symbols-outlined mb-1">receipt_long</span>
+<span class="font-label-lg text-[10px]">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors px-4 py-1">
+<span class="material-symbols-outlined mb-1">card_membership</span>
+<span class="font-label-lg text-[10px]">Loyalty</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:scale-90 duration-150 ease-in-out">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-lg text-[10px]">Profile</span>
+</button>
+</nav>
+</body></html>

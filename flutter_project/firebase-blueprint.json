@@ -1,0 +1,239 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile and Loyalty",
+      "description": "Represents customers of the restaurnt, holding their profile and loyalty points balance",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique user ID matching Firebase Auth UID" },
+        "phone": { "type": "string", "description": "The verified phone number of the customer" },
+        "name": { "type": "string", "description": "The name of the customer" },
+        "points": { "type": "integer", "description": "Accumulated loyalty points" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Registration date" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last profile update time" },
+        "isDeleted": { "type": "boolean", "description": "Soft delete flag" }
+      },
+      "required": ["uid", "phone", "name", "points", "createdAt"]
+    },
+    "Admin": {
+      "title": "Administrative User",
+      "description": "Authorized administrators who can access order portal and edit catalogs",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Admin customer UID" },
+        "role": { "type": "string", "description": "The administrative access tier (manager, kitchen staff, delivery driver)" },
+        "assignedAt": { "type": "string", "format": "date-time", "description": "Role assignment date" }
+      },
+      "required": ["uid", "role"]
+    },
+    "Category": {
+      "title": "Menu Category",
+      "description": "Food menu categories (e.g. Grills, Sides)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique category identifier" },
+        "name": { "type": "string", "description": "English name" },
+        "nameAr": { "type": "string", "description": "Arabic name" },
+        "isDeleted": { "type": "boolean", "description": "Soft-delete tag" }
+      },
+      "required": ["id", "name", "nameAr"]
+    },
+    "Product": {
+      "title": "Menu Item Dish",
+      "description": "Represents charcoal skewer options and other dishes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Dish identifier" },
+        "title": { "type": "string", "description": "English title" },
+        "titleAr": { "type": "string", "description": "Arabic title" },
+        "description": { "type": "string", "description": "English detailed ingredients/description" },
+        "descriptionAr": { "type": "string", "description": "Arabic description" },
+        "price": { "type": "number", "description": "Base pricing" },
+        "categoryId": { "type": "string", "description": "Foreign key to menu category" },
+        "image": { "type": "string", "description": "Unsplash or asset banner url" },
+        "isPopular": { "type": "boolean", "description": "Visual indicator for customer highlight" },
+        "isHerbal": { "type": "boolean", "description": "Visual herbal indicator" },
+        "spicyOptions": { "type": "array", "description": "Mild, Medium, Hot spicy config list" },
+        "sideOptions": { "type": "array", "description": "Naan bread, hummus side add-on pricing list" },
+        "isDeleted": { "type": "boolean", "description": "Soft delete indicator" }
+      },
+      "required": ["id", "title", "titleAr", "price", "categoryId", "image"]
+    },
+    "Order": {
+      "title": "Customer Order Ticket",
+      "description": "Individual order ticket validated and stored by validateAndPlaceOrder Cloud Function",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique purchase ticket identifier" },
+        "orderNumber": { "type": "string", "description": "Sequential user-friendly order number" },
+        "customerUid": { "type": "string", "description": "Client user reference" },
+        "customerName": { "type": "string", "description": "Buyer checkout name" },
+        "customerPhone": { "type": "string", "description": "Buyer active callback phone number" },
+        "items": { "type": "array", "description": "Verified order items" },
+        "subtotal": { "type": "number", "description": "Server calculated sum of food items" },
+        "deliveryFee": { "type": "number", "description": "Server calculated location shipping rate" },
+        "taxes": { "type": "number", "description": "Server calculated static tax value" },
+        "discount": { "type": "number", "description": "Calculated absolute deduction from verified coupon" },
+        "total": { "type": "number", "description": "Autoritative final collect total" },
+        "paymentMethod": { "type": "string", "description": "Cash on Delivery or Visa" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "preparing", "ready", "out_for_delivery", "delivered", "canceled"], "description": "Kitchen workflow status" },
+        "fulfillmentType": { "type": "string", "enum": ["delivery", "pickup"], "description": "Distribution style" },
+        "address": { "type": "object", "description": "Shipping coordinates" },
+        "driverName": { "type": "string" },
+        "driverPhone": { "type": "string" },
+        "driverRating": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "isDeleted": { "type": "boolean" }
+      },
+      "required": ["id", "customerUid", "items", "subtotal", "deliveryFee", "taxes", "discount", "total", "status", "createdAt"]
+    },
+    "DeliveryZone": {
+      "title": "Delivery Zone Option",
+      "description": "Specific region for deliveries in Amman",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "nameAr": { "type": "string" },
+        "fee": { "type": "number" },
+        "minOrder": { "type": "number" }
+      },
+      "required": ["id", "name", "fee", "minOrder"]
+    },
+    "Coupon": {
+      "title": "Promotional Coupon Code",
+      "description": "Discount vouchers and campaign rules verified server-side",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string", "description": "Uppercase alphanumeric promotional code string" },
+        "discountType": { "type": "string", "enum": ["Percentage", "Flat"], "description": "Calculation type" },
+        "value": { "type": "number", "description": "Deduction numerical value percentage/absolute" },
+        "minOrder": { "type": "number", "description": "Minimum transaction floor needed to redeem" },
+        "expiryDate": { "type": "string", "format": "date-time", "description": "Promotion end window" },
+        "usageLimit": { "type": "integer", "description": "Maximum global redemption threshold" },
+        "usedCount": { "type": "integer", "description": "Global usage analytics tracking" },
+        "isDeleted": { "type": "boolean" }
+      },
+      "required": ["id", "code", "discountType", "value", "minOrder", "expiryDate"]
+    },
+    "LoyaltyTransaction": {
+      "title": "Loyalty Transaction Ledgers",
+      "description": "Immutable ledger tracking points earned or parsed",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerUid": { "type": "string", "description": "Target profile reference" },
+        "pointsChanged": { "type": "integer", "description": "Negative or positive points shift ledger value" },
+        "transactionType": { "type": "string", "enum": ["earn", "redeem"], "description": "Ledger tag" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "customerUid", "pointsChanged", "transactionType", "createdAt"]
+    },
+    "CouponRedemption": {
+      "title": "Coupon Redemption Audit",
+      "description": "Immutable record of a coupon redeemed by a customer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerUid": { "type": "string" },
+        "couponCode": { "type": "string" },
+        "redeemedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "customerUid", "couponCode", "redeemedAt"]
+    },
+    "OrderAuditLog": {
+      "title": "Order Audit Log Trackers",
+      "description": "Immutable chronological system action logs following payments/transactions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderId": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "orderId", "action", "timestamp"]
+    },
+    "AdminActivityLog": {
+      "title": "Administrative Action Ledgers",
+      "description": "Immutable historical capture of security administrative events",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "adminUid": { "type": "string" },
+        "action": { "type": "string" },
+        "target": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "adminUid", "action", "target", "timestamp"]
+    },
+    "SystemSetting": {
+      "title": "System Settings and Configurations",
+      "description": "Global configurable values used dynamically by cloud functions and mobile clients",
+      "type": "object",
+      "properties": {
+        "restaurantOpenTime": { "type": "string", "description": "Opening hour e.g. 11:00 AM" },
+        "restaurantCloseTime": { "type": "string", "description": "Closing hour e.g. 11:30 PM" },
+        "taxEnabled": { "type": "boolean", "description": "Tax switch flag" },
+        "taxRate": { "type": "number", "description": "Tax percentage value e.g. 5" },
+        "maintenanceMode": { "type": "boolean", "description": "System operational lockout switch" },
+        "loyaltyEnabled": { "type": "boolean", "description": "Toggle for loyalty programs" },
+        "pointsPerJod": { "type": "integer", "description": "Standard reward base point scaling e.g. 1000" },
+        "freeMealPoints": { "type": "integer", "description": "Threshold points required to redeem meal reward e.g. 20000" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Customer Profiles"
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Restaurnt Admins"
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Browseable Food Categories"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Active Grill Skewer items Catalog"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Secure Client Orders placed via Functions"
+    },
+    "/delivery_zones/{zoneId}": {
+      "schema": "DeliveryZone",
+      "description": "Amman geographical shipping structures"
+    },
+    "/coupons/{couponId}": {
+      "schema": "Coupon",
+      "description": "Vouchers database"
+    },
+    "/loyalty_transactions/{txId}": {
+      "schema": "LoyaltyTransaction",
+      "description": "History of loyalty scores"
+    },
+    "/coupon_redemptions/{redemptionId}": {
+      "schema": "CouponRedemption",
+      "description": "History of discount redemptions"
+    },
+    "/order_audit_logs/{logId}": {
+      "schema": "OrderAuditLog",
+      "description": "Immutable logistics event records"
+    },
+    "/admin_activity_logs/{logId}": {
+      "schema": "AdminActivityLog",
+      "description": "Immutable admin portal records"
+    },
+    "/settings/{settingId}": {
+      "schema": "SystemSetting",
+      "description": "Dynamic Global Settings configurations"
+    }
+  }
+}

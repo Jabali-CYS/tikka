@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Empty Cart - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-ar": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fff8f3; /* background */
+            color: #1e1b17; /* on-background */
+        }
+        /* Custom Squircle for Buttons/Cards */
+        .squircle {
+            border-radius: 16px;
+            /* In a real project, we might use mask-image for a true squircle, sticking to border-radius for simplicity here while maintaining the soft feel */
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #cdaa6d 0%, #765a25 100%);
+            box-shadow: 0px 4px 20px rgba(205, 170, 109, 0.2);
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col font-body-lg">
+<!-- Top Navigation (Transactional/Task-focused, so simplified shell) -->
+<header class="w-full bg-surface/80 glass-nav shadow-[0px_4px_20px_rgba(205,170,109,0.08)] sticky top-0 z-50 transition-all duration-300">
+<div class="max-w-container-max mx-auto px-md md:px-lg h-16 flex items-center justify-between">
+<!-- Back Button -->
+<button aria-label="Go back" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors text-on-surface">
+<span class="material-symbols-outlined text-2xl" data-icon="arrow_back" data-weight="fill">arrow_back</span>
+</button>
+<!-- Brand Anchor -->
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">Cart</h1>
+<!-- Spacer for alignment -->
+<div class="w-10 h-10"></div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-md py-xl md:px-lg max-w-container-max mx-auto w-full relative overflow-hidden">
+<!-- Ambient Background Glow (Subtle depth) -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+<div class="w-64 h-64 bg-primary-container rounded-full blur-3xl mix-blend-multiply filter"></div>
+</div>
+<!-- Empty State Container -->
+<div class="relative z-10 flex flex-col items-center text-center max-w-md w-full animate-fade-in-up">
+<!-- Illustration Area -->
+<div class="w-48 h-48 md:w-64 md:h-64 mb-lg relative flex items-center justify-center bg-surface-container-lowest rounded-full shadow-[0px_4px_20px_rgba(205,170,109,0.08)] p-md">
+<img alt="Empty Plate" class="w-full h-full object-cover rounded-full opacity-90" data-alt="A meticulously styled, top-down photograph of an empty, artisan ceramic dining plate resting on a textured, off-white linen cloth. The plate has a subtle golden rim, perfectly catching the warm, directional natural light. The setting evokes a high-end, elegant restaurant atmosphere before a meal begins. Soft shadows create a sense of depth, and a sprig of fresh herbs sits delicately off to the side, maintaining an appetizing yet minimal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0MDEVccvJe4ws47XjmonZpwhgyRAAWp8tLqVm-gL1sDkbhGoA6DILGa2ta0A4lsdvnA5mFAZyaK-mEjZHBfDRTUN4Dn8sMM9FdusTV7u1_GA1ZCWLiwCIBpUsAqTEh0SqszMv9T5JLL7jdjc_FZXF0DK-3DkGIZ1mWuVJNUPfhCzGGgsxh30iR00iM65Rjr5pSnF9ar6CxByuhKdVpmDsRPCt2Gk_sRKeEXxcf2HCnOc_HR85FyQ0CBqfVKqdyzIHgK4xr7Swt6M"/>
+<!-- Floating Icon Accent -->
+<div class="absolute -bottom-2 -right-2 bg-surface-container-lowest p-3 rounded-full shadow-md text-outline">
+<span class="material-symbols-outlined text-3xl" data-icon="shopping_bag">shopping_bag</span>
+</div>
+</div>
+<!-- Typography -->
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-sm tracking-tight">Your cart is feeling light</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl max-w-xs md:max-w-sm">
+                Looks like you haven't added any of our delicious charcoal-grilled specialties yet.
+            </p>
+<!-- Call to Action -->
+<button class="btn-primary squircle w-full md:w-auto px-xxl py-md flex items-center justify-center space-x-sm text-on-primary font-label-lg text-label-lg transition-transform hover:scale-[1.02] active:scale-95">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span>Start Ordering</span>
+</button>
+<!-- Secondary Action (Optional exploration) -->
+<button class="mt-lg px-lg py-sm text-primary font-label-lg text-label-lg border border-transparent hover:border-primary-container rounded-full transition-colors flex items-center space-x-xs">
+<span>View Previous Orders</span>
+<span class="material-symbols-outlined text-lg" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- Suppressed Nav Shells: 
+         - BottomNavBar: Excluded because this is a task-focused/transactional screen (Cart) and implies a departure from the main flow.
+    -->
+<style>
+        /* Simple entry animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+    </style>
+</body></html>

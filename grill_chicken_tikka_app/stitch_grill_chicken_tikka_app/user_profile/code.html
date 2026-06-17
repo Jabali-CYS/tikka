@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#93000e",
+                      "tertiary-fixed": "#d8e2ff",
+                      "primary-container": "#cdaa6d",
+                      "primary": "#765a25",
+                      "on-secondary-container": "#fffbff",
+                      "background": "#fff8f3",
+                      "surface-variant": "#e9e1da",
+                      "surface-container": "#f5ede5",
+                      "secondary": "#b51a1e",
+                      "on-primary-fixed-variant": "#5b420f",
+                      "on-primary-container": "#563e0a",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#35466b",
+                      "tertiary": "#4c5e84",
+                      "tertiary-fixed-dim": "#b4c6f2",
+                      "surface": "#fff8f3",
+                      "on-surface": "#1e1b17",
+                      "error-container": "#ffdad6",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#ffb4ac",
+                      "outline-variant": "#d1c5b5",
+                      "on-background": "#1e1b17",
+                      "surface-container-low": "#faf2eb",
+                      "primary-fixed": "#ffdea8",
+                      "secondary-fixed": "#ffdad6",
+                      "inverse-surface": "#33302b",
+                      "inverse-on-surface": "#f7efe8",
+                      "on-secondary-fixed": "#410003",
+                      "surface-dim": "#e0d9d1",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#fff8f3",
+                      "surface-container-high": "#efe7df",
+                      "primary-fixed-dim": "#e6c182",
+                      "surface-tint": "#765a25",
+                      "on-tertiary-container": "#304266",
+                      "tertiary-container": "#9dafd9",
+                      "on-primary-fixed": "#271900",
+                      "inverse-primary": "#e6c182",
+                      "surface-container-highest": "#e9e1da",
+                      "outline": "#7f7668",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#d93633",
+                      "on-tertiary-fixed": "#051b3d",
+                      "on-surface-variant": "#4e463a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "lg": "24px",
+                      "container-max": "1200px",
+                      "xl": "40px",
+                      "unit": "4px",
+                      "xxl": "64px",
+                      "xs": "4px",
+                      "gutter": "24px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Manrope"
+                      ],
+                      "headline-lg": [
+                              "Manrope"
+                      ],
+                      "headline-md": [
+                              "Manrope"
+                      ],
+                      "body-lg": [
+                              "Manrope"
+                      ],
+                      "label-lg": [
+                              "Manrope"
+                      ],
+                      "display-lg-mobile": [
+                              "Manrope"
+                      ],
+                      "label-ar": [
+                              "IBM Plex Sans Arabic"
+                      ],
+                      "body-md": [
+                              "Manrope"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-ar": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+      </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background antialiased min-h-screen pb-[100px] md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="flex justify-between items-center px-md py-sm w-full container mx-auto max-w-container-max">
+<button aria-label="Menu" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary dark:text-primary-fixed tracking-tight md:font-display-lg md:text-display-lg">Grill Chicken Tikka</h1>
+<button aria-label="Notifications" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<main class="container mx-auto max-w-container-max px-md py-xl md:px-lg md:py-xxl grid grid-cols-4 md:grid-cols-12 gap-lg">
+<!-- Profile Header Section -->
+<section class="col-span-4 md:col-span-12 mb-lg flex flex-col md:flex-row items-center gap-lg bg-surface-container-lowest rounded-xl p-xl shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary-container shrink-0">
+<img alt="User Profile Picture" class="w-full h-full object-cover" data-alt="A high-quality, professional headshot portrait of a modern individual in a warm, inviting setting, suitable for a premium restaurant loyalty profile. The lighting is soft and flattering, highlighting natural features against a subtly blurred background featuring hints of elegant dining ambiance, such as warm amber glows or soft cream tones. The overall aesthetic is clean, sophisticated, and polished, aligning perfectly with a modern elegant UI design system that utilizes warm cream and golden accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWd3PEWWsiRKoJxu_SC3IbdxK_2USgF8ZMiuKCdDoGEcLa_NHjyr09ptpoymCNrJfO1WoqGwDU5uZcItAVmUxxf5L2VpoU_vUMM5nOD6BIOlS8or9Ob58_tWiexHt8SB4uRviDl_RLEWeK0eByhYhnH6fSJEGw1j2KVpDgnGKSXFYVOIaIhdC5aid9ukfs0LVfIZkxO8SHkRJ55eoVAz0DZioaEdgoP7Nk29naX3QW6iY3HoHJfPOe0c2eCZxsEveONN1QG-ynb54"/>
+<button aria-label="Edit Profile Picture" class="absolute bottom-0 left-0 w-full bg-primary/80 backdrop-blur-sm text-on-primary py-sm flex justify-center items-center hover:bg-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<div class="text-center md:text-left flex-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Ahmad Al-Fayed</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-md">+962 79 123 4567 • ahmad.alfayed@email.com</p>
+<div class="inline-flex items-center gap-xs bg-primary-container/20 px-md py-sm rounded-full text-primary font-label-lg text-label-lg">
+<span class="material-symbols-outlined" data-weight="fill">workspace_premium</span>
+                    Gold Member
+                </div>
+</div>
+</section>
+<!-- Main Content Area -->
+<div class="col-span-4 md:col-span-12 grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Sidebar Navigation (Desktop only, visual grouping) -->
+<aside class="hidden md:block md:col-span-4 lg:col-span-3">
+<nav class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(205,170,109,0.08)] overflow-hidden sticky top-24">
+<ul class="flex flex-col">
+<li>
+<a class="flex items-center gap-md px-lg py-md bg-primary-container/10 text-primary border-l-4 border-primary font-label-lg text-label-lg transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+                                Personal Info
+                            </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-lg text-label-lg border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined">location_on</span>
+                                Saved Addresses
+                            </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-lg text-label-lg border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined">history</span>
+                                Order History
+                            </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-lg text-label-lg border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined">stars</span>
+                                Loyalty Points
+                            </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-md text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-lg text-label-lg border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined">language</span>
+                                Language
+                            </a>
+</li>
+<li class="border-t border-surface-variant mt-sm">
+<button class="w-full flex items-center gap-md px-lg py-md text-error hover:bg-error-container/20 transition-colors font-label-lg text-label-lg border-l-4 border-transparent text-left">
+<span class="material-symbols-outlined">logout</span>
+                                Logout
+                            </button>
+</li>
+</ul>
+</nav>
+</aside>
+<!-- Detailed Content Sections -->
+<div class="md:col-span-8 lg:col-span-9 flex flex-col gap-lg">
+<!-- Loyalty Card Highlight -->
+<div class="bg-gradient-to-br from-primary-container to-primary rounded-xl p-xl shadow-[0px_4px_20px_rgba(205,170,109,0.3)] text-on-primary relative overflow-hidden">
+<!-- Decorative background element -->
+<div class="absolute -right-10 -bottom-10 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined" data-weight="fill" style="font-size: 200px;">local_dining</span>
+</div>
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
+<div>
+<h3 class="font-headline-md text-headline-md mb-xs">Available Points</h3>
+<div class="flex items-baseline gap-sm">
+<span class="font-display-lg text-display-lg font-bold">1,450</span>
+<span class="font-label-lg text-label-lg opacity-80">pts</span>
+</div>
+</div>
+<button class="bg-on-primary text-primary px-lg py-md rounded-full font-label-lg text-label-lg hover:opacity-90 transition-opacity shadow-sm">
+                            Redeem Rewards
+                        </button>
+</div>
+<div class="relative z-10 mt-lg">
+<div class="flex justify-between font-label-lg text-label-lg mb-xs opacity-90">
+<span>Gold Tier</span>
+<span>550 pts to Platinum</span>
+</div>
+<div class="w-full bg-on-primary/20 rounded-full h-2">
+<div class="bg-on-primary h-2 rounded-full" style="width: 70%"></div>
+</div>
+</div>
+</div>
+<!-- Personal Info Section -->
+<section class="bg-surface-container-lowest rounded-xl p-xl shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="flex justify-between items-center mb-lg border-b border-surface-variant pb-sm">
+<h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary md:hidden">person</span>
+                            Personal Information
+                        </h3>
+<button class="text-primary hover:underline font-label-lg text-label-lg">Edit</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="bg-surface-container-low p-md rounded-lg">
+<span class="font-label-lg text-label-lg text-on-surface-variant block mb-xs">Full Name</span>
+<span class="font-body-lg text-body-lg text-on-surface">Ahmad Al-Fayed</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg">
+<span class="font-label-lg text-label-lg text-on-surface-variant block mb-xs">Email Address</span>
+<span class="font-body-lg text-body-lg text-on-surface">ahmad.alfayed@email.com</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg">
+<span class="font-label-lg text-label-lg text-on-surface-variant block mb-xs">Phone Number</span>
+<span class="font-body-lg text-body-lg text-on-surface">+962 79 123 4567</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-lg">
+<span class="font-label-lg text-label-lg text-on-surface-variant block mb-xs">Date of Birth</span>
+<span class="font-body-lg text-body-lg text-on-surface">15 March 1985</span>
+</div>
+</div>
+</section>
+<!-- Mobile only navigation links (simulating the sidebar for mobile view) -->
+<div class="md:hidden flex flex-col gap-sm">
+<a class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex items-center justify-between active:scale-95 transition-transform duration-200" href="#">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<span class="font-label-lg text-label-lg">Saved Addresses</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</a>
+<a class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex items-center justify-between active:scale-95 transition-transform duration-200" href="#">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-primary">history</span>
+<span class="font-label-lg text-label-lg">Order History</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</a>
+<a class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex items-center justify-between active:scale-95 transition-transform duration-200" href="#">
+<div class="flex items-center gap-md text-on-surface">
+<span class="material-symbols-outlined text-primary">language</span>
+<span class="font-label-lg text-label-lg">Language Settings</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</a>
+<button class="bg-surface-container-lowest rounded-xl p-md shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex items-center justify-between active:scale-95 transition-transform duration-200 mt-md">
+<div class="flex items-center gap-md text-error">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-lg text-label-lg">Logout</span>
+</div>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width bottom-0 fixed z-50 rounded-t-xl shadow-[0px_-4px_20px_rgba(205,170,109,0.08)] w-full flex justify-around items-center px-4 py-3 pb-safe">
+<a aria-label="Home" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-lg text-label-lg mt-xs text-[10px]">Home</span>
+</a>
+<a aria-label="Orders" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-lg text-label-lg mt-xs text-[10px]">Orders</span>
+</a>
+<a aria-label="Loyalty" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">card_membership</span>
+<span class="font-label-lg text-label-lg mt-xs text-[10px]">Loyalty</span>
+</a>
+<a aria-label="Profile" class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 scale-90 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-weight="fill">person</span>
+<span class="font-label-lg text-label-lg mt-xs text-[10px]">Profile</span>
+</a>
+</nav>
+</body></html>

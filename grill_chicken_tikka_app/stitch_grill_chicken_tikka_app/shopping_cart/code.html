@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping Cart - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-ar": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .squircle {
+            border-radius: 20px; /* Approximation for squircles */
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .gradient-primary {
+            background: linear-gradient(135deg, theme('colors.primary-container'), theme('colors.primary'));
+        }
+        .ambient-shadow-1 {
+            box-shadow: 0px 4px 20px rgba(205, 170, 109, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-safe">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="flex justify-between items-center px-md py-sm w-full max-w-container-max mx-auto">
+<button aria-label="Menu" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary dark:text-primary-fixed tracking-tight">Grill Chicken Tikka</h1>
+<button aria-label="Notifications" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-md md:px-gutter py-lg md:py-xl flex flex-col lg:flex-row gap-lg md:gap-xl">
+<!-- Cart Items Section -->
+<section class="flex-1 space-y-md">
+<div class="flex items-center justify-between mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Your Order</h2>
+<span class="font-label-lg text-label-lg text-on-surface-variant">3 Items</span>
+</div>
+<!-- Cart Item 1 -->
+<article class="bg-surface-container-lowest ambient-shadow-1 squircle p-sm md:p-md flex items-center gap-md relative overflow-hidden group">
+<div class="w-24 h-24 md:w-32 md:h-32 shrink-0 squircle overflow-hidden relative shadow-inner">
+<img alt="Classic Half Grill Chicken" class="w-full h-full object-cover top-aligned object-top" data-alt="A mouth-watering high-resolution food photography shot of a perfectly grilled half chicken. The chicken has a rich, charred golden-brown skin, resting on a clean white ceramic plate. The setting is a bright, airy modern elegant dining space with soft natural lighting and a warm cream background. Minimalist styling emphasizes the premium culinary craftsmanship and appetizing texture of the dish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTQ0hU_FHQHUZCry9VjC67mlFKz-WNghcV0mgvSUiuDmiWpy9709WGYoYSqIxJA9Bvw9LORckZRDgm-xtRco6hbYQFxV1WWtIKI7k_ZGHwGLHhsMDHfFa6PMNQYSzQbdkc_-hQGT_etfTA8kk-P4aPhNL1kBX4eBlZbBl_2qcqDbFZRZhjqT2xNRd_lthrR5aTWlJCA9O5UylvebhU_4jh0sMEw8kcn8xRcyWGIu6wctW-TPw74Hz0d2_RxTAyHE1qxbzDYHlPKLc"/>
+</div>
+<div class="flex-1 flex flex-col justify-between h-full py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-body-lg md:text-headline-md text-on-surface">Classic Half Grill</h3>
+<button aria-label="Remove item" class="text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs line-clamp-1">With garlic sauce &amp; pickles</p>
+</div>
+<div class="flex items-center justify-between mt-sm">
+<div class="flex items-center gap-sm bg-surface-container rounded-full p-1 border border-outline-variant">
+<button aria-label="Decrease quantity" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="font-label-lg text-label-lg text-on-surface w-4 text-center">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<span class="font-label-lg text-label-lg text-secondary">JOD 6.50</span>
+</div>
+</div>
+</article>
+<!-- Cart Item 2 -->
+<article class="bg-surface-container-lowest ambient-shadow-1 squircle p-sm md:p-md flex items-center gap-md relative overflow-hidden group">
+<div class="w-24 h-24 md:w-32 md:h-32 shrink-0 squircle overflow-hidden relative shadow-inner">
+<img alt="Tikka Skewers" class="w-full h-full object-cover top-aligned object-top" data-alt="A delectable high-resolution image of juicy chicken tikka skewers. The meat is vibrant with spices, showing perfect grill marks, served on a premium minimalist white platter. The scene is illuminated by warm, inviting light against a soft cream #F8F4EA background. The sophisticated composition highlights the intersection of traditional Middle Eastern flavors and modern elegant presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHHwPGzsM0KnSozu3pliDJZvrs3gj1rEBXiRQBRFBHLKvoZNjI4tTdFHyYDPev_6QcO5UIH-kj2zFtxqktn1jwrIUyp2FUQIoKngq7hWmkG2dlUL9NZ4yGxIvO6uEX4yudQyZ_i-qZlajZCxB_qJ26P6YAbl-gt-17PHl76YuekWxv8GuG8iiCPcpPJk7PyNCX1BAWfJw46TBL7Yt1yU52MABQJjAlEmOmB3glEPwjyYqD7VIRDxYm7NTstbAjnDBnIBSTIpWNG8k"/>
+</div>
+<div class="flex-1 flex flex-col justify-between h-full py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-body-lg md:text-headline-md text-on-surface">Tikka Skewers</h3>
+<button aria-label="Remove item" class="text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs line-clamp-1">3 pieces, spicy</p>
+</div>
+<div class="flex items-center justify-between mt-sm">
+<div class="flex items-center gap-sm bg-surface-container rounded-full p-1 border border-outline-variant">
+<button aria-label="Decrease quantity" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="font-label-lg text-label-lg text-on-surface w-4 text-center">2</span>
+<button aria-label="Increase quantity" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<span class="font-label-lg text-label-lg text-secondary">JOD 9.00</span>
+</div>
+</div>
+</article>
+<!-- Cart Item 3 -->
+<article class="bg-surface-container-lowest ambient-shadow-1 squircle p-sm md:p-md flex items-center gap-md relative overflow-hidden group">
+<div class="w-24 h-24 md:w-32 md:h-32 shrink-0 squircle overflow-hidden relative shadow-inner">
+<img alt="Crispy Fries" class="w-full h-full object-cover top-aligned object-top" data-alt="A close-up, premium food photography shot of golden crispy French fries served in a stylish, minimalist white ceramic bowl. The lighting is soft and natural, casting subtle shadows on the warm cream #F8F4EA surface below. The image exudes a modern elegant aesthetic, focusing on the appetizing texture and vibrant golden color of the fries, perfect for a high-end digital concierge menu." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCitjYVmUM5W9hK48eFjO1fpAJiL1w0L8lAyPPQhlIH8dP2qQUc0-QLjhE6NnlIU6NXGjoGms92sZ9ixjUWd6lMJ5iTYY3AD5yWB6GeWvwxSJiYGM8ulBHQEiT9lxGmkTk4v9j2vs51FEz_92P2EW86S1HK8YN4o9Bv8Og6MizPX_49GaccpuYjzKCm_ivsS326TS7vPHIjRtVVc1pvp3s8Vhw8qg_BuaC6QzTyFwke9wHA6vzHje4qFGI54Axid2zQV5i8NS7okrs"/>
+</div>
+<div class="flex-1 flex flex-col justify-between h-full py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-body-lg md:text-headline-md text-on-surface">Crispy Fries</h3>
+<button aria-label="Remove item" class="text-outline hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs line-clamp-1">Large portion</p>
+</div>
+<div class="flex items-center justify-between mt-sm">
+<div class="flex items-center gap-sm bg-surface-container rounded-full p-1 border border-outline-variant">
+<button aria-label="Decrease quantity" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="font-label-lg text-label-lg text-on-surface w-4 text-center">1</span>
+<button aria-label="Increase quantity" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+<span class="font-label-lg text-label-lg text-secondary">JOD 2.50</span>
+</div>
+</div>
+</article>
+</section>
+<!-- Order Summary & Checkout -->
+<section class="lg:w-[400px] shrink-0 space-y-md">
+<!-- Coupon Code Card -->
+<div class="bg-surface-container-lowest ambient-shadow-1 squircle p-md">
+<h3 class="font-headline-md text-body-lg text-on-surface mb-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">local_offer</span>
+                    Have a promo code?
+                </h3>
+<div class="flex gap-sm">
+<input class="flex-1 bg-[#F2EEE3] border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface placeholder:text-outline outline-none transition-colors" placeholder="Enter code" type="text"/>
+<button class="bg-surface-variant text-on-surface-variant font-label-lg text-label-lg px-md py-2 rounded-lg hover:bg-surface-dim transition-colors">Apply</button>
+</div>
+</div>
+<!-- Summary Card -->
+<div class="bg-surface-container-lowest ambient-shadow-1 squircle p-lg flex flex-col gap-md">
+<h3 class="font-headline-md text-headline-md text-on-surface">Order Summary</h3>
+<div class="space-y-sm font-body-md text-body-md text-on-surface-variant">
+<div class="flex justify-between">
+<span>Subtotal</span>
+<span class="text-on-surface">JOD 18.00</span>
+</div>
+<div class="flex justify-between">
+<span>Delivery Fee</span>
+<span class="text-on-surface">JOD 1.50</span>
+</div>
+<div class="flex justify-between text-primary">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+                            Points to Earn
+                        </span>
+<span>+45 pts</span>
+</div>
+</div>
+<div class="h-[1px] w-full bg-outline-variant opacity-50 my-xs"></div>
+<div class="flex justify-between items-center mb-sm">
+<span class="font-headline-md text-headline-md text-on-surface">Total</span>
+<span class="font-display-lg-mobile text-display-lg-mobile text-secondary">JOD 19.50</span>
+</div>
+<button class="w-full bg-[#C62828] text-white font-label-lg text-label-lg py-md squircle ambient-shadow-1 hover:bg-secondary-container transition-colors active:scale-95 duration-200 flex justify-center items-center gap-2">
+                    Continue to Checkout
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Hidden on md and up, typical for destination pages, but cart is often a modal or separate flow. Keeping for shell consistency if it's a top level destination, though usually cart isn't. Following prompt to output design using components as guidance.) -->
+<!-- Assuming Cart is part of the main flow for this app, but highlighting Orders might be closest intent, or no highlight if it's a transient state. Let's not highlight any to follow contextual logic, or highlight Orders. -->
+<nav class="md:hidden bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width bottom-0 fixed z-50 rounded-t-xl shadow-[0px_-4px_20px_rgba(205,170,109,0.08)]">
+<div class="w-full flex justify-around items-center px-4 py-3 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-lg text-[10px] mt-1">Home</span>
+</a>
+<!-- Using Orders as intent fallback for Cart if needed, but styling as inactive to prioritize canvas as per rules -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-lg text-[10px] mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">card_membership</span>
+<span class="font-label-lg text-[10px] mt-1">Loyalty</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-lg text-[10px] mt-1">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

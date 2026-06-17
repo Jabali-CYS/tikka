@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Login | Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#765a25",
+                    "primary-fixed": "#ffdea8",
+                    "surface-container-highest": "#e9e1da",
+                    "surface-bright": "#fff8f3",
+                    "secondary-container": "#d93633",
+                    "on-secondary-fixed": "#410003",
+                    "tertiary": "#4c5e84",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#f5ede5",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#efe7df",
+                    "on-tertiary-fixed": "#051b3d",
+                    "surface-variant": "#e9e1da",
+                    "on-background": "#1e1b17",
+                    "on-secondary-fixed-variant": "#93000e",
+                    "outline": "#7f7668",
+                    "tertiary-fixed-dim": "#b4c6f2",
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#fffbff",
+                    "on-primary-fixed": "#271900",
+                    "inverse-primary": "#e6c182",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#ffdad6",
+                    "surface": "#fff8f3",
+                    "on-primary-fixed-variant": "#5b420f",
+                    "secondary-fixed-dim": "#ffb4ac",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#e0d9d1",
+                    "tertiary-fixed": "#d8e2ff",
+                    "on-tertiary-container": "#304266",
+                    "secondary": "#b51a1e",
+                    "surface-tint": "#765a25",
+                    "tertiary-container": "#9dafd9",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1e1b17",
+                    "on-surface-variant": "#4e463a",
+                    "inverse-on-surface": "#f7efe8",
+                    "surface-container-low": "#faf2eb",
+                    "background": "#fff8f3",
+                    "primary-fixed-dim": "#e6c182",
+                    "primary-container": "#cdaa6d",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#35466b",
+                    "outline-variant": "#d1c5b5",
+                    "inverse-surface": "#33302b",
+                    "on-primary-container": "#563e0a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "xxl": "64px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "xl": "40px",
+                    "container-max": "1200px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "display-lg-mobile": ["Manrope"],
+                    "label-lg": ["Manrope"],
+                    "label-ar": ["IBM Plex Sans Arabic"],
+                    "headline-md": ["Manrope"],
+                    "body-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-ar": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .squircle {
+            border-radius: 40px;
+        }
+        .bg-glass {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(255,248,243,0) 0%, #fff8f3 100%);
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(205, 170, 109, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed overflow-x-hidden">
+<main class="relative min-h-screen flex flex-col lg:flex-row items-stretch overflow-hidden">
+<!-- Left Visual Side (Desktop) / Top Visual Section (Mobile) -->
+<section class="relative w-full lg:w-1/2 min-h-[353px] lg:min-h-screen flex items-center justify-center p-xl overflow-hidden">
+<!-- Atmospheric Background -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover grayscale-[20%] opacity-20" data-alt="A high-end cinematic close-up of a charcoal grill with glowing orange embers and subtle smoke rising. The lighting is warm and dramatic, highlighting the tactile textures of cast iron and wood. The overall aesthetic is sophisticated and minimalist, using a rich palette of deep browns, golden ochre, and soft cream tones to evoke a premium dining experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNQPa-ydRdNMH2EqwDelNj5bbj59HWXmU6AUdEsECfKTmP93UUIS2-001rcS2xEhlPRl7yUHbdvfWKJiSMTLVcZiF_dVvU40TIfBP1vue8XLfgMTDPDVNGIk9lHdK8GcnIxiKT-nK1yorg838ZxvH3TixVxHKu_RX5Kt-e37ryB44wnh8VvVP_5b_9NhRQ5AzijBK3RBtC3E1_NyNgq2If8CE-matA2n3HLky-WOQ_PiEK3ukMHA-01MQ-rOMLZ-SKPSDgjgkbS-U"/>
+<div class="absolute inset-0 hero-gradient"></div>
+</div>
+<!-- Brand Illustration / Content -->
+<div class="relative z-10 flex flex-col items-center text-center max-w-md">
+<div class="mb-lg p-lg bg-surface-container-low/80 backdrop-blur-md squircle shadow-[0px_12px_32px_rgba(205,170,109,0.12)]">
+<span class="material-symbols-outlined text-[64px] text-primary" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<h1 class="font-display-lg-mobile lg:font-display-lg text-display-lg-mobile lg:text-display-lg text-primary tracking-tight mb-md">Grill Chicken Tikka</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant px-md">Traditional craftsmanship meets contemporary luxury. Welcome to the Golden Hearth.</p>
+</div>
+<!-- Animated Ambient Layer -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+</section>
+<!-- Right Content Side (Desktop) / Bottom Content Section (Mobile) -->
+<section class="relative w-full lg:w-1/2 bg-surface-container-lowest lg:rounded-l-[48px] shadow-2xl flex flex-col justify-center items-center p-lg lg:p-xxl z-20">
+<div class="w-full max-w-sm flex flex-col gap-xl">
+<!-- Header -->
+<div class="flex flex-col gap-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Welcome Back</h2>
+<p class="font-body-md text-body-md text-outline">Enter your phone number to continue your journey through Amman's finest grill.</p>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-lg" onsubmit="return false;">
+<!-- Phone Input Group -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-lg text-label-lg text-primary px-1">Mobile Number</label>
+<div class="flex items-center gap-sm bg-[#F2EEE3] p-sm rounded-xl border border-transparent focus-within:border-primary transition-all duration-300">
+<!-- Country Code Selector -->
+<div class="flex items-center gap-xs px-md border-r border-outline-variant cursor-pointer hover:bg-surface-container transition-colors rounded-lg py-sm">
+<img alt="Jordan Flag" class="w-6 h-4 rounded-sm object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpbupW68k7vCCEwytOttmN8C2gYpw5unpbw4l1xg7nEYCdpFxGaLPFCQ3oHWjPv1h8HS-gWq04q5Ixe0dOllDzTF2Pw6x1zRp1NEyjsUWp6e_dT1hcW1LrqCHLP4JKWn_XnW5p0ZVKHdP6FNiCV4ivwoD0iREJnUN3Hyf76pFUBKOM8ZdN6hKxAO982YQTroyiXNb_biX5r77wgTVCdNuwmGon2WaeSEz7I5YHr3vCunKksiJC5585J7PAK-eyCrr2kFQAKE-G86c"/>
+<span class="font-body-md text-on-surface font-semibold">+962</span>
+<span class="material-symbols-outlined text-outline text-md">expand_more</span>
+</div>
+<!-- Input Field -->
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-headline-md tracking-widest placeholder:text-outline-variant placeholder:font-normal placeholder:tracking-normal" maxlength="9" placeholder="7X XXX XXXX" type="tel"/>
+</div>
+</div>
+<!-- OTP Note -->
+<div class="flex items-start gap-sm p-md bg-primary/5 rounded-xl border border-primary/10">
+<span class="material-symbols-outlined text-primary text-md">info</span>
+<p class="font-label-lg text-label-lg text-on-primary-fixed-variant">We'll send a 4-digit verification code to your phone to confirm your identity.</p>
+</div>
+<!-- CTA Button -->
+<button class="relative overflow-hidden group w-full bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-headline-md text-headline-md py-lg rounded-xl shadow-[0px_4px_20px_rgba(205,170,109,0.2)] transition-all duration-300 active:scale-95">
+<div class="absolute inset-0 bg-gradient-to-br from-primary to-primary-container opacity-50 group-hover:opacity-100 transition-opacity"></div>
+<span class="relative z-10 flex items-center justify-center gap-sm">
+                            Continue
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</span>
+</button>
+</form>
+<!-- Alternative Actions -->
+<div class="flex flex-col items-center gap-lg pt-md">
+<div class="flex items-center gap-md w-full">
+<div class="h-[1px] flex-1 bg-outline-variant"></div>
+<span class="font-label-lg text-label-lg text-outline uppercase tracking-widest">or</span>
+<div class="h-[1px] flex-1 bg-outline-variant"></div>
+</div>
+<a class="group flex items-center gap-sm font-label-lg text-label-lg text-primary hover:text-on-primary-fixed-variant transition-colors py-sm px-lg rounded-full border border-primary/20 hover:bg-primary/5" href="#">
+                        Browse as Guest
+                        <span class="material-symbols-outlined text-md">person_search</span>
+</a>
+</div>
+</div>
+<!-- Footer Compliance -->
+<div class="mt-xxl text-center">
+<p class="font-label-lg text-label-lg text-outline">By continuing, you agree to our <a class="underline hover:text-primary" href="#">Terms of Service</a> and <a class="underline hover:text-primary" href="#">Privacy Policy</a>.</p>
+</div>
+</section>
+</main>
+<script>
+        // Micro-interactions for the phone input
+        const phoneInput = document.querySelector('input[type="tel"]');
+        phoneInput.addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length > 9) val = val.slice(0, 9);
+            e.target.value = val;
+        });
+
+        // Toggle focus styles for the custom container
+        const inputContainer = phoneInput.closest('div.bg-\\[\\#F2EEE3\\]');
+        phoneInput.addEventListener('focus', () => {
+            inputContainer.classList.add('shadow-[0px_0px_0px_2px_#765a2533]');
+        });
+        phoneInput.addEventListener('blur', () => {
+            inputContainer.classList.remove('shadow-[0px_0px_0px_2px_#765a2533]');
+        });
+    </script>
+</body></html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html class="light" dir="ltr" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Outside Delivery Zone - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-ar": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Subtle animation for the map illustration */
+        @keyframes subtleFloat {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: subtleFloat 6s ease-in-out infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="flex justify-between items-center px-md py-sm w-full max-w-container-max mx-auto">
+<button aria-label="Go back" class="text-on-surface-variant dark:text-outline hover:opacity-80 transition-opacity p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary dark:text-primary-fixed tracking-tight">
+                Grill Chicken Tikka
+            </h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center p-md md:p-xl w-full max-w-container-max mx-auto">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-[24px] shadow-[0px_4px_20px_rgba(205,170,109,0.08)] p-xl flex flex-col items-center text-center relative overflow-hidden">
+<!-- Decorative background elements -->
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 w-40 h-40 bg-secondary-container/5 rounded-full blur-2xl -ml-20 -mb-20 pointer-events-none"></div>
+<!-- Illustration Area -->
+<div class="mb-lg relative w-full h-48 md:h-64 flex justify-center items-center">
+<img alt="Map illustration showing a location outside a defined area" class="w-full h-full object-cover rounded-xl opacity-90 float-animation shadow-[0px_12px_32px_rgba(30,30,30,0.05)]" data-alt="A sophisticated, minimalist 3D illustration of a map pin standing outside a highlighted golden circular zone on a clean, soft cream canvas. The map pin is rendered in a subtle matte red, casting a soft, warm ambient shadow indicating depth. The surrounding map terrain is suggested by faint, elegant topographic lines in primary gold. The lighting is high-key and soft, emphasizing a premium, modern elegant aesthetic typical of a high-end restaurant app. No harsh edges, utilizing squircles and smooth gradients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJFubhYp8v9SM5CS9l3Tgnn8vUXg9Sa_qnG9VIlL8GQJR4IOcfvfJegQkU_OUsLP9Vi2CEP-jZNQrQt3XKdyqBHCfj_Ucxf1pP-NIqjCD23jcW9HxQv9qYZQjKgF4atiEG2Jk2flGeXqvE4HcNoLrUOt90TnEVpQPtWuP6-lQ95m4Pv8wBRQenMyX4yf-0R0gECXURynTNbhc32Z6sAPrSn123-Rtv7yHCTSxwNQl0r3hjsykZuRrMoXUq7QfydUBhxuWul5dHvsw"/>
+<!-- Overlay Icon -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-surface/90 backdrop-blur-sm p-4 rounded-full shadow-[0px_4px_20px_rgba(205,170,109,0.15)] text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] icon-fill">location_off</span>
+</div>
+</div>
+</div>
+<!-- Text Content -->
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Out of Range</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-xl max-w-md">
+                Sorry, your location is currently outside our delivery service areas.
+            </p>
+<!-- Actions -->
+<div class="w-full flex flex-col gap-md">
+<button class="w-full py-4 px-6 bg-[#CDAA6D] text-[#FFFFFF] rounded-[16px] font-label-lg text-label-lg tracking-wider flex items-center justify-center gap-2 hover:opacity-90 transition-all shadow-[0px_4px_20px_rgba(205,170,109,0.2)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-container bg-gradient-to-br from-[#CDAA6D] to-[#b8955a]">
+<span class="material-symbols-outlined text-[20px]">edit_location</span>
+                    Change Address
+                </button>
+<button class="w-full py-4 px-6 bg-transparent border-[1.5px] border-primary text-primary rounded-[16px] font-label-lg text-label-lg tracking-wider flex items-center justify-center gap-2 hover:bg-primary-container/10 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+<span class="material-symbols-outlined text-[20px]">restaurant_menu</span>
+                    Browse Menu (Pickup/Dine-in)
+                </button>
+</div>
+<p class="mt-lg font-body-md text-body-md text-outline text-sm">
+                Need help? <a class="text-primary underline hover:text-primary-fixed-dim transition-colors" href="#">Contact Support</a>
+</p>
+</div>
+</main>
+<!-- Suppressed BottomNavBar & FAB: Intent is linear/transactional resolution (address change). -->
+</body></html>

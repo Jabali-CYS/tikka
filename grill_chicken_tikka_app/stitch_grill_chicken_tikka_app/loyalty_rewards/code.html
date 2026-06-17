@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Loyalty &amp; Rewards - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-ar": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .squircle {
+            border-radius: 24px;
+        }
+        .ambient-shadow {
+            box-shadow: 0px 4px 20px rgba(205, 170, 109, 0.08);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #cdaa6d 0%, #765a25 100%);
+        }
+        .progress-stripe {
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-size: 1rem 1rem;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen font-body-md pb-[100px] md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0px_4px_20px_rgba(205,170,109,0.08)] flex justify-between items-center px-md py-sm w-full">
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200 flex items-center justify-center p-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary dark:text-primary-fixed tracking-tight">
+            Grill Chicken Tikka
+        </h1>
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-200 flex items-center justify-center p-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="max-w-container-max mx-auto px-md md:px-lg py-lg md:py-xl flex flex-col gap-xl">
+<!-- Dashboard Header Bento -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Balance Card -->
+<div class="md:col-span-5 bg-surface-container-lowest squircle ambient-shadow p-xl flex flex-col items-center justify-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary-container opacity-5 group-hover:opacity-10 transition-opacity duration-300"></div>
+<div class="mb-sm text-primary">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<h2 class="font-body-lg text-body-lg text-on-surface-variant mb-xs">Available Points</h2>
+<div class="font-display-lg text-display-lg text-primary flex items-baseline gap-sm">
+                    14,500
+                    <span class="font-label-lg text-label-lg text-on-surface-variant uppercase tracking-widest">pts</span>
+</div>
+</div>
+<!-- Progress Card -->
+<div class="md:col-span-7 bg-surface-container-lowest squircle ambient-shadow p-xl flex flex-col justify-center">
+<div class="flex justify-between items-end mb-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Next Reward</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Complimentary Signature Meal</p>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-primary uppercase">Goal: 20,000</span>
+</div>
+</div>
+<!-- Progress Bar Container -->
+<div class="relative h-4 bg-surface-variant rounded-full overflow-hidden mt-sm">
+<div class="absolute top-0 left-0 h-full gold-gradient progress-stripe rounded-full transition-all duration-1000 ease-out" style="width: 72.5%;"></div>
+</div>
+<div class="flex justify-between items-center mt-sm">
+<span class="font-label-lg text-label-lg text-on-surface-variant">72%</span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">5,500 pts remaining</span>
+</div>
+</div>
+</div>
+<!-- Rewards Catalog -->
+<section class="flex flex-col gap-md">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Redeem Rewards</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Reward Item 1 (Locked) -->
+<div class="bg-surface-container-lowest squircle ambient-shadow overflow-hidden flex flex-col opacity-80 filter grayscale-[20%]">
+<div class="h-48 w-full bg-surface-variant relative">
+<img alt="Signature Chicken Tikka Plate" class="w-full h-full object-cover" data-alt="A highly detailed, professional food photography shot of a luxurious Signature Grill Chicken Tikka meal. The dish is presented on an elegant, minimalist ceramic platter within a premium, warmly lit dining room. The aesthetic embodies modern elegance with a soft cream canvas background and subtle golden ambient highlights. The vibrant red and orange spices of the chicken contrast beautifully against the refined, tactile setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnAChMZ4O7-RO6sbkVQzHJtasK7F2gj7eOzH-P_gLHdMq5y1ZaLFRrH8WWTT-_jPZUTzA_6aHllU3EPoYE4Bk0ZgQMlo1xF3jCXMvXSw_sSXFXUes9nEYkiRRLgPeL4VBmDUvR3JePelxNZJ2Webg-sLWjzEfaUaxgPir6qHOd5KziPP83hoxF5YfSWJo0Yqr19Yg89bXRI8XdayjW0Bt2d-cqQ7O9zqGB3QLiex-SD0zDiHUuJVWD-rvI1tFJ-i30cZO4s8dZu1U"/>
+<div class="absolute inset-0 bg-inverse-surface/40 flex items-center justify-center backdrop-blur-sm">
+<div class="bg-surface-container-lowest px-md py-sm rounded-full flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-label-lg text-label-lg text-on-surface">Unlocks at 20k</span>
+</div>
+</div>
+</div>
+<div class="p-lg flex flex-col gap-sm flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface">Signature Meal</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow">A complete fine dining experience featuring our renowned grilled chicken tikka and premium sides.</p>
+<div class="font-label-lg text-label-lg text-outline mt-sm">20,000 Points</div>
+</div>
+</div>
+<!-- Reward Item 2 (Unlocked) -->
+<div class="bg-surface-container-lowest squircle ambient-shadow overflow-hidden flex flex-col relative group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-md right-md z-10 bg-primary-container text-on-primary-container px-sm py-xs rounded-full font-label-lg text-label-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Available
+                    </div>
+<div class="h-48 w-full bg-surface-variant relative overflow-hidden">
+<img alt="Premium Appetizer Spread" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An exquisite overhead shot of a premium Middle Eastern appetizer spread featuring hummus and artisan breads. The composition is styled on a pristine cream surface with warm, sophisticated golden hour lighting cascading across the textures. The visual tone is high-end hospitality, blending modern minimalism with tactile, appetizing details. The mood is inviting and sophisticated, perfectly aligned with a luxury dining experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVt87yPe6Gpnh_RjX2RoESWLehoMyV5gIYLOVX4U-81_VE93nEevpUjts6CH4OHNHjtwYPPq9LBSannLBCGR3XBRy0Bw5xpZ-2r8YHWTfwuH4NVy4juAKrhZH4oSa0S4LVDUyTkwCyba6jQphaaFq2QaDbJrbIU5cmMGBz4dtz5WOfZPcobbNx1Gzt9Tyr_qlVDZgEdpIlEhiP_3HydD-bJmbGTxB0YyJUWLCLYUXWQcKkRzOCmjGrvDAzEkQhKnPr99bemHuXDpA"/>
+</div>
+<div class="p-lg flex flex-col gap-sm flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface">Artisan Appetizer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow">Start your evening with a selection of our finest handcrafted starters and dips.</p>
+<button class="mt-md w-full py-sm rounded-xl font-label-lg text-label-lg gold-gradient text-on-primary shadow-md hover:shadow-lg transition-all">
+                            Redeem (10,000 pts)
+                        </button>
+</div>
+</div>
+<!-- Reward Item 3 (Unlocked) -->
+<div class="bg-surface-container-lowest squircle ambient-shadow overflow-hidden flex flex-col relative group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-md right-md z-10 bg-primary-container text-on-primary-container px-sm py-xs rounded-full font-label-lg text-label-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        Available
+                    </div>
+<div class="h-48 w-full bg-surface-variant relative overflow-hidden">
+<img alt="Crafted Lemonade Beverage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautifully styled photograph of a refreshing, crafted mint lemonade drink in a high-end crystal glass. Condensation beads on the glass, catching soft, golden light in a minimal, warmly lit dining space. The background is a sophisticated blur of cream and soft grey tones, emphasizing the premium quality and tactile refreshment of the beverage. The overall aesthetic is elegant and pristine." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADDtqMhNTMx_JQeh18EePumbLuHzamLzwkxC53xjYcdnY_ZB_NZvEIAddQP9a6vOFj_-ioqZOwdjhuQnFjl329qbX3L5pNggZbaBcb_qgOssfUDks1mE6ahwNI21_I53o2bVs7ye0aaFNEyl1wgyOw70y5RpuvsJAxh9ZCts9160-SaKaN_V2Iq8jcBQxaiVvp2RRAmdWd8MJHUcXN8pW1AydWalNyJHzHxWU-XARhmZ7ThPXHQ9CM3X4oiTyUMbcVZTjvNPMbkJE"/>
+</div>
+<div class="p-lg flex flex-col gap-sm flex-grow">
+<h3 class="font-headline-md text-headline-md text-on-surface">Signature Beverage</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow">Refresh your palate with one of our house-crafted premium mocktails or lemonades.</p>
+<button class="mt-md w-full py-sm rounded-xl font-label-lg text-label-lg border-2 border-primary text-primary hover:bg-primary-container/20 transition-all">
+                            Redeem (5,000 pts)
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- History Section -->
+<section class="bg-surface-container-lowest squircle ambient-shadow p-lg flex flex-col gap-md">
+<div class="flex justify-between items-center mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Recent History</h2>
+<button class="font-label-lg text-label-lg text-primary hover:underline">View All</button>
+</div>
+<div class="flex flex-col">
+<!-- History Item 1 -->
+<div class="flex items-center justify-between py-md border-b border-surface-variant">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<div>
+<div class="font-body-lg text-body-lg text-on-surface font-medium">Dine-in Order</div>
+<div class="font-body-md text-body-md text-on-surface-variant">Oct 24, 2023 • Amman Main Branch</div>
+</div>
+</div>
+<div class="font-label-lg text-label-lg text-primary">
+                        +450 pts
+                    </div>
+</div>
+<!-- History Item 2 -->
+<div class="flex items-center justify-between py-md border-b border-surface-variant">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">card_giftcard</span>
+</div>
+<div>
+<div class="font-body-lg text-body-lg text-on-surface font-medium">Redeemed: Signature Beverage</div>
+<div class="font-body-md text-body-md text-on-surface-variant">Oct 15, 2023 • Mobile App</div>
+</div>
+</div>
+<div class="font-label-lg text-label-lg text-on-surface-variant">
+                        -5,000 pts
+                    </div>
+</div>
+<!-- History Item 3 -->
+<div class="flex items-center justify-between py-md">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">celebration</span>
+</div>
+<div>
+<div class="font-body-lg text-body-lg text-on-surface font-medium">Birthday Bonus</div>
+<div class="font-body-md text-body-md text-on-surface-variant">Oct 10, 2023 • Automated Reward</div>
+</div>
+</div>
+<div class="font-label-lg text-label-lg text-primary">
+                        +1,000 pts
+                    </div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width bottom-0 fixed z-50 rounded-t-xl shadow-[0px_-4px_20px_rgba(205,170,109,0.08)] fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe md:hidden">
+<!-- Inactive Tab: Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-lg text-label-lg mt-1">Home</span>
+</a>
+<!-- Inactive Tab: Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="font-label-lg text-label-lg mt-1">Orders</span>
+</a>
+<!-- Active Tab: Loyalty -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 hover:text-primary transition-colors scale-90 duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">card_membership</span>
+<span class="font-label-lg text-label-lg mt-1">Loyalty</span>
+</a>
+<!-- Inactive Tab: Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-lg text-label-lg mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

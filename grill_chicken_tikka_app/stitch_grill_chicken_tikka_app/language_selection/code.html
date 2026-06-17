@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Language Selection - Grill Chicken Tikka</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#765a25",
+                    "primary-fixed": "#ffdea8",
+                    "surface-container-highest": "#e9e1da",
+                    "surface-bright": "#fff8f3",
+                    "secondary-container": "#d93633",
+                    "on-secondary-fixed": "#410003",
+                    "tertiary": "#4c5e84",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#f5ede5",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#efe7df",
+                    "on-tertiary-fixed": "#051b3d",
+                    "surface-variant": "#e9e1da",
+                    "on-background": "#1e1b17",
+                    "on-secondary-fixed-variant": "#93000e",
+                    "outline": "#7f7668",
+                    "tertiary-fixed-dim": "#b4c6f2",
+                    "error": "#ba1a1a",
+                    "on-secondary-container": "#fffbff",
+                    "on-primary-fixed": "#271900",
+                    "inverse-primary": "#e6c182",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#ffdad6",
+                    "surface": "#fff8f3",
+                    "on-primary-fixed-variant": "#5b420f",
+                    "secondary-fixed-dim": "#ffb4ac",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#e0d9d1",
+                    "tertiary-fixed": "#d8e2ff",
+                    "on-tertiary-container": "#304266",
+                    "secondary": "#b51a1e",
+                    "surface-tint": "#765a25",
+                    "tertiary-container": "#9dafd9",
+                    "on-secondary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1e1b17",
+                    "on-surface-variant": "#4e463a",
+                    "inverse-on-surface": "#f7efe8",
+                    "surface-container-low": "#faf2eb",
+                    "background": "#fff8f3",
+                    "primary-fixed-dim": "#e6c182",
+                    "primary-container": "#cdaa6d",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#35466b",
+                    "outline-variant": "#d1c5b5",
+                    "inverse-surface": "#33302b",
+                    "on-primary-container": "#563e0a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "squircle": "2.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "xxl": "64px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "xl": "40px",
+                    "container-max": "1200px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "display-lg-mobile": ["Manrope"],
+                    "label-lg": ["Manrope"],
+                    "label-ar": ["IBM Plex Sans Arabic"],
+                    "headline-md": ["Manrope"],
+                    "body-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-ar": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .squircle-card {
+            border-radius: 2.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .squircle-card.active {
+            border: 2px solid #CDAA6D;
+            background-color: #fdfcf8;
+            box-shadow: 0px 4px 20px rgba(205, 170, 109, 0.15);
+            transform: scale(1.02);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #CDAA6D 0%, #B8965A 100%);
+        }
+        body {
+            background-color: #F8F4EA;
+            overflow: hidden;
+        }
+        .arabic-text {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col min-h-screen text-on-background">
+<!-- Top Navigation Bar (Shared Component Strategy) -->
+<header class="bg-surface/80 backdrop-blur-xl sticky top-0 z-50 w-full flex justify-between items-center px-md py-sm shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="restaurant_menu">restaurant_menu</span>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary tracking-tight">Grill Chicken Tikka</h1>
+</div>
+<div class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="public">public</span>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center px-gutter py-xl relative">
+<!-- Atmospheric Background Element -->
+<div class="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-container rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-secondary-fixed rounded-full blur-3xl"></div>
+</div>
+<div class="max-w-2xl w-full z-10 flex flex-col gap-xl">
+<!-- Header Text Section -->
+<div class="text-center space-y-md">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Choose Language</h2>
+<h2 class="font-label-ar text-headline-md arabic-text text-on-surface-variant">اختر اللغة</h2>
+<p class="font-body-md text-body-md text-outline">Select your preferred language to continue</p>
+</div>
+<!-- Bento-style Language Selection Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- English Card -->
+<button class="squircle-card group relative overflow-hidden bg-surface-container-lowest border-2 border-transparent p-xl flex flex-col items-center text-center gap-md hover:shadow-xl active:scale-95 duration-200" id="card-en" onclick="selectLanguage('en')">
+<div class="w-20 h-20 rounded-full bg-primary-fixed flex items-center justify-center mb-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="translate">translate</span>
+</div>
+<div>
+<span class="block font-headline-md text-headline-md text-on-surface">English</span>
+<span class="block font-label-lg text-label-lg text-outline uppercase tracking-widest mt-1">International</span>
+</div>
+<div class="absolute top-4 right-6 opacity-0 group-[.active]:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</button>
+<!-- Arabic Card -->
+<button class="squircle-card group relative overflow-hidden bg-surface-container-lowest border-2 border-transparent p-xl flex flex-col items-center text-center gap-md hover:shadow-xl active:scale-95 duration-200" id="card-ar" onclick="selectLanguage('ar')">
+<div class="w-20 h-20 rounded-full bg-secondary-fixed flex items-center justify-center mb-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="language_arabic">language_french</span>
+</div>
+<div>
+<span class="block font-label-ar text-headline-md arabic-text text-on-surface">العربية</span>
+<span class="block font-label-lg text-label-lg text-outline uppercase tracking-widest mt-1">Amman, Jordan</span>
+</div>
+<div class="absolute top-4 left-6 opacity-0 group-[.active]:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</button>
+</div>
+<!-- Action Area -->
+<div class="flex flex-col gap-md items-center mt-lg">
+<button class="btn-gradient w-full max-w-sm py-md px-xl rounded-full text-on-primary font-headline-md shadow-lg opacity-50 cursor-not-allowed transform transition-all active:scale-95 hover:shadow-primary/20 hover:shadow-2xl" disabled="" id="continue-btn">
+<span id="btn-text-en">Continue</span>
+<span class="mx-2 opacity-50 font-light">|</span>
+<span class="arabic-text" id="btn-text-ar">استمرار</span>
+</button>
+<p class="font-label-lg text-label-lg text-outline text-center">
+                    You can change this later in settings<br/>
+<span class="arabic-text font-label-ar">يمكنك تغيير هذا لاحقاً من الإعدادات</span>
+</p>
+</div>
+</div>
+</main>
+<!-- Visual Footer Branding -->
+<footer class="p-xl flex justify-center">
+<div class="flex items-center gap-xl border-t border-outline-variant/30 pt-lg w-full max-w-lg justify-center">
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary" data-icon="verified">verified</span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">Authentic</span>
+</div>
+<div class="w-px h-8 bg-outline-variant/50"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary" data-icon="local_fire_department">local_fire_department</span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">Flame Grilled</span>
+</div>
+<div class="w-px h-8 bg-outline-variant/50"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-primary" data-icon="history_edu">history_edu</span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">Tradition</span>
+</div>
+</div>
+</footer>
+<script>
+        function selectLanguage(lang) {
+            // Remove active classes
+            document.querySelectorAll('.squircle-card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Add active to selected
+            const selected = document.getElementById(`card-${lang}`);
+            selected.classList.add('active');
+
+            // Enable button
+            const btn = document.getElementById('continue-btn');
+            btn.removeAttribute('disabled');
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            
+            // Visual feedback for interaction
+            btn.classList.add('hover:-translate-y-1');
+
+            // Update page direction for preview feel
+            if(lang === 'ar') {
+                document.body.style.direction = 'rtl';
+                document.getElementById('btn-text-en').classList.add('hidden');
+                document.getElementById('btn-text-ar').classList.remove('hidden');
+            } else {
+                document.body.style.direction = 'ltr';
+                document.getElementById('btn-text-ar').classList.add('hidden');
+                document.getElementById('btn-text-en').classList.remove('hidden');
+            }
+        }
+
+        // Initialize Material Symbols
+        document.querySelectorAll('.material-symbols-outlined').forEach(span => {
+            span.classList.add('material-symbols-outlined');
+            if (span.innerText.trim() === '') {
+                span.innerText = span.getAttribute('data-icon');
+            }
+        });
+    </script>
+</body></html>

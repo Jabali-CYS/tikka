@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Categories - Grill Chicken Tikka</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#93000e",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-container": "#cdaa6d",
+                        "primary": "#765a25",
+                        "on-secondary-container": "#fffbff",
+                        "background": "#fff8f3",
+                        "surface-variant": "#e9e1da",
+                        "surface-container": "#f5ede5",
+                        "secondary": "#b51a1e",
+                        "on-primary-fixed-variant": "#5b420f",
+                        "on-primary-container": "#563e0a",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#35466b",
+                        "tertiary": "#4c5e84",
+                        "tertiary-fixed-dim": "#b4c6f2",
+                        "surface": "#fff8f3",
+                        "on-surface": "#1e1b17",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#ffb4ac",
+                        "outline-variant": "#d1c5b5",
+                        "on-background": "#1e1b17",
+                        "surface-container-low": "#faf2eb",
+                        "primary-fixed": "#ffdea8",
+                        "secondary-fixed": "#ffdad6",
+                        "inverse-surface": "#33302b",
+                        "inverse-on-surface": "#f7efe8",
+                        "on-secondary-fixed": "#410003",
+                        "surface-dim": "#e0d9d1",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fff8f3",
+                        "surface-container-high": "#efe7df",
+                        "primary-fixed-dim": "#e6c182",
+                        "surface-tint": "#765a25",
+                        "on-tertiary-container": "#304266",
+                        "tertiary-container": "#9dafd9",
+                        "on-primary-fixed": "#271900",
+                        "inverse-primary": "#e6c182",
+                        "surface-container-highest": "#e9e1da",
+                        "outline": "#7f7668",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d93633",
+                        "on-tertiary-fixed": "#051b3d",
+                        "on-surface-variant": "#4e463a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1200px",
+                        "xl": "40px",
+                        "unit": "4px",
+                        "xxl": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "label-ar": ["IBM Plex Sans Arabic"],
+                        "body-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-ar": ["16px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .squircle {
+            border-radius: 24px;
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md antialiased pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0px_4px_20px_rgba(205,170,109,0.08)]">
+<div class="flex justify-between items-center px-md py-sm w-full max-w-container-max mx-auto">
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary dark:text-primary-fixed tracking-tight md:font-display-lg md:text-display-lg">
+                Grill Chicken Tikka
+            </h1>
+<button class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-container relative">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="absolute top-1 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-surface"></span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-container-max mx-auto px-md md:px-lg py-lg space-y-xl">
+<!-- Search Section -->
+<section class="mb-lg">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full bg-surface-container border border-surface-dim focus:border-primary-container rounded-full py-3 pl-12 pr-4 font-body-lg text-on-surface placeholder-outline focus:outline-none focus:ring-1 focus:ring-primary-container transition-colors" placeholder="Search menu..." type="text"/>
+</div>
+</section>
+<!-- Categories Grid -->
+<section>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-lg">Menu Categories</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-md md:gap-lg">
+<!-- Category Card: Chicken -->
+<a class="group block relative overflow-hidden bg-surface-container-lowest squircle shadow-[0px_4px_20px_rgba(205,170,109,0.08)] transition-transform duration-300 hover:-translate-y-1" href="#">
+<div class="aspect-square bg-surface-variant relative overflow-hidden">
+<img alt="Chicken Category" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A mouth-watering overhead shot of grilled chicken tikka pieces, perfectly charred and glistening with spices, resting on a pristine white ceramic plate. The scene is bathed in warm, soft lighting that highlights the rich golden-brown textures of the meat against a soft cream background. A sprig of fresh cilantro adds a touch of green, emphasizing a modern elegant and premium culinary presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsuzznj94-YB6AurglMZ-1nsjhOy1cN44OYTG5IlJkeim-c76u56x0_tqZsuJ4JEdXcttcrQCJXCyLa4d15SdECYYPBSFi6ZCdEZ_AY-tHpH3GEGxDD82zeEozDoi_Knlhq7cmnat3G0qrB77lIldalpl1DOhwk3GFKul9ZE0bf5aLia1Pm5MWoUYRUFvEVegUa53lm869vTwoADM0cZllED9AcPuxxu0oBKh7Du7cyCoeFulTxyya8OGBwWJwD6uc5u4yQDWJ0xo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-4 flex justify-between items-end">
+<h3 class="font-headline-md text-headline-md text-on-primary">Chicken</h3>
+<div class="bg-primary-container text-on-primary-container w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Category Card: Meals -->
+<a class="group block relative overflow-hidden bg-surface-container-lowest squircle shadow-[0px_4px_20px_rgba(205,170,109,0.08)] transition-transform duration-300 hover:-translate-y-1" href="#">
+<div class="aspect-square bg-surface-variant relative overflow-hidden">
+<img alt="Meals Category" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A sophisticated presentation of a full Middle Eastern meal combo. The composition includes a beautifully plated serving of saffron rice, grilled meats, and vibrant fresh salads arranged symmetrically on a light wood table. Soft, natural light cascades across the scene, creating gentle ambient shadows and a warm, inviting aesthetic consistent with a high-end dining experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-kROCw-Tio5CvlQjHcT0NLg1RrpHdra3irEoucHft5Kua9-qlfG-csd2YNjDhyio7gkUY1LF3ePIRZsjq6jnmCUMVGlvuQxD_iSUVbP0W9fwyaaFXS39bYqgij3UbqvgeOhQ7S0tzB9MU9oMXnvY-gVRK4eqCkLN7bxLQcNXN1Qu0TxhKAlC_nMeAahfW9emYuV_fDkxGFRPGax8HX24sTu4RsCIHj0CkphjGu4O0wPr3uYwVnhuHuAs9WkvukoI-8_jRnIYqd_U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-4 flex justify-between items-end">
+<h3 class="font-headline-md text-headline-md text-on-primary">Meals</h3>
+<div class="bg-primary-container text-on-primary-container w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Category Card: Sauces -->
+<a class="group block relative overflow-hidden bg-surface-container-lowest squircle shadow-[0px_4px_20px_rgba(205,170,109,0.08)] transition-transform duration-300 hover:-translate-y-1" href="#">
+<div class="aspect-square bg-surface-variant relative overflow-hidden">
+<img alt="Sauces Category" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Three elegant ceramic ramekins filled with colorful artisan sauces: a creamy white garlic sauce, a vibrant red chili paste, and a rich golden hummus. They sit on a clean, light beige surface with a subtle blur in the background. The lighting is crisp and directional, emphasizing the glossy, wet textures of the sauces against the matte containers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhSy_KillqPtmeyPRDvnN84pUS6Gmbriyiu3nKR_7a2WJfU5GEGQNMHE8czmK4J8Yc-JF9ljyowq-vpPns_9MVm4BYHEAbHDj1D2HwvEr6WAQCTDmk0y7eB7YA0jUttSBOnOHsh8mF4eF7N4p4wFc5r0X6HjT-qwhkgsnTTWGR5503dU9LFx-ZatLS7Eo4PlhOwK5mVJfJkfLoL7_oX0h1AVx2Z544AMe1LNWtTj2zl3VpGjDSXv7gQBqfNxQpBuwLMMlZP7I-yCg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-4 flex justify-between items-end">
+<h3 class="font-headline-md text-headline-md text-on-primary">Sauces</h3>
+<div class="bg-primary-container text-on-primary-container w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Category Card: Drinks -->
+<a class="group block relative overflow-hidden bg-surface-container-lowest squircle shadow-[0px_4px_20px_rgba(205,170,109,0.08)] transition-transform duration-300 hover:-translate-y-1" href="#">
+<div class="aspect-square bg-surface-variant relative overflow-hidden">
+<img alt="Drinks Category" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A refreshing, frosted glass of iced mint lemonade with condensation beads glistening on the outside. The drink is backlit by soft, warm sunlight, giving it a luminous, inviting glow. It is placed on a smooth, cream-colored surface, embodying a clean, modern aesthetic with a focus on freshness and premium quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCqx7-hauAqZsKRM_zDXaJHO2QhV1to59GwHIJNxm0M8CPnAGlr_4q-Fq4AdUU1XrL_Kz8EZ_jEf-hRxIEI7wN_lgBZag5tJBUKpe1bJzPra2DM90eEm3-XDOO2sENLmXkWjh-fug6kP4-fFWpfOVZPt3tZBmLPXJCK6Ae-rbc09w5jE5Uea7f3qBq6mQZyaLD658Vr7vQjYPpvzpqEUnP5RUFVKL4Dw5dJlnKgpMgpAkryVlNo5tdFl3qwQyUb-KAi74THhI3w6U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-4 flex justify-between items-end">
+<h3 class="font-headline-md text-headline-md text-on-primary">Drinks</h3>
+<div class="bg-primary-container text-on-primary-container w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</div>
+</div>
+</a>
+<!-- Category Card: Add-ons -->
+<a class="group block relative overflow-hidden bg-surface-container-lowest squircle shadow-[0px_4px_20px_rgba(205,170,109,0.08)] transition-transform duration-300 hover:-translate-y-1" href="#">
+<div class="aspect-square bg-surface-variant relative overflow-hidden">
+<img alt="Add-ons Category" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A close-up of a basket filled with warm, freshly baked flatbread and a side of golden, crispy french fries. The lighting is cozy and warm, casting soft ambient shadows on a light neutral tabletop. The composition is simple yet sophisticated, designed to evoke appetite appeal within a minimalist luxury restaurant setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnreLYY_g0O03rSGkrmeJMSnJcX2n4EbbjsCvahr_Ege9aomTvqNE7YVlMiABNK7qqq0w-7pJfk_L5wZ5PC_w_2iQuUlxM2k6gYPxBCP-NWBlcm_VITFlMci2qhZ84hvM3ORjdqWjNLW4Z7wyfDIqRfbdc2w43HSFqnSmcv940sBP8mTz3WITqn_OFonOjhKzHvLozWEOR5K-DBjVNwU8Ov9yjYLmse5vgZmMlHgZoVrLEJXqQ7P_B99KXvooj-gC04dl2dUxDQC4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-4 flex justify-between items-end">
+<h3 class="font-headline-md text-headline-md text-on-primary">Add-ons</h3>
+<div class="bg-primary-container text-on-primary-container w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</div>
+</div>
+</a>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl docked full-width bottom-0 fixed z-50 rounded-t-xl shadow-[0px_-4px_20px_rgba(205,170,109,0.08)] fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 active:scale-90 duration-150 ease-in-out transition-colors hover:text-primary" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-lg text-label-lg">Home</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 active:scale-90 duration-150 ease-in-out transition-colors hover:text-primary" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="font-label-lg text-label-lg">Orders</span>
+</a>
+<!-- Loyalty -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 active:scale-90 duration-150 ease-in-out transition-colors hover:text-primary" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">card_membership</span>
+<span class="font-label-lg text-label-lg">Loyalty</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 active:scale-90 duration-150 ease-in-out transition-colors hover:text-primary" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-lg text-label-lg">Profile</span>
+</a>
+</nav>
+<!-- Side/Top Nav for Desktop (Hidden on Mobile) -->
+<nav class="hidden md:flex fixed top-0 right-0 h-full w-64 bg-surface-container-lowest border-l border-surface-dim pt-24 px-md flex-col gap-sm shadow-[-4px_0px_20px_rgba(205,170,109,0.05)] z-40">
+<a class="flex items-center gap-md px-4 py-3 bg-primary-container text-on-primary-container rounded-xl font-label-lg text-label-lg transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+            Home
+        </a>
+<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl font-label-lg text-label-lg transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+            Orders
+        </a>
+<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl font-label-lg text-label-lg transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">card_membership</span>
+            Loyalty
+        </a>
+<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-xl font-label-lg text-label-lg transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+            Profile
+        </a>
+</nav>
+</body></html>
