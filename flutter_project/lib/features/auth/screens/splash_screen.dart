@@ -95,7 +95,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                       // Top-Centered Larger Logo Container
                       Column(
                         children: [
-                          const SizedBox(height: 24),
+                          const SizedBox(height: 64),
                           Container(
                             padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
