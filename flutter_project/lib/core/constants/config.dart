@@ -2,7 +2,7 @@ enum AppEnvironment { development, production }
 
 class AppConfig {
   // Toggle this constant to transition of the modes
-  static const AppEnvironment environment = AppEnvironment.development;
+  static const AppEnvironment environment = AppEnvironment.production;
 
   static bool get isProduction => environment == AppEnvironment.production;
   static bool get isDevelopment => environment == AppEnvironment.development;

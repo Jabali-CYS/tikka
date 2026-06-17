@@ -200,44 +200,82 @@ class OrderTrackingScreen extends ConsumerWidget {
                     height: 180,
                     width: double.infinity,
                     color: const Color(0xFFE2EBF1),
-                    child: Stack(
-                      children: [
-                        // Simulated Road Maps Grid lines
-                        Positioned.fill(
-                          child: CustomPaint(
-                            painter: _RoadMapPainter(),
-                          ),
-                        ),
-                        // Driver pointer marker icon moving
-                        Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: const BoxDecoration(
-                                  color: ArtisanalColors.secondary,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(Icons.delivery_dining_rounded, color: Colors.white, size: 24),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final w = constraints.maxWidth;
+                        final h = constraints.maxHeight;
+
+                        final startLat = 31.9530;
+                        final startLng = 35.8570;
+                        
+                        double ratio = 0.0;
+                        if (latestOrder.driverLocation != null) {
+                          final destLat = latestOrder.address?.coordinates['lat'] ?? 31.9539;
+                          final destLng = latestOrder.address?.coordinates['lng'] ?? 35.8576;
+                          final currentLat = latestOrder.driverLocation!['lat'] ?? startLat;
+                          final currentLng = latestOrder.driverLocation!['lng'] ?? startLng;
+
+                          final totalDist = (destLat - startLat).abs() + (destLng - startLng).abs();
+                          if (totalDist > 0) {
+                            final currentDist = (currentLat - startLat).abs() + (currentLng - startLng).abs();
+                            ratio = (currentDist / totalDist).clamp(0.0, 1.0);
+                          }
+                        } else if (latestOrder.status == OrderStatus.delivered) {
+                          ratio = 1.0;
+                        }
+
+                        // Driver marker positioned offset coordinates along dashed path
+                        final startOffset = Offset(w * 0.15, h * 0.15);
+                        final endOffset = Offset(w * 0.75, h * 0.75);
+                        final markerOffset = Offset(
+                          startOffset.dx + (endOffset.dx - startOffset.dx) * ratio,
+                          startOffset.dy + (endOffset.dy - startOffset.dy) * ratio,
+                        );
+
+                        return Stack(
+                          children: [
+                            Positioned.fill(
+                              child: CustomPaint(
+                                painter: _RoadMapPainter(),
                               ),
-                              const SizedBox(height: 4),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(4),
-                                  boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
-                                ),
-                                child: Text(
-                                  localeSvc.translate("Al-Madinah Street", "شارع المدينة المنورة"),
-                                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-                                ),
+                            ),
+                            Positioned(
+                              left: markerOffset.dx - 20,
+                              top: markerOffset.dy - 25,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: const BoxDecoration(
+                                      color: ArtisanalColors.secondary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(Icons.delivery_dining_rounded, color: Colors.white, size: 24),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(4),
+                                      boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
+                                    ),
+                                    child: Text(
+                                      latestOrder.status == OrderStatus.delivered
+                                          ? localeSvc.translate("Arrived Safe", "وصل بسلام")
+                                          : latestOrder.status == OrderStatus.out_for_delivery
+                                              ? "${(ratio * 100).toStringAsFixed(0)}% ${localeSvc.translate("Dispatched", "في الطريق")}"
+                                              : localeSvc.translate("Preparing", "تحت التجهيز"),
+                                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
+                            ),
+                          ],
+                        );
+                      }
                     ),
                   ),
                   ListTile(

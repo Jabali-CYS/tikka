@@ -123,6 +123,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       paymentMethod: _paymentMethod,
       status: OrderStatus.pending,
       fulfillmentType: FulfillmentType.delivery,
+      couponCode: cart.appliedCoupon?.code,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       address: OrderAddress(
@@ -446,7 +447,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                         children: [
                           _buildInvoiceLabel(localeSvc.translate("Subtotal", "مجموع الوجبات"), "${cart.subtotal.toStringAsFixed(2)} JOD"),
                           _buildInvoiceLabel(localeSvc.translate("Delivery Service Fee", "أجور توصيل السائق"), "${cart.deliveryFee.toStringAsFixed(2)} JOD"),
-                          _buildInvoiceLabel(localeSvc.translate("Sales Tax (16%)", "ضريبة المبيعات العامة"), "${cart.taxes.toStringAsFixed(2)} JOD"),
+                          _buildInvoiceLabel(localeSvc.translate("Sales Tax (5%)", "ضريبة المبيعات العامة"), "${cart.taxes.toStringAsFixed(2)} JOD"),
                           if (cart.discount > 0.0)
                             _buildInvoiceLabel(
                               localeSvc.translate("Member Reward Save", "وفورات خصومات النادي"),

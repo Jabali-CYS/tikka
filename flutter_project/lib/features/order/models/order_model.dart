@@ -118,7 +118,8 @@ class OrderModel {
   final OrderAddress? address;
   final String? driverName;
   final String? driverPhone;
-  final double? driverRating;
+  final Map<String, double>? driverLocation;
+  final String? couponCode;
   final DateTime createdAt;
   final DateTime updatedAt;
   final bool isDeleted;
@@ -142,6 +143,8 @@ class OrderModel {
     this.driverName,
     this.driverPhone,
     this.driverRating,
+    this.driverLocation,
+    this.couponCode,
     required this.createdAt,
     required this.updatedAt,
     this.isDeleted = false,
@@ -154,7 +157,9 @@ class OrderModel {
         case 'accepted': status = OrderStatus.accepted; break;
         case 'preparing': status = OrderStatus.preparing; break;
         case 'ready': status = OrderStatus.ready; break;
+        case 'onway':
         case 'out_for_delivery': status = OrderStatus.out_for_delivery; break;
+        case 'arrived':
         case 'delivered': status = OrderStatus.delivered; break;
         case 'canceled': status = OrderStatus.canceled; break;
         default: status = OrderStatus.pending;
@@ -198,6 +203,14 @@ class OrderModel {
       driverName: map['driverName'],
       driverPhone: map['driverPhone'],
       driverRating: (map['driverRating'] as num?)?.toDouble(),
+      driverLocation: map['driverLocation'] != null 
+          ? Map<String, double>.from(
+              (map['driverLocation'] as Map).map(
+                (k, v) => MapEntry(k.toString(), (v as num).toDouble()),
+              ),
+            )
+          : null,
+      couponCode: map['couponCode'],
       createdAt: map['createdAt'] != null ? DateTime.parse(map['createdAt']) : DateTime.now(),
       updatedAt: map['updatedAt'] != null ? DateTime.parse(map['updatedAt']) : DateTime.now(),
       isDeleted: map['isDeleted'] as bool? ?? false,
@@ -223,6 +236,8 @@ class OrderModel {
       'driverName': driverName,
       'driverPhone': driverPhone,
       'driverRating': driverRating,
+      'driverLocation': driverLocation,
+      'couponCode': couponCode,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
       'isDeleted': isDeleted,

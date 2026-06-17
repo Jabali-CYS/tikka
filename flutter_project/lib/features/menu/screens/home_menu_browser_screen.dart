@@ -178,8 +178,46 @@ class HomeMenuBrowserScreen extends ConsumerWidget {
 
             // Products Grid/List
             Expanded(
-              child: filteredProducts.isEmpty
-                  ? Center(
+              child: productsAsync.when(
+                loading: () => ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: 3,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TandoorShimmer.rectangular(width: 120, height: 120),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              SizedBox(height: 8),
+                              TandoorShimmer.rectangular(width: 140, height: 16),
+                              SizedBox(height: 12),
+                              TandoorShimmer.rectangular(width: 180, height: 12),
+                              SizedBox(height: 8),
+                              TandoorShimmer.rectangular(width: 120, height: 12),
+                              SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TandoorShimmer.rectangular(width: 60, height: 16),
+                                  TandoorShimmer.circular(width: 24, height: 24),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                error: (err, stack) => Center(child: Text("Error loading catalog: $err")),
+                data: (products) {
+                  if (filteredProducts.isEmpty) {
+                    return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -191,135 +229,138 @@ class HomeMenuBrowserScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
-                    )
-                  : ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: filteredProducts.length,
-                      itemBuilder: (context, index) {
-                        final product = filteredProducts[index];
-                        return Card(
-                          margin: const EdgeInsets.only(bottom: 16),
-                          clipBehavior: Clip.antiAlias,
-                          child: InkWell(
-                            onTap: () {
-                              context.push('/product/${product.id}');
-                            },
-                            child: Row(
-                              children: [
-                                // Left Image container with cache handling
-                                SizedBox(
-                                  width: 120,
-                                  height: 120,
-                                  child: Image.network(
-                                    product.image,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (c, o, s) => Container(
-                                      color: ArtisanalColors.outlineVariant,
-                                      child: const Icon(Icons.image, color: Colors.white),
-                                    ),
+                    );
+                  }
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: filteredProducts.length,
+                    itemBuilder: (context, index) {
+                      final product = filteredProducts[index];
+                      return Card(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        clipBehavior: Clip.antiAlias,
+                        child: InkWell(
+                          onTap: () {
+                            context.push('/product/${product.id}');
+                          },
+                          child: Row(
+                            children: [
+                              // Left Image container with cache handling
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: Image.network(
+                                  product.image,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (c, o, s) => Container(
+                                    color: ArtisanalColors.outlineVariant,
+                                    child: const Icon(Icons.image, color: Colors.white),
                                   ),
                                 ),
-                                // Text details on right
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                localeSvc.translate(product.title, product.titleAr),
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            if (product.isHerbal)
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.green.withOpacity(0.12),
-                                                  borderRadius: BorderRadius.circular(4),
-                                                ),
-                                                child: const Icon(Icons.eco, color: Colors.green, size: 12),
-                                              ),
-                                            if (product.isPopular) ...[
-                                              const SizedBox(width: 4),
-                                              Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                                decoration: BoxDecoration(
-                                                  color: ArtisanalColors.secondary.withOpacity(0.12),
-                                                  borderRadius: BorderRadius.circular(4),
-                                                ),
-                                                child: const Text(
-                                                  "🔥 POPULAR",
-                                                  style: TextStyle(
-                                                    color: ArtisanalColors.secondary,
-                                                    fontSize: 8,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                            ]
-                                          ],
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          localeSvc.translate(product.description, product.descriptionAr),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: ArtisanalColors.onSurfaceVariant,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "${product.price.toStringAsFixed(2)} JOD",
+                              ),
+                              // Text details on right
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              localeSvc.translate(product.title, product.titleAr),
                                               style: const TextStyle(
-                                                color: ArtisanalColors.secondary,
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 15,
+                                                fontSize: 16,
                                               ),
                                             ),
-                                            Row(
-                                              children: [
-                                                const Icon(Icons.star, color: Colors.orange, size: 14),
-                                                const SizedBox(width: 4),
-                                                Text(
-                                                  product.rating.toString(),
-                                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                                                ),
-                                                const SizedBox(width: 12),
-                                                Container(
-                                                  padding: const EdgeInsets.all(4),
-                                                  decoration: const BoxDecoration(
-                                                    color: ArtisanalColors.primary,
-                                                    shape: BoxShape.circle,
-                                                  ),
-                                                  child: const Icon(Icons.add, color: Colors.white, size: 16),
-                                                )
-                                              ],
+                                          ),
+                                          const SizedBox(width: 4),
+                                          if (product.isHerbal)
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                              decoration: BoxDecoration(
+                                                color: Colors.green.withOpacity(0.12),
+                                                borderRadius: BorderRadius.circular(4),
+                                              ),
+                                              child: const Icon(Icons.eco, color: Colors.green, size: 12),
                                             ),
-                                          ],
+                                          if (product.isPopular) ...[
+                                            const SizedBox(width: 4),
+                                            Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                              decoration: BoxDecoration(
+                                                color: ArtisanalColors.secondary.withOpacity(0.12),
+                                                borderRadius: BorderRadius.circular(4),
+                                              ),
+                                              child: const Text(
+                                                "🔥 POPULAR",
+                                                style: TextStyle(
+                                                  color: ArtisanalColors.secondary,
+                                                  fontSize: 8,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ]
+                                        ],
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        localeSvc.translate(product.description, product.descriptionAr),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: ArtisanalColors.onSurfaceVariant,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "${product.price.toStringAsFixed(2)} JOD",
+                                            style: const TextStyle(
+                                              color: ArtisanalColors.secondary,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.star, color: Colors.orange, size: 14),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                product.rating.toString(),
+                                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                              ),
+                                              const SizedBox(width: 12),
+                                              Container(
+                                                padding: const EdgeInsets.all(4),
+                                                decoration: const BoxDecoration(
+                                                  color: ArtisanalColors.primary,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: const Icon(Icons.add, color: Colors.white, size: 16),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -340,5 +381,90 @@ class HomeMenuBrowserScreen extends ConsumerWidget {
             )
           : null,
     );
+  }
+}
+
+class TandoorShimmer extends StatefulWidget {
+  final double width;
+  final double height;
+  final ShapeBorder shapeBorder;
+
+  const TandoorShimmer.rectangular({
+    super.key,
+    required this.width,
+    required this.height,
+  }) : shapeBorder = const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12)));
+
+  const TandoorShimmer.circular({
+    super.key,
+    required this.width,
+    required this.height,
+  }) : shapeBorder = const CircleBorder();
+
+  @override
+  State<TandoorShimmer> createState() => _TandoorShimmerState();
+}
+
+class _TandoorShimmerState extends State<TandoorShimmer> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return ShaderMask(
+          blendMode: BlendMode.srcIn,
+          shaderCallback: (bounds) {
+            return LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: const [
+                Color(0xFFEAE5D9),
+                Color(0xFFF4EFE6),
+                Color(0xFFEAE5D9),
+              ],
+              stops: const [0.0, 0.5, 1.0],
+              transform: _SlideGradientTransform(value: _controller.value),
+            ).createShader(bounds);
+          },
+          child: Container(
+            width: widget.width,
+            height: widget.height,
+            decoration: ShapeDecoration(
+              color: Colors.grey[400],
+              shape: widget.shapeBorder,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _SlideGradientTransform extends GradientTransform {
+  final double value;
+  const _SlideGradientTransform({required this.value});
+
+
+  @override
+  Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
+    final double w = bounds.width;
+    return Matrix4.translationValues(-w + (w * 2 * value), 0.0, 0.0);
   }
 }

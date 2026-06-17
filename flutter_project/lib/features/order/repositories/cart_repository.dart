@@ -39,7 +39,7 @@ class CartState {
   }
 
   double get taxes {
-    return (subtotal * 0.16); // 16% Jordanian General Sales Tax
+    return (subtotal * 0.05); // 5% dynamic base sales tax
   }
 
   double get discount {

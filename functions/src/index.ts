@@ -8,6 +8,39 @@ initializeApp();
 const db = getFirestore();
 
 /**
+ * Custom Rate Limiter using Firestore
+ * Allows up to `maxRequests` per `windowSeconds` (default 60 seconds)
+ */
+async function enforceRateLimit(uid: string, maxRequests: number = 5, windowSeconds: number = 60) {
+  const rateLimitRef = db.collection("rate_limits").doc(uid);
+  const now = Date.now();
+  const cutoff = now - windowSeconds * 1000;
+
+  await db.runTransaction(async (transaction) => {
+    const docSnap = await transaction.get(rateLimitRef);
+    let timestamps: number[] = [];
+
+    if (docSnap.exists) {
+      const data = docSnap.data();
+      if (data && Array.isArray(data.timestamps)) {
+        // filter out old timestamps
+        timestamps = data.timestamps.filter((ts: number) => ts > cutoff);
+      }
+    }
+
+    if (timestamps.length >= maxRequests) {
+      throw new HttpsError(
+        "resource-exhausted",
+        "Rate limit exceeded. Too many requests. Please slow down and try again later."
+      );
+    }
+
+    timestamps.push(now);
+    transaction.set(rateLimitRef, { timestamps }, { merge: true });
+  });
+}
+
+/**
  * 1. validateAndPlaceOrder (HTTPS Callable)
  *
  * Accepts raw cart inputs, performs strict server-authoritative recalculation against
@@ -23,6 +56,7 @@ export const validateAndPlaceOrder = onCall(async (request) => {
   }
 
   const uid = request.auth.uid;
+  await enforceRateLimit(uid, 5, 60);
   const data = request.data || {};
 
   // Input Structure Validation
@@ -372,6 +406,7 @@ export const redeemLoyaltyReward = onCall(async (request) => {
   }
 
   const uid = request.auth.uid;
+  await enforceRateLimit(uid, 5, 60);
   const rewardId = String(request.data?.rewardId || "").trim();
 
   // Unified rewards structure pricing points cost (1 JOD spent awards 1000 points; 20000 points = 5.5 JOD free meal)
@@ -486,6 +521,7 @@ export const validateCoupon = onCall(async (request) => {
   }
 
   const uid = request.auth.uid;
+  await enforceRateLimit(uid, 10, 60);
   const couponCode = String(request.data?.couponCode || "").toUpperCase().trim();
   const subtotal = parseFloat(request.data?.subtotal || "0");
 

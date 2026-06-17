@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { auth as webAuth, db as webDb, storage as webStorage } from "./firebase";
+import { signInWithEmailAndPassword, signOut as fbSignOut, onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import { collection, doc, setDoc, deleteDoc, updateDoc, onSnapshot, query, where } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   Flame,
   Utensils,
@@ -46,6 +50,298 @@ import { INITIAL_CATEGORIES, INITIAL_PRODUCTS, INITIAL_ZONES, INITIAL_COUPONS, D
 import { Product, CartItem, Order, OrderStatus, SystemSettings, Coupon, DeliveryZone } from "./types";
 
 export default function App() {
+  // Real Admin Auth & Sync State
+  const [adminUser, setAdminUser] = useState<FirebaseUser | null>(null);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [isAdminAuthorized, setIsAdminAuthorized] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [isLoadingAdmin, setIsLoadingAdmin] = useState(true);
+  const [adminSubtab, setAdminSubtab] = useState<"orders" | "catalog" | "coupons">("orders");
+
+  // Catalog form states
+  const [newProdTitle, setNewProdTitle] = useState("");
+  const [newProdTitleAr, setNewProdTitleAr] = useState("");
+  const [newProdDesc, setNewProdDesc] = useState("");
+  const [newProdDescAr, setNewProdDescAr] = useState("");
+  const [newProdPrice, setNewProdPrice] = useState(5.0);
+  const [newProdCategory, setNewProdCategory] = useState("grill");
+  const [newProdImage, setNewProdImage] = useState("");
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
+  // Coupon form states
+  const [newCoupCode, setNewCoupCode] = useState("");
+  const [newCoupValue, setNewCoupValue] = useState(10);
+  const [newCoupType, setNewCoupType] = useState<"Percentage" | "Fixed">("Percentage");
+  const [newCoupMinOrder, setNewCoupMinOrder] = useState(5.0);
+  const [newCoupDesc, setNewCoupDesc] = useState("");
+  const [newCoupDescAr, setNewCoupDescAr] = useState("");
+
+  // Firestore Sync Effect
+  useEffect(() => {
+    const unsubProducts = onSnapshot(collection(webDb, "products"), (snapshot) => {
+      const list: any[] = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (!data.isDeleted) {
+          list.push({ id: doc.id, ...data });
+        }
+      });
+      if (list.length > 0) setProducts(list);
+    });
+
+    const unsubZones = onSnapshot(collection(webDb, "delivery_zones"), (snapshot) => {
+      const list: any[] = [];
+      snapshot.forEach((doc) => {
+        list.push({ id: doc.id, ...doc.data() });
+      });
+      if (list.length > 0) setZones(list);
+    });
+
+    const unsubCoupons = onSnapshot(collection(webDb, "coupons"), (snapshot) => {
+      const list: any[] = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (!data.isDeleted) {
+          list.push({ id: doc.id, ...data });
+        }
+      });
+      if (list.length > 0) setCoupons(list);
+    });
+
+    const unsubSettings = onSnapshot(doc(webDb, "settings", "system_settings"), (docSnap) => {
+      if (docSnap.exists()) {
+        setSystemSettings(docSnap.data() as any);
+      }
+    });
+
+    const unsubOrders = onSnapshot(collection(webDb, "orders"), (snapshot) => {
+      const list: any[] = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        list.push({ id: doc.id, ...data, createdAt: data.createdAt?.toDate?.()?.toISOString() || new Date().toISOString() });
+      });
+      list.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      setOrders(list);
+    });
+
+    const unsubAuth = onAuthStateChanged(webAuth, (user) => {
+      setAdminUser(user);
+      if (user) {
+        const adminDocRef = doc(webDb, "admins", user.uid);
+        const unsubscribeAdminCheck = onSnapshot(adminDocRef, (snap) => {
+          if (snap.exists()) {
+            setIsAdminAuthorized(true);
+          } else {
+            setIsAdminAuthorized(false);
+          }
+          setIsLoadingAdmin(false);
+        }, (err) => {
+          console.error("Admin verification error:", err);
+          setIsAdminAuthorized(false);
+          setIsLoadingAdmin(false);
+        });
+        return () => unsubscribeAdminCheck();
+      } else {
+        setIsAdminAuthorized(false);
+        setIsLoadingAdmin(false);
+      }
+    });
+
+    return () => {
+      unsubProducts();
+      unsubZones();
+      unsubCoupons();
+      unsubSettings();
+      unsubOrders();
+      unsubAuth();
+    };
+  }, []);
+
+  const handleAdminLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError("");
+    try {
+      await signInWithEmailAndPassword(webAuth, adminEmail, adminPassword);
+    } catch (err: any) {
+      setAuthError(err.message || "Login failed");
+    }
+  };
+
+  const handleAdminLogout = async () => {
+    await fbSignOut(webAuth);
+  };
+
+  const handleAddProductToFirestore = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newProdTitle || !newProdTitleAr || !newProdImage) {
+      alert("Please fill all required fields");
+      return;
+    }
+    const productRef = doc(collection(webDb, "products"));
+    const newProduct = {
+      id: productRef.id,
+      title: newProdTitle,
+      titleAr: newProdTitleAr,
+      description: newProdDesc,
+      descriptionAr: newProdDescAr,
+      price: newProdPrice,
+      categoryId: newProdCategory,
+      image: newProdImage,
+      rating: 4.8,
+      spicyOptions: ["Mild", "Medium", "Hot"],
+      sideOptions: [
+        { id: "naan", name: "Butter Naan", nameAr: "خبز نان بالزبدة", image: "https://lh3.googleusercontent.com/aida-public/AB6AXu8W7qTvktr1E-Wj0AW-6a89Qyb5lt9i2BCczihk75IG4PKXvnyPgxSR18DjeMkffeqAFLeniEHjOnuOnFme95nFajfLwaLKd1sGgvthFUlnjgRCycaSZCDJc6c4ROSvfz0-lASsH1ZPYfELdEP9clfcdPCcFU3DxgUcJ4JGhs74BAEDp05SfFKZraPHrMchkN-dqcRzLwgHKWBtyHFQPO4FODG4EfMzWs_9HEgjvPn1BrLoq_LDNU6TknOWIsk1NL-4NhKJOLfeB0", price: 0.0 }
+      ],
+      isDeleted: false
+    };
+    await setDoc(productRef, newProduct);
+    setNewProdTitle("");
+    setNewProdTitleAr("");
+    setNewProdDesc("");
+    setNewProdDescAr("");
+    setNewProdPrice(5.0);
+    setNewProdImage("");
+    alert("Product added successfully to Firestore!");
+  };
+
+  const handleDeleteProductFromFirestore = async (id: string) => {
+    if (confirm("Are you sure you want to delete this product?")) {
+      const productRef = doc(webDb, "products", id);
+      await updateDoc(productRef, { isDeleted: true });
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    try {
+      const storageRef = ref(webStorage, `products/${Date.now()}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      setNewProdImage(downloadURL);
+      alert("Image uploaded successfully!");
+    } catch (error: any) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image: " + error.message);
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleAddCouponToFirestore = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCoupCode || !newCoupDesc || !newCoupDescAr) {
+      alert("Please fill all required fields");
+      return;
+    }
+    const couponRef = doc(collection(webDb, "coupons"));
+    const newCoupon = {
+      id: couponRef.id,
+      code: newCoupCode.toUpperCase().trim(),
+      discountType: newCoupType,
+      value: newCoupValue,
+      minOrder: newCoupMinOrder,
+      description: newCoupDesc,
+      descriptionAr: newCoupDescAr,
+      expiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      usageLimit: 1000,
+      usedCount: 0,
+      isDeleted: false
+    };
+    await setDoc(couponRef, newCoupon);
+    setNewCoupCode("");
+    setNewCoupValue(10);
+    setNewCoupMinOrder(5.0);
+    setNewCoupDesc("");
+    setNewCoupDescAr("");
+    alert("Discount coupon created successfully in Firestore!");
+  };
+
+  const handleDeleteCouponFromFirestore = async (id: string) => {
+    if (confirm("Are you sure you want to delete this coupon?")) {
+      const couponRef = doc(webDb, "coupons", id);
+      await updateDoc(couponRef, { isDeleted: true });
+    }
+  };
+
+  const driverSimulators = React.useRef<Record<string, NodeJS.Timeout>>({});
+
+  const startDriverSimulation = (orderId: string, destLat: number, destLng: number) => {
+    if (driverSimulators.current[orderId]) {
+      clearInterval(driverSimulators.current[orderId]);
+    }
+
+    const startLat = 31.9530; // Restaurant base
+    const startLng = 35.8570;
+    let step = 0;
+    const totalSteps = 10;
+
+    const interval = setInterval(async () => {
+      step++;
+      const ratio = step / totalSteps;
+      const currentLat = startLat + (destLat - startLat) * ratio;
+      const currentLng = startLng + (destLng - startLng) * ratio;
+
+      try {
+        const orderRef = doc(webDb, "orders", orderId);
+        await updateDoc(orderRef, {
+          driverLocation: { lat: currentLat, lng: currentLng },
+          updatedAt: new Date().toISOString()
+        });
+      } catch (err) {
+        setOrders(prev => prev.map(o => {
+          if (o.id === orderId) {
+            return {
+              ...o,
+              driverLocation: { lat: currentLat, lng: currentLng },
+              updatedAt: new Date().toISOString()
+            };
+          }
+          return o;
+        }));
+      }
+
+      if (step >= totalSteps) {
+        clearInterval(interval);
+        delete driverSimulators.current[orderId];
+        updateOrderStatusByAdmin(orderId, "Arrived");
+      }
+    }, 4000);
+
+    driverSimulators.current[orderId] = interval;
+  };
+
+  const updateOrderStatusByAdmin = async (id: string, status: OrderStatus) => {
+    try {
+      const orderRef = doc(webDb, "orders", id);
+      await updateDoc(orderRef, { status: status, updatedAt: new Date().toISOString() });
+    } catch (e) {
+      console.warn("Firestore update skipped: ", e);
+    }
+
+    setOrders(prev => prev.map(o => {
+      if (o.id === id) {
+        return { ...o, status: status, updatedAt: new Date().toISOString() };
+      }
+      return o;
+    }));
+
+    setTerminalLogs(prev => [
+      ...prev,
+      `[ADMIN] Updated Order ${id.substring(0, 8)} status to: ${status}`
+    ]);
+
+    if (status === "OnWay") {
+      const targetOrder = orders.find(o => o.id === id);
+      const destLat = targetOrder?.address?.coordinates?.lat || 31.9539;
+      const destLng = targetOrder?.address?.coordinates?.lng || 35.8576;
+      startDriverSimulation(id, destLat, destLng);
+    }
+  };
+
   // Mobile Simulator State
   const [lang, setLang] = useState<"en" | "ar">("en");
   const [currentScreen, setCurrentScreen] = useState<
@@ -418,18 +714,7 @@ export default function App() {
     setTerminalLogs(prev => [...prev, "[ADMIN] Force updated active order tracking parameters to 'Arrived'."]);
   };
 
-  const updateOrderStatusByAdmin = (id: string, status: OrderStatus) => {
-    setOrders(prev => prev.map(o => {
-      if (o.id === id) {
-        return { ...o, status: status, updatedAt: new Date().toISOString() };
-      }
-      return o;
-    }));
-    setTerminalLogs(prev => [
-      ...prev,
-      `[ADMIN] Updated Order ${id.substring(0, 8)} status to: ${status}`
-    ]);
-  };
+
 
   const copyToClipboard = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -1031,10 +1316,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         <button
                           key={category.id}
                           onClick={() => setSelectedCategory(category.id)}
-                          className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition ${
+                          className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition transform duration-200 active:scale-95 cursor-pointer ${
                             isActive 
-                              ? "bg-[#33210D] text-white shadow-sm" 
-                              : "bg-[#EEEEEE] text-[#4E453D] hover:bg-[#E8E8E8]"
+                              ? "bg-[#33210D] text-white shadow-sm scale-105" 
+                              : "bg-[#EEEEEE] text-[#4E453D] hover:bg-[#E8E8E8] hover:scale-102"
                           }`}
                         >
                           {lang === "en" ? category.name : category.nameAr}
@@ -1068,7 +1353,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     {currentProducts.map(product => (
                       <div 
                         key={product.id}
-                        className="bg-white rounded-2xl p-3 shadow-sm border border-[#D2C4BA]/20 flex gap-3 cursor-pointer hover:border-[#B71032]/40 transition group"
+                        className="bg-white rounded-2xl p-3 shadow-sm border border-[#D2C4BA]/20 flex gap-3 cursor-pointer hover:border-[#B71032]/40 transition group hover-scale"
                         onClick={() => openProductCustomization(product)}
                       >
                         <div className="w-24 h-24 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
@@ -1537,7 +1822,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                         <div className="flex flex-col items-center z-10">
                           <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                            activeTrackingOrder?.status !== "Pending" ? "bg-[#B71032] text-white animate-pulse" : "bg-[#D2C4BA] text-white"
+                            activeTrackingOrder?.status === "Preparing"
+                              ? "bg-[#B71032] text-white animate-pulse"
+                              : (activeTrackingOrder?.status === "OnWay" || activeTrackingOrder?.status === "Arrived")
+                                ? "bg-[#33210D] text-white"
+                                : "bg-[#D2C4BA] text-white"
                           }`}>
                             👨‍🍳
                           </div>
@@ -1546,7 +1835,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                         <div className="flex flex-col items-center z-10">
                           <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                            activeTrackingOrder?.status === "OnWay" || activeTrackingOrder?.status === "Arrived" ? "bg-[#33210D] text-white" : "bg-[#D2C4BA] text-white"
+                            activeTrackingOrder?.status === "OnWay"
+                              ? "bg-[#B71032] text-white animate-pulse"
+                              : activeTrackingOrder?.status === "Arrived"
+                                ? "bg-[#33210D] text-white"
+                                : "bg-[#D2C4BA] text-white"
                           }`}>
                             🚴
                           </div>
@@ -1555,7 +1848,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
                         <div className="flex flex-col items-center z-10">
                           <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                            activeTrackingOrder?.status === "Arrived" ? "bg-[#33210D] text-white" : "bg-[#D2C4BA] text-white"
+                            activeTrackingOrder?.status === "Arrived"
+                              ? "bg-[#B71032] text-white animate-pulse"
+                              : "bg-[#D2C4BA] text-white"
                           }`}>
                             🏠
                           </div>
@@ -1852,101 +2147,404 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             {/* TAB CONTENT: ADMIN WEB DASHBOARD */}
             {activeWorktab === "admin" && (
               <div className="flex-1 space-y-4">
-                {/* Stats row overview */}
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-black/40 p-3 rounded-2xl border border-[#33210D]">
-                    <span className="text-[10px] text-[#BD9F83] block uppercase font-bold">Total Amman Sales</span>
-                    <h3 className="text-xl font-bold font-mono text-[#FEDCBE] mt-1">
-                      JOD {orders.reduce((sum, o) => o.status === "Arrived" ? sum + o.total : sum, 0).toFixed(2)}
-                    </h3>
-                  </div>
-                  <div className="bg-black/40 p-3 rounded-2xl border border-[#33210D]">
-                    <span className="text-[10px] text-[#BD9F83] block uppercase font-bold">Active Orders</span>
-                    <h3 className="text-xl font-bold font-mono text-amber-400 mt-1">
-                      {orders.filter(o => o.status !== "Arrived" && o.status !== "Canceled").length} orders
-                    </h3>
-                  </div>
-                  <div className="bg-black/40 p-3 rounded-2xl border border-[#33210D]">
-                    <span className="text-[10px] text-[#BD9F83] block uppercase font-bold">Gold CRM Users</span>
-                    <h3 className="text-xl font-bold font-mono text-emerald-400 mt-1">
-                      12,481 Gold Accounts
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Amman Orders Management table */}
-                <div className="bg-black/60 rounded-2xl border border-[#33210D] p-4">
-                  <div className="flex justify-between items-center mb-4">
-                    <h4 className="text-xs font-extrabold text-[#BD9F83] uppercase">Live Orders Pipeline Feed</h4>
-                    
+                {/* Admin Subtab Navigation */}
+                <div className="flex justify-between items-center bg-[#24201a] p-3 rounded-2xl border border-[#CDAA6D]">
+                  <div className="flex gap-2">
                     <button
-                      onClick={handleForceCompleteAllOrders}
-                      className="text-[10px] bg-[#B71032] text-white px-3 py-1 rounded-lg font-bold"
+                      onClick={() => setAdminSubtab("orders")}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                        adminSubtab === "orders" ? "bg-[#CDAA6D] text-white" : "text-[#CDAA6D] hover:bg-white/5"
+                      }`}
                     >
-                      ✓ Force Complete All for simulator
+                      Orders Pipeline
+                    </button>
+                    <button
+                      onClick={() => setAdminSubtab("catalog")}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                        adminSubtab === "catalog" ? "bg-[#CDAA6D] text-white" : "text-[#CDAA6D] hover:bg-white/5"
+                      }`}
+                    >
+                      Menu Catalog
+                    </button>
+                    <button
+                      onClick={() => setAdminSubtab("coupons")}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                        adminSubtab === "coupons" ? "bg-[#CDAA6D] text-white" : "text-[#CDAA6D] hover:bg-white/5"
+                      }`}
+                    >
+                      Promo Coupons
                     </button>
                   </div>
 
-                  <div className="overflow-y-auto max-h-[300px] space-y-2 custom-scrollbar">
-                    {orders.map(order => (
-                      <div key={order.id} className="bg-black/30 p-3 rounded-xl border border-[#33210D] flex justify-between items-start text-xs">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-extrabold text-[#FEDCBE]">{order.orderNumber}</span>
-                            <span className="text-[10px] opacity-75">{order.customerName}</span>
-                          </div>
-                          
-                          <div className="mt-1.5 space-y-1 text-[#BD9F83] text-[11px]">
-                            <p>Items: {order.items.map(i => `${lang === "en" ? i.product.title : i.product.titleAr} (${i.selectedSpiciness})`).join(", ")}</p>
-                            {order.address && (
-                              <p>🚴 Deliver to: {order.address.buildingName}, {order.address.floor}, {order.address.apartment} ({order.address.instructions})</p>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="text-right space-y-2">
-                          <span className="font-extrabold text-white text-sm block">
-                            JOD {order.total.toFixed(2)}
-                          </span>
-
-                          <div className="flex gap-1.5">
-                            {order.status === "Pending" && (
-                              <button
-                                onClick={() => updateOrderStatusByAdmin(order.id, "Preparing")}
-                                className="bg-amber-500 text-black px-2 py-1 rounded font-bold text-[10px]"
-                              >
-                                Accept & Cook
-                              </button>
-                            )}
-                            {order.status === "Preparing" && (
-                              <button
-                                onClick={() => updateOrderStatusByAdmin(order.id, "OnWay")}
-                                className="bg-indigo-500 text-white px-2 py-1 rounded font-bold text-[10px]"
-                              >
-                                Deliver Dispatch
-                              </button>
-                            )}
-                            {order.status === "OnWay" && (
-                              <button
-                                onClick={() => updateOrderStatusByAdmin(order.id, "Arrived")}
-                                className="bg-emerald-500 text-white px-2 py-1 rounded font-bold text-[10px]"
-                              >
-                                Mark Delivered
-                              </button>
-                            )}
-                            <span className="text-[10px] text-gray-400 block mt-1 font-bold">Status: {order.status}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-
-                    {orders.length === 0 && (
-                      <div className="text-center py-8 text-[#80756C] italic font-serif">
-                        No transactions registered yet. Please place an order using the phone simulator on the left!
-                      </div>
-                    )}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] text-gray-400 font-mono">{adminUser?.email}</span>
+                    <button
+                      onClick={handleAdminLogout}
+                      className="bg-red-900/60 hover:bg-red-900 text-red-200 px-3 py-1 rounded-lg font-bold text-[10px] transition cursor-pointer"
+                    >
+                      Log Out
+                    </button>
                   </div>
                 </div>
+
+                {!isAdminAuthorized ? (
+                  <div className="bg-[#24201a] rounded-2xl border border-[#CDAA6D] p-6 max-w-sm mx-auto text-center space-y-4">
+                    <Lock className="w-8 h-8 text-[#CDAA6D] mx-auto" />
+                    <h4 className="text-sm font-bold text-[#FEF0D9] uppercase">Admin Authorization Required</h4>
+                    <p className="text-xs text-gray-400">Please authenticate with an authorized administrator credential to manage catalog and coupons.</p>
+                    
+                    <form onSubmit={handleAdminLogin} className="space-y-3 text-left">
+                      <div>
+                        <label className="text-[10px] text-[#CDAA6D] uppercase font-bold block mb-1">Email Address</label>
+                        <input
+                          type="email"
+                          required
+                          value={adminEmail}
+                          onChange={(e) => setAdminEmail(e.target.value)}
+                          className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-xs text-white focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-[#CDAA6D] uppercase font-bold block mb-1">Password</label>
+                        <input
+                          type="password"
+                          required
+                          value={adminPassword}
+                          onChange={(e) => setAdminPassword(e.target.value)}
+                          className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-xs text-white focus:outline-none"
+                        />
+                      </div>
+                      {authError && <p className="text-red-400 text-[10px] font-bold">{authError}</p>}
+                      <button type="submit" className="w-full py-2 bg-[#CDAA6D] hover:bg-[#bfa065] text-white rounded-lg font-bold text-xs transition cursor-pointer">
+                        Authenticate Admin
+                      </button>
+                    </form>
+                  </div>
+                ) : (
+                  <>
+                    {/* SUBTAB 1: LIVE ORDERS PIPELINE */}
+                    {adminSubtab === "orders" && (
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="bg-[#24201a] p-3 rounded-2xl border border-[#CDAA6D]">
+                            <span className="text-[10px] text-[#CDAA6D] block uppercase font-bold">Total Amman Sales</span>
+                            <h3 className="text-xl font-bold font-mono text-[#FEF0D9] mt-1">
+                              JOD {orders.reduce((sum, o) => o.status === "Arrived" ? sum + o.total : sum, 0).toFixed(2)}
+                            </h3>
+                          </div>
+                          <div className="bg-[#24201a] p-3 rounded-2xl border border-[#CDAA6D]">
+                            <span className="text-[10px] text-[#CDAA6D] block uppercase font-bold">Active Orders</span>
+                            <h3 className="text-xl font-bold font-mono text-amber-400 mt-1">
+                              {orders.filter(o => o.status !== "Arrived" && o.status !== "Canceled").length} orders
+                            </h3>
+                          </div>
+                          <div className="bg-[#24201a] p-3 rounded-2xl border border-[#CDAA6D]">
+                            <span className="text-[10px] text-[#CDAA6D] block uppercase font-bold">Database Health</span>
+                            <h3 className="text-xl font-bold font-mono text-emerald-400 mt-1">
+                              ONLINE (SECURE)
+                            </h3>
+                          </div>
+                        </div>
+
+                        {/* Interactive Charts Section */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {/* Sales Trend Bar Chart */}
+                          <div className="bg-[#24201a] p-4 rounded-2xl border border-[#CDAA6D] space-y-3">
+                            <span className="text-[10px] text-[#CDAA6D] uppercase font-bold block">Sales Performance Trend (SVG)</span>
+                            <div className="h-[120px] flex items-end justify-between gap-2 border-b border-[#CDAA6D]/30 pb-2">
+                              {[
+                                { day: "Mon", amount: 45 },
+                                { day: "Tue", amount: 65 },
+                                { day: "Wed", amount: 55 },
+                                { day: "Thu", amount: 90 },
+                                { day: "Fri", amount: 120 },
+                                { day: "Sat", amount: 150 },
+                                { day: "Sun", amount: orders.reduce((sum, o) => o.status === "Arrived" ? sum + o.total : sum, 0) || 30 }
+                              ].map((item, idx) => {
+                                const maxAmount = 180;
+                                const heightPercentage = Math.min(100, (item.amount / maxAmount) * 100);
+                                return (
+                                  <div key={idx} className="flex-1 flex flex-col items-center gap-1.5 group h-full justify-end">
+                                    <div className="w-full bg-[#CDAA6D]/20 hover:bg-[#CDAA6D] rounded-t-lg transition-all duration-300 relative" style={{ height: `${heightPercentage}%` }}>
+                                      <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-black/80 text-white text-[8px] px-1 py-0.5 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">JOD {item.amount.toFixed(0)}</span>
+                                    </div>
+                                    <span className="text-[9px] text-gray-400 font-mono">{item.day}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+
+                          {/* Category Sales Breakdown */}
+                          <div className="bg-[#24201a] p-4 rounded-2xl border border-[#CDAA6D] space-y-3">
+                            <span className="text-[10px] text-[#CDAA6D] uppercase font-bold block">Popular Categories Share</span>
+                            <div className="space-y-2 text-xs h-[120px] flex flex-col justify-center">
+                              {[
+                                { name: "Grill (شيش طاووق ومشاوي)", share: 65, color: "#CDAA6D" },
+                                { name: "Sides (مقبلات بطاطا وحمص)", share: 20, color: "#C62828" },
+                                { name: "Drinks (مشروبات وليمون فريش)", share: 15, color: "#e3a857" }
+                              ].map((cat, idx) => (
+                                <div key={idx} className="space-y-1">
+                                  <div className="flex justify-between text-[10px]">
+                                    <span className="text-gray-300">{cat.name}</span>
+                                    <span className="text-[#CDAA6D] font-bold">{cat.share}%</span>
+                                  </div>
+                                  <div className="w-full bg-black/40 h-2 rounded-full overflow-hidden">
+                                    <div className="h-full rounded-full transition-all duration-500" style={{ width: `${cat.share}%`, backgroundColor: cat.color }} />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="bg-[#24201a] rounded-2xl border border-[#CDAA6D] p-4">
+                          <div className="flex justify-between items-center mb-4">
+                            <h4 className="text-xs font-extrabold text-[#CDAA6D] uppercase">Live Orders Pipeline Feed</h4>
+                            <button
+                              onClick={handleForceCompleteAllOrders}
+                              className="text-[10px] bg-[#CDAA6D] hover:bg-[#bfa065] text-white px-3 py-1 rounded-lg font-bold transition"
+                            >
+                              Force Complete All for Simulator
+                            </button>
+                          </div>
+
+                          <div className="overflow-y-auto max-h-[300px] space-y-2 custom-scrollbar">
+                            {orders.map(order => (
+                              <div key={order.id} className="bg-black/30 p-3 rounded-xl border border-[#CDAA6D] flex justify-between items-start text-xs">
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-extrabold text-[#FEF0D9]">{order.orderNumber}</span>
+                                    <span className="text-[10px] opacity-75 text-gray-400">{order.customerName} ({order.customerPhone})</span>
+                                  </div>
+                                  <div className="mt-1.5 space-y-1 text-[#CDAA6D] text-[11px]">
+                                    <p>Items: {order.items.map(i => `${lang === "en" ? i.product.title : i.product.titleAr} (${i.selectedSpiciness})`).join(", ")}</p>
+                                    {order.address && (
+                                      <p>Deliver to: {order.address.buildingName}, {order.address.floor}, {order.address.apartment} ({order.address.instructions})</p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className="text-right space-y-2">
+                                  <span className="font-extrabold text-white text-sm block">
+                                    JOD {order.total.toFixed(2)}
+                                  </span>
+                                  <div className="flex gap-1.5 items-center">
+                                    {order.status === "Pending" && (
+                                      <button
+                                        onClick={() => updateOrderStatusByAdmin(order.id, "Preparing")}
+                                        className="bg-amber-500 text-black px-2 py-1 rounded font-bold text-[10px]"
+                                      >
+                                        Accept & Cook
+                                      </button>
+                                    )}
+                                    {order.status === "Preparing" && (
+                                      <button
+                                        onClick={() => updateOrderStatusByAdmin(order.id, "OnWay")}
+                                        className="bg-indigo-500 text-white px-2 py-1 rounded font-bold text-[10px]"
+                                      >
+                                        Deliver Dispatch
+                                      </button>
+                                    )}
+                                    {order.status === "OnWay" && (
+                                      <button
+                                        onClick={() => updateOrderStatusByAdmin(order.id, "Arrived")}
+                                        className="bg-emerald-500 text-white px-2 py-1 rounded font-bold text-[10px]"
+                                      >
+                                        Mark Delivered
+                                      </button>
+                                    )}
+                                    <span className="text-[10px] text-gray-400 font-bold">Status: {order.status}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                            {orders.length === 0 && (
+                              <div className="text-center py-8 text-[#CDAA6D] italic font-serif">
+                                No transactions registered yet. Please place an order using the phone simulator on the left!
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* SUBTAB 2: MENU CATALOG MANAGER */}
+                    {adminSubtab === "catalog" && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Left Column: Add Product Form */}
+                        <div className="bg-[#24201a] rounded-2xl border border-[#CDAA6D] p-4 space-y-4">
+                          <h4 className="text-xs font-extrabold text-[#CDAA6D] uppercase border-b border-[#CDAA6D] pb-2">Add New Menu Item</h4>
+                          <form onSubmit={handleAddProductToFirestore} className="space-y-3 text-xs">
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Title (EN)</label>
+                                <input type="text" required value={newProdTitle} onChange={(e) => setNewProdTitle(e.target.value)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" placeholder="Classic Tikka" />
+                              </div>
+                              <div>
+                                <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Title (AR)</label>
+                                <input type="text" required value={newProdTitleAr} onChange={(e) => setNewProdTitleAr(e.target.value)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" placeholder="شيش طاووق" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Description (EN)</label>
+                              <textarea rows={2} value={newProdDesc} onChange={(e) => setNewProdDesc(e.target.value)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" />
+                            </div>
+                            <div>
+                              <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Description (AR)</label>
+                              <textarea rows={2} value={newProdDescAr} onChange={(e) => setNewProdDescAr(e.target.value)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Base Price (JOD)</label>
+                                <input type="number" step="0.01" required value={newProdPrice} onChange={(e) => setNewProdPrice(parseFloat(e.target.value))} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" />
+                              </div>
+                              <div>
+                                <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Category</label>
+                                <select value={newProdCategory} onChange={(e) => setNewProdCategory(e.target.value)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white focus:outline-none">
+                                  <option value="grill">Grill</option>
+                                  <option value="sides">Sides</option>
+                                  <option value="drinks">Drinks</option>
+                                  <option value="salads">Salads</option>
+                                  <option value="desserts">Desserts</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className="space-y-2">
+                              <label className="text-[9px] text-[#CDAA6D] font-bold block">Product Image</label>
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  required
+                                  value={newProdImage}
+                                  onChange={(e) => setNewProdImage(e.target.value)}
+                                  className="flex-1 bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white"
+                                  placeholder="Paste URL or upload file..."
+                                />
+                                <label className="bg-[#CDAA6D] hover:bg-[#bfa065] text-white px-3 py-2 rounded-lg font-bold text-[10px] cursor-pointer flex items-center justify-center min-w-[90px] transition text-center">
+                                  {isUploadingImage ? "Uploading..." : "Choose File"}
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                    className="hidden"
+                                    disabled={isUploadingImage}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+
+                            <button type="submit" className="w-full py-2 bg-[#CDAA6D] hover:bg-[#bfa065] text-white rounded-lg font-bold transition cursor-pointer">
+                              Add Product to Firestore
+                            </button>
+                          </form>
+                        </div>
+
+                        {/* Right Column: Active Products List */}
+                        <div className="bg-[#24201a] rounded-2xl border border-[#CDAA6D] p-4 space-y-3">
+                          <h4 className="text-xs font-extrabold text-[#CDAA6D] uppercase border-b border-[#CDAA6D] pb-2">Active Catalog ({products.length})</h4>
+                          <div className="overflow-y-auto max-h-[320px] space-y-2 custom-scrollbar text-xs">
+                            {products.map(prod => (
+                              <div key={prod.id} className="bg-black/30 p-2 rounded-xl border border-[#CDAA6D]/50 flex justify-between items-center">
+                                <div className="flex items-center gap-2">
+                                  <img src={prod.image} className="w-10 h-10 object-cover rounded-lg border border-[#CDAA6D]" />
+                                  <div>
+                                    <h5 className="font-bold text-white">{prod.title}</h5>
+                                    <span className="text-[10px] text-amber-500 font-mono">JOD {prod.price.toFixed(2)}</span>
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => handleDeleteProductFromFirestore(prod.id)}
+                                  className="text-red-400 hover:text-red-600 p-1 bg-red-950/20 rounded cursor-pointer"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* SUBTAB 3: PROMO COUPONS ENGINE */}
+                    {adminSubtab === "coupons" && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Left Column: Create Coupon Form */}
+                        <div className="bg-[#24201a] rounded-2xl border border-[#CDAA6D] p-4 space-y-4">
+                          <h4 className="text-xs font-extrabold text-[#CDAA6D] uppercase border-b border-[#CDAA6D] pb-2">Issue New Coupon Code</h4>
+                          <form onSubmit={handleAddCouponToFirestore} className="space-y-3 text-xs">
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Coupon Code</label>
+                                <input type="text" required value={newCoupCode} onChange={(e) => setNewCoupCode(e.target.value)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" placeholder="TIKKAFEB" />
+                              </div>
+                              <div>
+                                <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Discount Type</label>
+                                <select value={newCoupType} onChange={(e) => setNewCoupType(e.target.value as any)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white">
+                                  <option value="Percentage">Percentage (%)</option>
+                                  <option value="Fixed">Fixed Amount (JOD)</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Discount Value</label>
+                                <input type="number" required value={newCoupValue} onChange={(e) => setNewCoupValue(parseInt(e.target.value))} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" />
+                              </div>
+                              <div>
+                                <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Min Order (JOD)</label>
+                                <input type="number" step="0.1" required value={newCoupMinOrder} onChange={(e) => setNewCoupMinOrder(parseFloat(e.target.value))} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Description (EN)</label>
+                              <input type="text" required value={newCoupDesc} onChange={(e) => setNewCoupDesc(e.target.value)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" />
+                            </div>
+                            <div>
+                              <label className="text-[9px] text-[#CDAA6D] font-bold block mb-1">Description (AR)</label>
+                              <input type="text" required value={newCoupDescAr} onChange={(e) => setNewCoupDescAr(e.target.value)} className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2 text-white" />
+                            </div>
+
+                            <button type="submit" className="w-full py-2 bg-[#CDAA6D] hover:bg-[#bfa065] text-white rounded-lg font-bold transition cursor-pointer">
+                              Create Coupon inside Firestore
+                            </button>
+                          </form>
+                        </div>
+
+                        {/* Right Column: Active Coupons List */}
+                        <div className="bg-[#24201a] rounded-2xl border border-[#CDAA6D] p-4 space-y-3">
+                          <h4 className="text-xs font-extrabold text-[#CDAA6D] uppercase border-b border-[#CDAA6D] pb-2">Active Promo Codes ({coupons.length})</h4>
+                          <div className="overflow-y-auto max-h-[320px] space-y-2 custom-scrollbar text-xs">
+                            {coupons.map(coup => (
+                              <div key={coup.id} className="bg-black/30 p-3 rounded-xl border border-[#CDAA6D]/50 flex justify-between items-center">
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="font-extrabold text-white font-mono">{coup.code}</span>
+                                    <span className="bg-[#563E0A] text-white px-2 py-0.5 rounded text-[9px] font-bold">
+                                      {coup.discountType === "Percentage" ? `${coup.value}%` : `JOD ${coup.value}`}
+                                    </span>
+                                  </div>
+                                  <p className="text-[10px] text-gray-400 mt-1">{coup.description}</p>
+                                </div>
+                                <button
+                                  onClick={() => handleDeleteCouponFromFirestore(coup.id)}
+                                  className="text-red-400 hover:text-red-600 p-1 bg-red-950/20 rounded cursor-pointer"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             )}
 

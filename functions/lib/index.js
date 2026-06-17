@@ -9,6 +9,31 @@ const firestore_2 = require("firebase-functions/v2/firestore");
 (0, app_1.initializeApp)();
 const db = (0, firestore_1.getFirestore)();
 /**
+ * Custom Rate Limiter using Firestore
+ * Allows up to `maxRequests` per `windowSeconds` (default 60 seconds)
+ */
+async function enforceRateLimit(uid, maxRequests = 5, windowSeconds = 60) {
+    const rateLimitRef = db.collection("rate_limits").doc(uid);
+    const now = Date.now();
+    const cutoff = now - windowSeconds * 1000;
+    await db.runTransaction(async (transaction) => {
+        const docSnap = await transaction.get(rateLimitRef);
+        let timestamps = [];
+        if (docSnap.exists) {
+            const data = docSnap.data();
+            if (data && Array.isArray(data.timestamps)) {
+                // filter out old timestamps
+                timestamps = data.timestamps.filter((ts) => ts > cutoff);
+            }
+        }
+        if (timestamps.length >= maxRequests) {
+            throw new https_1.HttpsError("resource-exhausted", "Rate limit exceeded. Too many requests. Please slow down and try again later.");
+        }
+        timestamps.push(now);
+        transaction.set(rateLimitRef, { timestamps }, { merge: true });
+    });
+}
+/**
  * 1. validateAndPlaceOrder (HTTPS Callable)
  *
  * Accepts raw cart inputs, performs strict server-authoritative recalculation against
@@ -20,6 +45,7 @@ exports.validateAndPlaceOrder = (0, https_1.onCall)(async (request) => {
         throw new https_1.HttpsError("unauthenticated", "Authentication is required to place an order.");
     }
     const uid = request.auth.uid;
+    await enforceRateLimit(uid, 5, 60);
     const data = request.data || {};
     // Input Structure Validation
     const items = data.items;
@@ -296,6 +322,7 @@ exports.redeemLoyaltyReward = (0, https_1.onCall)(async (request) => {
         throw new https_1.HttpsError("unauthenticated", "Authentication is required to redeem reward loyalty options.");
     }
     const uid = request.auth.uid;
+    await enforceRateLimit(uid, 5, 60);
     const rewardId = String(request.data?.rewardId || "").trim();
     // Unified rewards structure pricing points cost (1 JOD spent awards 1000 points; 20000 points = 5.5 JOD free meal)
     const rewardsCatalog = {
@@ -388,6 +415,7 @@ exports.validateCoupon = (0, https_1.onCall)(async (request) => {
         throw new https_1.HttpsError("unauthenticated", "User must be authenticated.");
     }
     const uid = request.auth.uid;
+    await enforceRateLimit(uid, 10, 60);
     const couponCode = String(request.data?.couponCode || "").toUpperCase().trim();
     const subtotal = parseFloat(request.data?.subtotal || "0");
     if (!couponCode) {
