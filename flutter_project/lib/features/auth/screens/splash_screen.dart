@@ -58,82 +58,100 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ArtisanalColors.primary,
-      body: SafeArea(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: ScaleTransition(
-            scale: _scaleAnimation,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Top-Centered Larger Logo Container
-                  Column(
+      body: Stack(
+        children: [
+          // Background Image with blur effect
+          Positioned.fill(
+            child: Image.network(
+              'https://lh3.googleusercontent.com/aida-public/AB6AXuAIZUimgLAsBT2wTLcm44Axh21C0n75FVErH8QrYNmkC1focUFGHbO5eIXk9sRNDGX17c3kKndG-HjZTC64Jbmxm7BsAXms1D-FQ9Jtw2OU-qijqEj_dGqIBKWGPlaTAMaxf9gL3J7g0RCVOl8bteVWqsF3fKWRuSOdHdSfhOlY9d76n6Fk8yviBR_Rn2_siv2fiSiPaNdfZty-dAvEhF6dh-fTf22dSBYkoyh7tKPD95zm1GyWv1AN5yd30cYOD_lsrElSsfBOX_I',
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(color: ArtisanalColors.primary),
+            ),
+          ),
+          // Dark Overlay layer (Option 2)
+          Positioned.fill(
+            child: Container(
+              color: const Color(0xFF1A1107).withOpacity(0.85),
+            ),
+          ),
+          // Content Layout
+          SafeArea(
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: ScaleTransition(
+                scale: _scaleAnimation,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(height: 24),
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              blurRadius: 25,
-                              offset: const Offset(0, 10),
+                      // Top-Centered Larger Logo Container
+                      Column(
+                        children: [
+                          const SizedBox(height: 24),
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.25),
+                                  blurRadius: 25,
+                                  offset: const Offset(0, 10),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/logo.png',
-                            width: 160,
-                            height: 160,
-                            fit: BoxFit.cover,
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/images/logo.png',
+                                width: 160,
+                                height: 160,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
 
-                  // Middle/Bottom details and status indicator
-                  Column(
-                    children: [
-                      Text(
-                        "GRILL CHICKEN TIKKA",
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: ArtisanalColors.onPrimary,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2,
-                        ),
+                      // Middle/Bottom details and status indicator
+                      Column(
+                        children: [
+                          Text(
+                            "GRILL CHICKEN TIKKA",
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Authentic Charcoal Tandoor Heritage",
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Colors.white70,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                          const SizedBox(height: 48),
+                          const SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicator(
+                              color: ArtisanalColors.secondary,
+                              strokeWidth: 3,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        "Authentic Charcoal Tandoor Heritage",
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: ArtisanalColors.onPrimaryContainer,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                      const SizedBox(height: 48),
-                      const SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: CircularProgressIndicator(
-                          color: ArtisanalColors.secondary,
-                          strokeWidth: 3,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
