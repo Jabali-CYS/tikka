@@ -1215,8 +1215,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   <div className="absolute inset-0 bg-[#0F0A06]/70" />
 
                   {/* Top-Centered Larger Logo Container - marked relative to stack above background */}
-                  <div className="pt-8 text-center relative z-10">
-                    <div className="w-28 h-28 bg-white rounded-full overflow-hidden flex items-center justify-center mx-auto shadow-2xl p-0.5 border-2 border-[#BD9F83] animate-pulse">
+                  <div className="pt-6 text-center relative z-10">
+                    <div className="w-32 h-32 bg-white rounded-full overflow-hidden flex items-center justify-center mx-auto shadow-2xl p-0.5 border-2 border-[#BD9F83] animate-pulse">
                       <img src={brandLogo} alt="Logo" className="w-full h-full object-cover rounded-full" />
                     </div>
                   </div>
