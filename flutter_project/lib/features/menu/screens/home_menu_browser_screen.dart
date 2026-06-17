@@ -37,7 +37,7 @@ class HomeMenuBrowserScreen extends ConsumerWidget {
                   GestureDetector(
                     onTap: () => context.push('/profile'),
                     child: Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(2), // tight border for logo ring
                       decoration: BoxDecoration(
                         color: ArtisanalColors.primary,
                         shape: BoxShape.circle,
@@ -48,7 +48,14 @@ class HomeMenuBrowserScreen extends ConsumerWidget {
                           )
                         ],
                       ),
-                      child: const Icon(Icons.person, color: Colors.white, size: 22),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          width: 38,
+                          height: 38,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),

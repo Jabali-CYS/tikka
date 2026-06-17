@@ -128,15 +128,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: 16),
               Center(
                 child: Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: ArtisanalColors.primary.withOpacity(0.05),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.phone_iphone_rounded,
-                    size: 64,
-                    color: ArtisanalColors.secondary,
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

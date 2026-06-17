@@ -80,10 +80,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                       ),
                     ],
                   ),
-                  child: const Icon(
-                    Icons.local_fire_department,
-                    size: 80,
-                    color: ArtisanalColors.secondary,
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
