@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword, signOut as fbSignOut, onAuthStateChanged, U
 import { collection, doc, setDoc, deleteDoc, updateDoc, onSnapshot, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import brandLogo from "./logo.png";
+import grillBg from "./grill_background.png";
 import {
   Flame,
   Utensils,
@@ -1205,17 +1206,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 >
                   {/* Background Image layer with blur and dark overlay */}
                   <div 
-                    className="absolute inset-0 bg-cover bg-center filter blur-[2px] scale-105"
+                    className="absolute inset-0 bg-cover bg-center filter blur-[4px] scale-105"
                     style={{
-                      backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuAIZUimgLAsBT2wTLcm44Axh21C0n75FVErH8QrYNmkC1focUFGHbO5eIXk9sRNDGX17c3kKndG-HjZTC64Jbmxm7BsAXms1D-FQ9Jtw2OU-qijqEj_dGqIBKWGPlaTAMaxf9gL3J7g0RCVOl8bteVWqsF3fKWRuSOdHdSfhOlY9d76n6Fk8yviBR_Rn2_siv2fiSiPaNdfZty-dAvEhF6dh-fTf22dSBYkoyh7tKPD95zm1GyWv1AN5yd30cYOD_lsrElSsfBOX_I')`
+                      backgroundImage: `url(${grillBg})`
                     }}
                   />
-                  {/* Dark overlay layer */}
-                  <div className="absolute inset-0 bg-[#1A1107]/80" />
+                  {/* Dark overlay layer to integrate with warmth theme */}
+                  <div className="absolute inset-0 bg-[#0F0A06]/70" />
 
                   {/* Top-Centered Larger Logo Container - marked relative to stack above background */}
                   <div className="pt-8 text-center relative z-10">
-                    <div className="w-24 h-24 bg-white rounded-full overflow-hidden flex items-center justify-center mx-auto shadow-2xl p-0.5 border-2 border-[#BD9F83] animate-bounce-slow">
+                    <div className="w-28 h-28 bg-white rounded-full overflow-hidden flex items-center justify-center mx-auto shadow-2xl p-0.5 border-2 border-[#BD9F83] animate-pulse">
                       <img src={brandLogo} alt="Logo" className="w-full h-full object-cover rounded-full" />
                     </div>
                   </div>

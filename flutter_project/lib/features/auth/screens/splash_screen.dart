@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -60,18 +61,24 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image with blur effect
+          // Background Image from assets
           Positioned.fill(
-            child: Image.network(
-              'https://lh3.googleusercontent.com/aida-public/AB6AXuAIZUimgLAsBT2wTLcm44Axh21C0n75FVErH8QrYNmkC1focUFGHbO5eIXk9sRNDGX17c3kKndG-HjZTC64Jbmxm7BsAXms1D-FQ9Jtw2OU-qijqEj_dGqIBKWGPlaTAMaxf9gL3J7g0RCVOl8bteVWqsF3fKWRuSOdHdSfhOlY9d76n6Fk8yviBR_Rn2_siv2fiSiPaNdfZty-dAvEhF6dh-fTf22dSBYkoyh7tKPD95zm1GyWv1AN5yd30cYOD_lsrElSsfBOX_I',
+            child: Image.asset(
+              'assets/images/grill_background.png',
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(color: ArtisanalColors.primary),
             ),
           ),
-          // Dark Overlay layer (Option 2)
+          // Blur filter using BackdropFilter
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+              child: Container(color: Colors.transparent),
+            ),
+          ),
+          // Dark Overlay layer
           Positioned.fill(
             child: Container(
-              color: const Color(0xFF1A1107).withOpacity(0.85),
+              color: const Color(0xFF0F0A06).withOpacity(0.70),
             ),
           ),
           // Content Layout
@@ -96,8 +103,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.25),
-                                  blurRadius: 25,
+                                  color: Colors.black.withOpacity(0.35),
+                                  blurRadius: 30,
                                   offset: const Offset(0, 10),
                                 ),
                               ],
@@ -105,8 +112,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                             child: ClipOval(
                               child: Image.asset(
                                 'assets/images/logo.png',
-                                width: 160,
-                                height: 160,
+                                width: 190,
+                                height: 190,
                                 fit: BoxFit.cover,
                               ),
                             ),
