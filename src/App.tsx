@@ -3,6 +3,7 @@ import { auth as webAuth, db as webDb, storage as webStorage } from "./firebase"
 import { signInWithEmailAndPassword, signOut as fbSignOut, onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { collection, doc, setDoc, deleteDoc, updateDoc, onSnapshot, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import brandLogo from "./logo.png";
 import {
   Flame,
   Utensils,
@@ -1142,8 +1143,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       {/* Top Header Navigation Line */}
       <nav className="bg-[#1C130B] border-b border-[#33210D]/60 px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#B71032] rounded-full flex items-center justify-center text-white">
-            <Flame className="w-6 h-6 animate-pulse" />
+          <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#FAF6EE] p-0.5 border border-[#BD9F83]">
+            <img src={brandLogo} alt="Logo" className="w-full h-full object-cover rounded-full" />
           </div>
           <div>
             <span className="text-[#BD9F83] text-xs tracking-widest font-bold uppercase block">
@@ -1206,8 +1207,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   }}
                 >
                   <div className="p-6 text-center space-y-6">
-                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-lg">
-                      <Flame className="w-10 h-10 text-[#B71032]" />
+                    <div className="w-16 h-16 bg-white rounded-full overflow-hidden flex items-center justify-center mx-auto shadow-lg p-0.5 border border-[#BD9F83]">
+                      <img src={brandLogo} alt="Logo" className="w-full h-full object-cover rounded-full" />
                     </div>
                     <div>
                       <p className="text-[#BD9F83] text-xs uppercase tracking-widest font-bold">
@@ -1245,8 +1246,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               {/* MOBILE VIEW CONTROLLER: PHONE NUMBER LOGIN */}
               {currentScreen === "login" && (
                 <div className="p-6 flex-1 flex flex-col justify-start">
-                  <div className="flex items-center gap-1 mb-6 text-[#33210D]">
-                    <Flame className="w-5 h-5 text-[#B71032]" />
+                  <div className="flex items-center gap-2 mb-6 text-[#33210D]">
+                    <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-white p-0.5 border border-[#D2C4BA]">
+                      <img src={brandLogo} alt="Logo" className="w-full h-full object-cover rounded-full" />
+                    </div>
                     <span className="font-bold text-sm tracking-wider">{activeLang.appName}</span>
                   </div>
 
@@ -1345,10 +1348,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     </div>
                     {!isGuest ? (
                       <div 
-                        className="w-8 h-8 rounded-full border border-[#B71032] overflow-hidden cursor-pointer"
+                        className="w-8 h-8 rounded-full border border-[#B71032] overflow-hidden cursor-pointer bg-white p-0.5"
                         onClick={() => setCurrentScreen("profile")}
                       >
-                        <User className="w-full h-full text-[#33210D] p-1.5" />
+                        <img src={brandLogo} alt="Logo" className="w-full h-full object-cover rounded-full" />
                       </div>
                     ) : (
                       <button 
