@@ -71,7 +71,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
           // Blur filter using BackdropFilter
           Positioned.fill(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+              filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
               child: Container(color: Colors.transparent),
             ),
           ),
@@ -95,7 +95,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                       // Top-Centered Larger Logo Container
                       Column(
                         children: [
-                          const SizedBox(height: 64),
+                          const SizedBox(height: 120),
                           Container(
                             padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
