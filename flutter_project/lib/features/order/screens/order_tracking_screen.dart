@@ -5,6 +5,7 @@ import '../../../core/constants/colors.dart';
 import '../../../core/services/locale_service.dart';
 import '../models/order_model.dart';
 import '../repositories/order_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderTrackingScreen extends ConsumerWidget {
   const OrderTrackingScreen({super.key});
@@ -330,6 +331,12 @@ class OrderTrackingScreen extends ConsumerWidget {
                 ),
               ),
 
+            // Post-Delivery Review Card (Visible only when Arrived/Delivered)
+            if (latestOrder.status == OrderStatus.delivered) ...[
+              _OrderReviewWidget(order: latestOrder, localeSvc: localeSvc),
+              const SizedBox(height: 16),
+            ],
+
             const SizedBox(height: 48),
           ],
         ),
@@ -478,4 +485,143 @@ class _RoadMapPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class _OrderReviewWidget extends StatefulWidget {
+  final OrderModel order;
+  final LocaleService localeSvc;
+
+  const _OrderReviewWidget({
+    required this.order,
+    required this.localeSvc,
+  });
+
+  @override
+  State<_OrderReviewWidget> createState() => _OrderReviewWidgetState();
+}
+
+class _OrderReviewWidgetState extends State<_OrderReviewWidget> {
+  bool _submitted = false;
+  double _rating = 5.0;
+  final _commentController = TextEditingController();
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final locale = widget.localeSvc;
+
+    return Card(
+      color: ArtisanalColors.primary.withOpacity(0.04),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: ArtisanalColors.outline, width: 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: _submitted
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.stars_rounded, color: Colors.amber, size: 48),
+                  const SizedBox(height: 8),
+                  Text(
+                    locale.translate("Thank you for your feedback!", "شكراً جزيلاً لتقييمك!"),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: ArtisanalColors.primary),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    locale.translate("Sahtain & Health!", "بالهناء والشفاء! صحتين وعافية على قلبك."),
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    locale.translate("Rate Your Tikka Order", "تقييم وجبة التندور والتوصيل"),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: ArtisanalColors.primary),
+                  ),
+                  Text(
+                    locale.translate("Let us know how your charcoal grill tasted!", "شاركنا رأيك في طعم مشاوي التندور اليوم!"),
+                    style: const TextStyle(fontSize: 11, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(5, (index) {
+                      return IconButton(
+                        icon: Icon(
+                          index < _rating ? Icons.star_rounded : Icons.star_border_rounded,
+                          color: Colors.amber,
+                          size: 36,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _rating = index + 1.0;
+                          });
+                        },
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _commentController,
+                    maxLines: 2,
+                    decoration: InputDecoration(
+                      hintText: locale.translate("Write an optional comment...", "اكتب تعليقاً إضافياً (اختياري)..."),
+                      hintStyle: const TextStyle(fontSize: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final docRef = FirebaseFirestore.instance.collection("reviews").doc();
+                        await docRef.set({
+                          'id': docRef.id,
+                          'orderId': widget.order.id,
+                          'rating': _rating,
+                          'comment': _commentController.text.trim(),
+                          'customerUid': widget.order.customerUid,
+                          'customerName': widget.order.customerName,
+                          'createdAt': FieldValue.serverTimestamp(),
+                        });
+                        setState(() {
+                          _submitted = true;
+                        });
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Failed to submit review: $e")),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ArtisanalColors.primary,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: Text(
+                      locale.translate("Submit Review", "إرسال التقييم"),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
 }

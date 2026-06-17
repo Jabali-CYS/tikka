@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/services/locale_service.dart';
+import 'package:geolocator/geolocator.dart';
+import '../../../core/services/maps_service.dart';
 import '../../auth/repositories/auth_repository.dart';
 import '../../loyalty/models/coupon_model.dart';
 import '../repositories/order_repository.dart';
@@ -100,10 +102,84 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       return;
     }
 
+    // 1. Working Hours check (Enforce 12:00 PM - 01:00 AM Amman Time, UTC+3)
+    final nowUtc = DateTime.now().toUtc();
+    final ammanTime = nowUtc.add(const Duration(hours: 3));
+    final hour = ammanTime.hour;
+    final bool isOpen = (hour >= 12 || hour == 0);
+
+    if (!isOpen) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            localeSvc.translate(
+              "The restaurant is currently closed. Working hours: 12:00 PM to 1:00 AM.",
+              "المطعم مغلق حالياً. أوقات العمل الرسمية: 12:00 ظهراً إلى 1:00 صباحاً.",
+            ),
+          ),
+          backgroundColor: ArtisanalColors.secondary,
+        ),
+      );
+      return;
+    }
+
     setState(() => _isSubmitting = true);
 
+    // 2. Geofencing check (GPS location query & Amman boundaries verification)
+    Position? position;
+    try {
+      position = await MapsService().getCurrentLocation();
+    } catch (e) {
+      debugPrint("GPS location check failed: $e");
+    }
+
+    if (position == null) {
+      setState(() => _isSubmitting = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            localeSvc.translate(
+              "GPS location is required to verify your address is in Amman.",
+              "الوصول إلى الموقع مطلوب للتحقق من تواجدك في عمان للتوصيل.",
+            ),
+          ),
+          backgroundColor: ArtisanalColors.secondary,
+        ),
+      );
+      return;
+    }
+
+    final double lat = position.latitude;
+    final double lng = position.longitude;
+
+    // Amman Geofence box check
+    final bool insideAmman = (lat >= 31.8000 && lat <= 32.1200) && (lng >= 35.7500 && lng <= 36.0500);
+
+    if (!insideAmman) {
+      setState(() => _isSubmitting = false);
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(localeSvc.translate("Delivery Restricted", "خارج منطقة التغطية")),
+          content: Text(
+            localeSvc.translate(
+              "We cannot place your order because your location is outside our supported delivery zones in Amman.",
+              "لا يمكن تنفيذ الطلب لأن موقعك خارج مناطق التوصيل المدعومة في عمان.",
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(localeSvc.translate("Understood", "موافق")),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
     // Simulate database post latency
-    await Future.delayed(const Duration(milliseconds: 1200));
+    await Future.delayed(const Duration(milliseconds: 800));
 
     final String generatedId = "ord-${Random().nextInt(900000) + 100000}";
     final String generatedNumber = "GCT-${Random().nextInt(9000) + 1000}";
@@ -124,6 +200,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       status: OrderStatus.pending,
       fulfillmentType: FulfillmentType.delivery,
       couponCode: cart.appliedCoupon?.code,
+      branchId: "main_jibeeha",
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       address: OrderAddress(
@@ -132,7 +209,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
         floor: _floorController.text,
         apartment: _apartmentController.text,
         instructions: _instructionsController.text,
-        coordinates: {"lat": 31.9522, "lng": 35.9150}, // Default Amman coordinates
+        coordinates: {"lat": lat, "lng": lng},
       ),
     );
 
@@ -445,9 +522,24 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
+                          CheckboxListTile(
+                            activeColor: ArtisanalColors.primary,
+                            title: Text(
+                              localeSvc.translate("Include Sales Tax (Jordan 16%)", "شامل ضريبة المبيعات (الأردن 16%)"),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                            ),
+                            value: cart.taxEnabled,
+                            onChanged: (val) {
+                              ref.read(cartProvider.notifier).toggleTax(val ?? false);
+                            },
+                            controlAffinity: ListTileControlAffinity.leading,
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                          const Divider(),
                           _buildInvoiceLabel(localeSvc.translate("Subtotal", "مجموع الوجبات"), "${cart.subtotal.toStringAsFixed(2)} JOD"),
                           _buildInvoiceLabel(localeSvc.translate("Delivery Service Fee", "أجور توصيل السائق"), "${cart.deliveryFee.toStringAsFixed(2)} JOD"),
-                          _buildInvoiceLabel(localeSvc.translate("Sales Tax (5%)", "ضريبة المبيعات العامة"), "${cart.taxes.toStringAsFixed(2)} JOD"),
+                          if (cart.taxEnabled)
+                            _buildInvoiceLabel(localeSvc.translate("Sales Tax (16%)", "ضريبة المبيعات العامة (16%)"), "${cart.taxes.toStringAsFixed(2)} JOD"),
                           if (cart.discount > 0.0)
                             _buildInvoiceLabel(
                               localeSvc.translate("Member Reward Save", "وفورات خصومات النادي"),

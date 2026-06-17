@@ -60,6 +60,7 @@ class StaticOrderRepositoryImpl implements OrderRepository {
         driverPhone: _orders[idx].driverPhone,
         driverRating: _orders[idx].driverRating,
         couponCode: _orders[idx].couponCode,
+        branchId: _orders[idx].branchId,
         createdAt: _orders[idx].createdAt,
         updatedAt: DateTime.now(),
         isDeleted: _orders[idx].isDeleted,
@@ -115,6 +116,7 @@ class FirebaseOrderRepositoryImpl implements OrderRepository {
         'paymentMethod': order.paymentMethod.name,
         'customerName': order.customerName,
         'customerPhone': order.customerPhone,
+        'taxEnabled': order.taxes > 0.0, // Indicates to backend whether user checked Sales Tax option
       });
 
       final resultData = response.data;
@@ -147,6 +149,7 @@ class FirebaseOrderRepositoryImpl implements OrderRepository {
         driverPhone: order.driverPhone,
         driverRating: order.driverRating,
         couponCode: order.couponCode,
+        branchId: order.branchId ?? "main_jibeeha",
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         isDeleted: false,

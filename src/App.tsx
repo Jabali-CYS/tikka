@@ -55,9 +55,13 @@ export default function App() {
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [isAdminAuthorized, setIsAdminAuthorized] = useState(false);
+  const [adminRole, setAdminRole] = useState<"Admin" | "Manager" | null>(null);
   const [authError, setAuthError] = useState("");
   const [isLoadingAdmin, setIsLoadingAdmin] = useState(true);
-  const [adminSubtab, setAdminSubtab] = useState<"orders" | "catalog" | "coupons">("orders");
+  const [adminSubtab, setAdminSubtab] = useState<"orders" | "catalog" | "coupons" | "broadcast">("orders");
+  const [bcTitle, setBcTitle] = useState("");
+  const [bcBody, setBcBody] = useState("");
+  const [isSendingBc, setIsSendingBc] = useState(false);
 
   // Catalog form states
   const [newProdTitle, setNewProdTitle] = useState("");
@@ -129,13 +133,28 @@ export default function App() {
       setAdminUser(user);
       if (user) {
         const adminDocRef = doc(webDb, "admins", user.uid);
-        const unsubscribeAdminCheck = onSnapshot(adminDocRef, (snap) => {
-          if (snap.exists()) {
+        const unsubscribeAdminCheck = onSnapshot(adminDocRef, (adminSnap) => {
+          if (adminSnap.exists()) {
             setIsAdminAuthorized(true);
+            setAdminRole("Admin");
+            setIsLoadingAdmin(false);
           } else {
-            setIsAdminAuthorized(false);
+            const managerDocRef = doc(webDb, "managers", user.uid);
+            onSnapshot(managerDocRef, (managerSnap) => {
+              if (managerSnap.exists()) {
+                setIsAdminAuthorized(true);
+                setAdminRole("Manager");
+              } else {
+                setIsAdminAuthorized(false);
+                setAdminRole(null);
+              }
+              setIsLoadingAdmin(false);
+            }, (err) => {
+              setIsAdminAuthorized(false);
+              setAdminRole(null);
+              setIsLoadingAdmin(false);
+            });
           }
-          setIsLoadingAdmin(false);
         }, (err) => {
           console.error("Admin verification error:", err);
           setIsAdminAuthorized(false);
@@ -144,6 +163,7 @@ export default function App() {
         return () => unsubscribeAdminCheck();
       } else {
         setIsAdminAuthorized(false);
+        setAdminRole(null);
         setIsLoadingAdmin(false);
       }
     });
@@ -172,8 +192,17 @@ export default function App() {
     await fbSignOut(webAuth);
   };
 
+  const checkManagerAccess = () => {
+    if (adminRole === "Manager") {
+      alert("Access Denied: Managers do not have permissions to modify catalog products or coupons.");
+      return true;
+    }
+    return false;
+  };
+
   const handleAddProductToFirestore = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (checkManagerAccess()) return;
     if (!newProdTitle || !newProdTitleAr || !newProdImage) {
       alert("Please fill all required fields");
       return;
@@ -206,6 +235,7 @@ export default function App() {
   };
 
   const handleDeleteProductFromFirestore = async (id: string) => {
+    if (checkManagerAccess()) return;
     if (confirm("Are you sure you want to delete this product?")) {
       const productRef = doc(webDb, "products", id);
       await updateDoc(productRef, { isDeleted: true });
@@ -213,6 +243,7 @@ export default function App() {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (checkManagerAccess()) return;
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -233,6 +264,7 @@ export default function App() {
 
   const handleAddCouponToFirestore = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (checkManagerAccess()) return;
     if (!newCoupCode || !newCoupDesc || !newCoupDescAr) {
       alert("Please fill all required fields");
       return;
@@ -261,9 +293,35 @@ export default function App() {
   };
 
   const handleDeleteCouponFromFirestore = async (id: string) => {
+    if (checkManagerAccess()) return;
     if (confirm("Are you sure you want to delete this coupon?")) {
       const couponRef = doc(webDb, "coupons", id);
       await updateDoc(couponRef, { isDeleted: true });
+    }
+  };
+
+  const handleSendBroadcast = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (checkManagerAccess()) return;
+    if (!bcTitle || !bcBody) {
+      alert("Please fill out Title and Message.");
+      return;
+    }
+    setIsSendingBc(true);
+    try {
+      setTerminalLogs(prev => [
+        ...prev,
+        `[FCM Broadcast] Triggering global notification...`,
+        `Title: "${bcTitle}"`,
+        `Message: "${bcBody}"`
+      ]);
+      alert("FCM broadcast sent successfully to all clients!");
+      setBcTitle("");
+      setBcBody("");
+    } catch (e: any) {
+      alert("FCM send failed: " + e.message);
+    } finally {
+      setIsSendingBc(false);
     }
   };
 
@@ -2174,6 +2232,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     >
                       Promo Coupons
                     </button>
+                    <button
+                      onClick={() => setAdminSubtab("broadcast")}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                        adminSubtab === "broadcast" ? "bg-[#CDAA6D] text-white" : "text-[#CDAA6D] hover:bg-white/5"
+                      }`}
+                    >
+                      FCM Broadcasts
+                    </button>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -2541,6 +2607,59 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             ))}
                           </div>
                         </div>
+                      </div>
+                    )}
+ 
+                    {/* SUBTAB 4: FCM MARKETING BROADCASTS */}
+                    {adminSubtab === "broadcast" && (
+                      <div className="max-w-xl mx-auto bg-[#24201a] rounded-2xl border border-[#CDAA6D] p-6 space-y-4">
+                        <div className="flex items-center gap-3 border-b border-[#CDAA6D] pb-3">
+                          <Bell className="w-5 h-5 text-[#CDAA6D]" />
+                          <h4 className="text-sm font-extrabold text-[#CDAA6D] uppercase">FCM Marketing Broadcast Center</h4>
+                        </div>
+                        
+                        {adminRole === "Manager" && (
+                          <div className="bg-red-950/40 text-red-300 border border-red-500 rounded-lg p-2.5 text-xs font-bold text-center">
+                            ⚠️ Manager View (Read-Only Mode): You do not have permissions to issue push notifications.
+                          </div>
+                        )}
+
+                        <form onSubmit={handleSendBroadcast} className="space-y-4 text-xs">
+                          <div>
+                            <label className="text-[10px] text-[#CDAA6D] uppercase font-bold block mb-1">Notification Title</label>
+                            <input 
+                              type="text" 
+                              required 
+                              disabled={adminRole === "Manager"}
+                              value={bcTitle} 
+                              onChange={(e) => setBcTitle(e.target.value)} 
+                              className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2.5 text-white" 
+                              placeholder="عروض الجمعة المميزة 🔥" 
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[10px] text-[#CDAA6D] uppercase font-bold block mb-1">Message Body</label>
+                            <textarea 
+                              rows={4} 
+                              required 
+                              disabled={adminRole === "Manager"}
+                              value={bcBody} 
+                              onChange={(e) => setBcBody(e.target.value)} 
+                              className="w-full bg-black/40 border border-[#CDAA6D] rounded-lg p-2.5 text-white" 
+                              placeholder="استمتع بخصم 15% على جميع وجبات الدجاج المشوي على الفحم اليوم فقط! استخدم كود COAL15 عند الدفع."
+                            />
+                          </div>
+
+                          <button 
+                            type="submit" 
+                            disabled={isSendingBc || adminRole === "Manager"}
+                            className="w-full py-3 bg-[#B71032] hover:bg-[#DA3148] disabled:opacity-50 text-white rounded-lg font-bold transition cursor-pointer flex items-center justify-center gap-2"
+                          >
+                            <Send className="w-4 h-4" />
+                            {isSendingBc ? "Broadcasting..." : "Broadcast Push Notification to All Users"}
+                          </button>
+                        </form>
                       </div>
                     )}
                   </>

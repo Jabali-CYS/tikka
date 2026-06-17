@@ -120,6 +120,7 @@ class OrderModel {
   final String? driverPhone;
   final Map<String, double>? driverLocation;
   final String? couponCode;
+  final String? branchId;
   final DateTime createdAt;
   final DateTime updatedAt;
   final bool isDeleted;
@@ -145,6 +146,7 @@ class OrderModel {
     this.driverRating,
     this.driverLocation,
     this.couponCode,
+    this.branchId,
     required this.createdAt,
     required this.updatedAt,
     this.isDeleted = false,
@@ -211,6 +213,7 @@ class OrderModel {
             )
           : null,
       couponCode: map['couponCode'],
+      branchId: map['branchId'],
       createdAt: map['createdAt'] != null ? DateTime.parse(map['createdAt']) : DateTime.now(),
       updatedAt: map['updatedAt'] != null ? DateTime.parse(map['updatedAt']) : DateTime.now(),
       isDeleted: map['isDeleted'] as bool? ?? false,
@@ -238,6 +241,7 @@ class OrderModel {
       'driverRating': driverRating,
       'driverLocation': driverLocation,
       'couponCode': couponCode,
+      'branchId': branchId,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
       'isDeleted': isDeleted,

@@ -26,6 +26,12 @@ service cloud.firestore {
         exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
+    // Helper: Checks if authenticated user is a Manager
+    function isManager() {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/managers/$(request.auth.uid));
+    }
+
     // Helper: Validate ID formatting (prevent injection of malicious key sizes)
     function isValidId(id) {
       return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
@@ -49,7 +55,7 @@ service cloud.firestore {
 
     // 2. Users Collection (Customer profiles & loyalty cache)
     match /users/{userId} {
-      allow read: if isOwner(userId) || isAdmin();
+      allow read: if isOwner(userId) || isAdmin() || isManager();
       
       // Prevent points injection: Customers cannot self-assign points or edit points during creation or updates.
       // Points can only be changed by the Admin SDK in awardLoyaltyPoints Trigger / redeemLoyaltyReward Function.
@@ -87,13 +93,13 @@ service cloud.firestore {
     // Enforces zero-trust: Clients cannot place orders directly (create: if false),
     // they must make orders exclusively using validateAndPlaceOrder Cloud Function which executes as Admin.
     match /orders/{orderId} {
-      allow read: if (isAdmin() || (isAuthenticated() && resource.data.customerUid == request.auth.uid)) && isValidId(orderId);
+      allow read: if (isAdmin() || isManager() || (isAuthenticated() && resource.data.customerUid == request.auth.uid)) && isValidId(orderId);
       
       allow create: if false; // Strict Zero-Trust! Creation is restricted to validated validateAndPlaceOrder Cloud Function
       
       // Clients can only update order to 'canceled' state if status is still 'pending' and they own the order document.
       // Absolutely no other modifications allowed (financial fields total/subtotal, items, are write-locked).
-      allow update: if isAdmin() || (
+      allow update: if isAdmin() || isManager() || (
         isAuthenticated() 
         && isValidId(orderId)
         && resource.data.customerUid == request.auth.uid 
@@ -152,6 +158,21 @@ service cloud.firestore {
     match /admin_activity_logs/{logId} {
       allow read: if isAdmin() && isValidId(logId);
       allow write: if false; // Writable strictly through Admin SDK
+    }
+
+    // 14. Managers Collection
+    match /managers/{managerId} {
+      allow read: if isAuthenticated() && isValidId(managerId);
+      allow write: if isAdmin() && isValidId(managerId);
+    }
+
+    // 15. Reviews Collection
+    match /reviews/{reviewId} {
+      allow read: if isValidId(reviewId);
+      allow create: if isAuthenticated() 
+                    && isValidId(reviewId)
+                    && request.resource.data.customerUid == request.auth.uid;
+      allow update, delete: if false;
     }
   }
 }

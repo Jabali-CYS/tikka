@@ -8,12 +8,14 @@ class CartState {
   final double deliveryFee;
   final CouponModel? appliedCoupon;
   final int redeemedPoints;
+  final bool taxEnabled;
 
   CartState({
     required this.items,
     this.deliveryFee = 0.0,
     this.appliedCoupon,
     this.redeemedPoints = 0,
+    this.taxEnabled = false,
   });
 
   CartState copyWith({
@@ -21,12 +23,14 @@ class CartState {
     double? deliveryFee,
     CouponModel? appliedCoupon,
     int? redeemedPoints,
+    bool? taxEnabled,
   }) {
     return CartState(
       items: items ?? this.items,
       deliveryFee: deliveryFee ?? this.deliveryFee,
       appliedCoupon: appliedCoupon ?? this.appliedCoupon,
       redeemedPoints: redeemedPoints ?? this.redeemedPoints,
+      taxEnabled: taxEnabled ?? this.taxEnabled,
     );
   }
 
@@ -39,7 +43,7 @@ class CartState {
   }
 
   double get taxes {
-    return (subtotal * 0.05); // 5% dynamic base sales tax
+    return taxEnabled ? (subtotal * 0.16) : 0.0; // 16% Jordan General Sales Tax
   }
 
   double get discount {
@@ -155,6 +159,10 @@ class CartNotifier extends StateNotifier<CartState> {
 
   void setRedeemedPoints(int points) {
     state = state.copyWith(redeemedPoints: points);
+  }
+
+  void toggleTax(bool enabled) {
+    state = state.copyWith(taxEnabled: enabled);
   }
 
   void clear() {

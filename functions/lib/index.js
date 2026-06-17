@@ -1,13 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.seedDatabase = exports.validateCoupon = exports.redeemLoyaltyReward = exports.awardLoyaltyPoints = exports.validateAndPlaceOrder = void 0;
+exports.sendBroadcastNotification = exports.seedDatabase = exports.validateCoupon = exports.redeemLoyaltyReward = exports.awardLoyaltyPoints = exports.validateAndPlaceOrder = void 0;
 const app_1 = require("firebase-admin/app");
 const firestore_1 = require("firebase-admin/firestore");
+const messaging_1 = require("firebase-admin/messaging");
 const https_1 = require("firebase-functions/v2/https");
 const firestore_2 = require("firebase-functions/v2/firestore");
 // Initialize Firebase Admin SDK for infinite/backend privilege
 (0, app_1.initializeApp)();
 const db = (0, firestore_1.getFirestore)();
+async function sendPushNotification(uid, title, body) {
+    try {
+        const userDoc = await db.collection("users").doc(uid).get();
+        const fcmToken = userDoc.data()?.fcmToken;
+        if (fcmToken) {
+            const message = {
+                notification: { title, body },
+                token: fcmToken,
+            };
+            await (0, messaging_1.getMessaging)().send(message);
+            console.log(`FCM Notification successfully sent to user ${uid}`);
+        }
+    }
+    catch (err) {
+        console.warn("FCM messaging skipped or failed: ", err);
+    }
+}
 /**
  * Custom Rate Limiter using Firestore
  * Allows up to `maxRequests` per `windowSeconds` (default 60 seconds)
@@ -47,6 +65,13 @@ exports.validateAndPlaceOrder = (0, https_1.onCall)(async (request) => {
     const uid = request.auth.uid;
     await enforceRateLimit(uid, 5, 60);
     const data = request.data || {};
+    // 1. Working Hours check (Enforce 12:00 PM - 01:00 AM Amman Time, UTC+3)
+    const nowUtc = new Date();
+    const ammanHour = (nowUtc.getUTCHours() + 3) % 24;
+    const isOpen = (ammanHour >= 12 || ammanHour === 0);
+    if (!isOpen) {
+        throw new https_1.HttpsError("failed-precondition", "The restaurant is currently closed. Working hours: 12:00 PM to 1:00 AM Amman Time.");
+    }
     // Input Structure Validation
     const items = data.items;
     const zoneId = data.zoneId;
@@ -61,6 +86,14 @@ exports.validateAndPlaceOrder = (0, https_1.onCall)(async (request) => {
     }
     if (fulfillmentType === "delivery" && (!zoneId || !address)) {
         throw new https_1.HttpsError("invalid-argument", "Delivery zone and detailed physical address are required for shipping.");
+    }
+    // 2. Geofencing Coordinates Check (Amman bounding box verification)
+    if (fulfillmentType === "delivery" && address && address.coordinates) {
+        const lat = parseFloat(address.coordinates.lat);
+        const lng = parseFloat(address.coordinates.lng);
+        if (isNaN(lat) || isNaN(lng) || lat < 31.8000 || lat > 32.1200 || lng < 35.7500 || lng > 36.0500) {
+            throw new https_1.HttpsError("failed-precondition", "لا يمكن تنفيذ الطلب لأن موقعك خارج مناطق التوصيل المدعومة في عمان.");
+        }
     }
     try {
         return await db.runTransaction(async (transaction) => {
@@ -107,16 +140,13 @@ exports.validateAndPlaceOrder = (0, https_1.onCall)(async (request) => {
                     throw new https_1.HttpsError("failed-precondition", `Subtotal (${subtotal} JOD) is below the minimum order floor (${minOrder} JOD) for ${zoneData.name}.`);
                 }
             }
-            // 3. Dynamic Tax Formulation (checking settings/system_settings with graceful fallback)
+            // 3. Dynamic Tax Formulation (checking client override and settings fallback)
             const settingsRef = db.collection("settings").doc("system_settings");
             const settingsDoc = await transaction.get(settingsRef);
-            let taxRate = 0.05; // Fallback default 5%
-            let taxEnabled = true;
+            let taxRate = 0.16; // Authoritative Jordanian Sales Tax 16%
+            let taxEnabled = data.taxEnabled === true; // Enforce client checkbox selection
             if (settingsDoc.exists) {
                 const sData = settingsDoc.data();
-                if (sData.taxEnabled === false) {
-                    taxEnabled = false;
-                }
                 if (typeof sData.taxRate === "number") {
                     taxRate = sData.taxRate / 100.0;
                 }
@@ -202,6 +232,7 @@ exports.validateAndPlaceOrder = (0, https_1.onCall)(async (request) => {
                 isDeleted: false,
                 pointsAwarded: false,
                 couponCode: couponCode || null,
+                branchId: data.branchId || "main_jibeeha",
             };
             // Set order document
             transaction.set(db.collection("orders").doc(randomId), finalizedOrder);
@@ -258,6 +289,28 @@ exports.awardLoyaltyPoints = (0, firestore_2.onDocumentUpdated)("orders/{orderId
     const orderId = event.params.orderId;
     const statusBefore = orderBefore.status;
     const statusAfter = orderAfter.status;
+    if (statusAfter !== statusBefore) {
+        let title = "Grill Chicken Tikka";
+        let body = `حالة طلبك #${orderAfter.orderNumber} أصبحت الآن: ${statusAfter}`;
+        const lowerStatus = statusAfter.toLowerCase();
+        if (lowerStatus === "preparing") {
+            title = "طلبك قيد التحضير 👨‍🍳";
+            body = "يقوم الطاهي الآن بشواء وجبتك الشهية على الفحم الطبيعي!";
+        }
+        else if (lowerStatus === "onway" || lowerStatus === "out_for_delivery") {
+            title = "خرج للتوصيل 🚴";
+            body = "طلبك الساخن في طريقه إليك الآن مع سائق التوصيل!";
+        }
+        else if (lowerStatus === "arrived" || lowerStatus === "delivered") {
+            title = "تم التوصيل بالسلامة 🎉";
+            body = "وصل طلبك، بالهناء والشفاء! صحتين وعافية.";
+        }
+        else if (lowerStatus === "accepted") {
+            title = "تم قبول الطلب ✅";
+            body = "تم قبول طلبك من قبل المطعم وجاري توجيهه للمطبخ.";
+        }
+        await sendPushNotification(orderAfter.customerUid, title, body);
+    }
     // Trigger Action strictly on 'delivered' state change && check pointsAwarded to guard against double award
     if (statusAfter === "delivered" && statusBefore !== "delivered" && orderAfter.pointsAwarded !== true) {
         const total = parseFloat(orderAfter.total || "0");
@@ -675,5 +728,26 @@ exports.seedDatabase = (0, https_1.onCall)(async (request) => {
     batch.set(settingsRef, settings);
     await batch.commit();
     return { success: true, seededItems: { categories: categories.length, products: products.length, zones: zones.length, coupons: coupons.length } };
+});
+exports.sendBroadcastNotification = (0, https_1.onCall)(async (request) => {
+    if (!request.auth) {
+        throw new https_1.HttpsError("unauthenticated", "Authentication is required.");
+    }
+    const uid = request.auth.uid;
+    const adminSnap = await db.collection("admins").doc(uid).get();
+    if (!adminSnap.exists) {
+        throw new https_1.HttpsError("permission-denied", "Access Denied: Only administrators can broadcast marketing messages.");
+    }
+    const title = String(request.data?.title || "").trim();
+    const body = String(request.data?.body || "").trim();
+    if (!title || !body) {
+        throw new https_1.HttpsError("invalid-argument", "Title and Body arguments are required.");
+    }
+    const message = {
+        notification: { title, body },
+        topic: "all",
+    };
+    await (0, messaging_1.getMessaging)().send(message);
+    return { success: true };
 });
 //# sourceMappingURL=index.js.map

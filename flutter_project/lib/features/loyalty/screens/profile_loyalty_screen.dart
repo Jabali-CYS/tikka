@@ -136,13 +136,14 @@ class ProfileLoyaltyScreen extends ConsumerWidget {
                                       Text("${order.deliveryFee.toStringAsFixed(2)} JOD"),
                                     ],
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(localeSvc.translate("Sales Tax (5%)", "ضريبة المبيعات")),
-                                      Text("${order.taxes.toStringAsFixed(2)} JOD"),
-                                    ],
-                                  ),
+                                   if (order.taxes > 0.0)
+                                     Row(
+                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       children: [
+                                         Text(localeSvc.translate("General Sales Tax", "ضريبة المبيعات العامة")),
+                                         Text("${order.taxes.toStringAsFixed(2)} JOD"),
+                                       ],
+                                     ),
                                   if (order.discount > 0.0)
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
