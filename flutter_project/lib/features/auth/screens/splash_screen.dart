@@ -59,63 +59,78 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ArtisanalColors.primary,
-      body: Center(
+      body: SafeArea(
         child: FadeTransition(
           opacity: _fadeAnimation,
           child: ScaleTransition(
             scale: _scaleAnimation,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: ArtisanalColors.onPrimaryFixed,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Top-Centered Larger Logo Container
+                  Column(
+                    children: [
+                      const SizedBox(height: 24),
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 25,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                        ),
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            width: 160,
+                            height: 160,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: 120,
-                      height: 120,
-                      fit: BoxFit.cover,
-                    ),
+
+                  // Middle/Bottom details and status indicator
+                  Column(
+                    children: [
+                      Text(
+                        "GRILL CHICKEN TIKKA",
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          color: ArtisanalColors.onPrimary,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Authentic Charcoal Tandoor Heritage",
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: ArtisanalColors.onPrimaryContainer,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      const SizedBox(height: 48),
+                      const SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: CircularProgressIndicator(
+                          color: ArtisanalColors.secondary,
+                          strokeWidth: 3,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  "GRILL CHICKEN TIKKA",
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: ArtisanalColors.onPrimary,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Authentic Charcoal Tandoor Heritage",
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: ArtisanalColors.onPrimaryContainer,
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-                const SizedBox(height: 48),
-                const SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: CircularProgressIndicator(
-                    color: ArtisanalColors.secondary,
-                    strokeWidth: 3,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

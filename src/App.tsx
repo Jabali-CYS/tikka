@@ -1201,15 +1201,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               {/* MOBILE VIEW CONTROLLER: SPLASH SCREEN */}
               {currentScreen === "splash" && (
                 <div 
-                  className="absolute inset-0 z-10 flex flex-col justify-end bg-cover bg-center text-white"
+                  className="absolute inset-0 z-10 flex flex-col justify-between bg-cover bg-center text-white p-6"
                   style={{
                     backgroundImage: `linear-gradient(to top, rgba(51,33,13,0.95) 0%, rgba(51,33,13,0.4) 50%, rgba(51,33,13,0.3) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuAIZUimgLAsBT2wTLcm44Axh21C0n75FVErH8QrYNmkC1focUFGHbO5eIXk9sRNDGX17c3kKndG-HjZTC64Jbmxm7BsAXms1D-FQ9Jtw2OU-qijqEj_dGqIBKWGPlaTAMaxf9gL3J7g0RCVOl8bteVWqsF3fKWRuSOdHdSfhOlY9d76n6Fk8yviBR_Rn2_siv2fiSiPaNdfZty-dAvEhF6dh-fTf22dSBYkoyh7tKPD95zm1GyWv1AN5yd30cYOD_lsrElSsfBOX_I')`
                   }}
                 >
-                  <div className="p-6 text-center space-y-6">
-                    <div className="w-16 h-16 bg-white rounded-full overflow-hidden flex items-center justify-center mx-auto shadow-lg p-0.5 border border-[#BD9F83]">
+                  {/* Top-Centered Larger Logo Container */}
+                  <div className="pt-8 text-center">
+                    <div className="w-24 h-24 bg-white rounded-full overflow-hidden flex items-center justify-center mx-auto shadow-2xl p-0.5 border-2 border-[#BD9F83] animate-bounce-slow">
                       <img src={brandLogo} alt="Logo" className="w-full h-full object-cover rounded-full" />
                     </div>
+                  </div>
+
+                  <div className="text-center space-y-4 pb-4">
                     <div>
                       <p className="text-[#BD9F83] text-xs uppercase tracking-widest font-bold">
                         {activeLang.premiumTaste}
